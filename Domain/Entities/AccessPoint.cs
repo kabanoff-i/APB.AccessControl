@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Domain.Abstractions;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {
-    public class AccessPoint
+    public class AccessPoint: BaseEntity
     {
         public int Id { get; set; }
         public int AccessPointTypeId { get; set; }

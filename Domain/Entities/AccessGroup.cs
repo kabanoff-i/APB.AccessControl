@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Domain.Abstractions;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {
-    public class AccessGroup
+    public class AccessGroup: BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

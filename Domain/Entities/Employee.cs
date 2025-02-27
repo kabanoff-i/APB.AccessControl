@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Domain.Abstractions;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {
-    public class Employee
+    public class Employee: BaseEntity
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -14,7 +14,6 @@ namespace Domain.Entities
         public string Department { get; set; }
         public string Position { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
 
         public ICollection<Card> Cards { get; set; } = new List<Card>();
         public ICollection<AccessLog> AccessLogs { get; set; } = new List<AccessLog>();
