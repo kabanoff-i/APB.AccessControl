@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using System;
+using System.Collections;
 
 namespace Domain.Entities
 {
@@ -10,7 +11,7 @@ namespace Domain.Entities
         public int AccessPointId { get; set; }
         public TimeSpan AllowedTimeStart { get; set; }
         public TimeSpan AllowedTimeEnd { get; set; }
-        public int DaysOfWeek { get; set; }
+        public BitArray DaysOfWeek { get; set; }
         public string SpecificDates { get; set; }
 
         public AccessGroup AccessGroup { get; set; }

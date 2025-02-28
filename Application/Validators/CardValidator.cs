@@ -14,8 +14,8 @@ namespace Application.Validators
                 .NotEmpty().WithMessage(x => NotEmpty(nameof(x.Hash)))
                 .Matches("^[a-fA-F0-9]{40}$").WithMessage(x => InvalidProperty(nameof(x.Hash)));
 
-            RuleFor(e => e.Hash)
-                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.EmployeeId)));
+            RuleFor(e => e.EmployeeId)
+                .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.EmployeeId)));
         }
     }
 }
