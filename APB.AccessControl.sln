@@ -5,15 +5,17 @@ VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{12ED2C4E-BD54-48A3-B6BD-5FBFEEBE40EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{139B0C47-5045-46A3-B05E-F563519A5169}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Domain", "APB.AccessControl.Domain\APB.AccessControl.Domain.csproj", "{139B0C47-5045-46A3-B05E-F563519A5169}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{67B2F374-8171-46C7-9615-2727EE434079}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{DC2D62B1-77E6-4825-80BB-847E192E5455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{FB58561A-38E6-4DF9-A354-728C0938C0A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Shared", "APB.AccessControl.Shared\APB.AccessControl.Shared.csproj", "{FB58561A-38E6-4DF9-A354-728C0938C0A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Application", "APB.AccessControl.Application\APB.AccessControl.Application.csproj", "{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.DataAccess", "APB.AccessControl.DataAccess\APB.AccessControl.DataAccess.csproj", "{502D6CB5-2979-4E69-AC90-CB7515E99B4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,5 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{139B0C47-5045-46A3-B05E-F563519A5169} = {12ED2C4E-BD54-48A3-B6BD-5FBFEEBE40EF}
 		{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482} = {12ED2C4E-BD54-48A3-B6BD-5FBFEEBE40EF}
+		{502D6CB5-2979-4E69-AC90-CB7515E99B4F} = {67B2F374-8171-46C7-9615-2727EE434079}
 	EndGlobalSection
 EndGlobal
