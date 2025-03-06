@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class Card: BaseEntity
+    public class Card: AuditedEntity
     {
         public int Id { get; set; }
         public string Hash { get; set; }

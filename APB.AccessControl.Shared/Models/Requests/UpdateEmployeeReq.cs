@@ -1,6 +1,10 @@
-﻿namespace Shared.Models.DTOs
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace APB.AccessControl.Shared.Models.Requests
 {
-    public class EmployeeDto
+    public class UpdateEmployeeReq
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -10,6 +14,5 @@
         public string Department { get; set; }
         public string Position { get; set; }
         public bool IsActive { get; set; }
-
     }
 }

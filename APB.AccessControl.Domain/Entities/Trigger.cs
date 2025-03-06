@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class Trigger: BaseEntity
+    public class Trigger: AuditedEntity
     {
         public int Id { get; set; }
         public int AccessPointId { get; set; }

@@ -3,7 +3,7 @@ using System;
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class Notification: BaseEntity
+    public class Notification: AuditedEntity
     {
         public Guid Id { get; set; }
         public int AccessPointId { get; set; }

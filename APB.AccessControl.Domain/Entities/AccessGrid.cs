@@ -2,7 +2,7 @@
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class AccessGrid: BaseEntity
+    public class AccessGrid: AuditedEntity
     {
         public int EmployeeId { get; set; }
         public int GroupId { get; set; }

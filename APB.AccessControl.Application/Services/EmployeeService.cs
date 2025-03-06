@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APB.AccessControl.Application.Services
 {
-    public class EmployeeService: IEmployeeService
+    public class EmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
@@ -18,29 +18,7 @@ namespace APB.AccessControl.Application.Services
             _mapper = mapper;
         }
 
-        public Task<Employee> Add(Employee employee)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public Task<Employee> Delete(Employee entity)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public Task<Employee> Get(Employee entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<Employee>> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Employee> Update(Employee entity)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

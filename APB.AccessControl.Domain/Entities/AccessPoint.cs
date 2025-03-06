@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class AccessPoint: BaseEntity
+    public class AccessPoint: AuditedEntity
     {
         public int Id { get; set; }
         public int AccessPointTypeId { get; set; }

@@ -9,8 +9,5 @@ using System.Linq.Expressions;
 namespace APB.AccessControl.Application.Interfaces
 {
     public interface IAccessLogRepository : IRepository<AccessLog, Guid>
-    {
-        Task<IEnumerable<AccessLog>> GetLogsAsync(Expression<Func<AccessLog, bool>> filter = null, CancellationToken cancellationToken = default);
-    }
-
+    { }
 }

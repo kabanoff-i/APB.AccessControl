@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace APB.AccessControl.Domain.Entities
 {
-    public class AccessRule: BaseEntity
+    public class AccessRule: AuditedEntity
     {
         public int Id { get; set; }
         public int AccessGroupId { get; set; }
