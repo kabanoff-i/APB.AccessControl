@@ -7,9 +7,9 @@ using System.Threading;
 
 namespace APB.AccessControl.Application.Interfaces
 {
-    public interface IAccessRuleRepository : IRepository<AccessRule, int>
+    public interface IAccessRuleRepository : IRepository<AccessRuleDto, int>
     {
-        Task<IEnumerable<AccessRule>> GetRulesForGroupAsync(int groupId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<AccessRule>> GetRulesForAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessRuleDto>> GetRulesForGroupAsync(int groupId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessRuleDto>> GetRulesForAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
     }
 }

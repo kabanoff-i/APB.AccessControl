@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using APB.AccessControl.Shared.Models.Common;
 
 namespace APB.AccessControl.Application.Interfaces
 {
@@ -11,5 +12,7 @@ namespace APB.AccessControl.Application.Interfaces
     {
         Task<Employee> GetByCardHashAsync(string cardHash, CancellationToken cancellationToken = default);
         Task<IEnumerable<Employee>> GetByAccessGroupAsync(int accessGroupId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Employee>> GetByFilterAsync(IFilter<Employee> filter, CancellationToken cancellationToken = default);
+
     }
 }

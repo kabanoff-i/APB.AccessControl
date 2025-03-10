@@ -18,11 +18,11 @@ namespace APB.AccessControl.Application.Filters
         public override Expression<Func<Employee, bool>> GetExpression()
         {
             return p =>
-                (string.IsNullOrEmpty(FirstName) || p.FirstName.Contains(FirstName) &&
-                string.IsNullOrEmpty(LastName) || p.FirstName.Contains(LastName) &&
-                string.IsNullOrEmpty(PatronymicName) || p.FirstName.Contains(PatronymicName) &&
-                string.IsNullOrEmpty(Department) || p.FirstName.Contains(Department) &&
-                string.IsNullOrEmpty(Position) || p.FirstName.Contains(Position) &&
+                ((string.IsNullOrEmpty(FirstName) || p.FirstName.Contains(FirstName)) &&
+                (string.IsNullOrEmpty(LastName) || p.FirstName.Contains(LastName)) &&
+                (string.IsNullOrEmpty(PatronymicName) || p.FirstName.Contains(PatronymicName)) &&
+                (string.IsNullOrEmpty(Department) || p.FirstName.Contains(Department)) &&
+                (string.IsNullOrEmpty(Position) || p.FirstName.Contains(Position)) &&
                 IsActive == p.IsActive
                 );
         }

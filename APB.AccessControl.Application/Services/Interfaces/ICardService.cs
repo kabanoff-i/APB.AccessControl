@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using APB.AccessControl.Shared.Models.DTOs;
+using APB.AccessControl.Shared.Models.Requests;
 
 namespace APB.AccessControl.Application.Services.Interfaces
 {
-    public interface ICardService<T, R>
-    {
-        R AppendCard(T card);
-        R DeactivateCard();
-    }
+    /// <summary>
+    /// Сервис для работы с картами
+    /// </summary>
+    public interface ICardService: IService<CreateCardReq, UpdateCardReq, int, CardDto>
+    { }
 }

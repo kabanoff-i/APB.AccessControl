@@ -37,6 +37,17 @@ namespace APB.AccessControl.Application.Validators
                 .NotNull().WithMessage(x => NotNull(nameof(x.DaysOfWeek)))
                 .NotEmpty().WithMessage(x => NotEmpty(nameof(x.DaysOfWeek)))
                 .Must(x => x.Length == 7).WithMessage(x => InvalidProperty(nameof(x.DaysOfWeek)));
+
+            RuleFor(a => a.StartDate)
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.StartDate)))
+                .LessThan(a => a.EndDate)
+                .When(a => a.EndDate != null && a.EndDate != default)
+                .WithMessage(x => InvalidProperty(nameof(x.StartDate)));
+
+            RuleFor(a => a.EndDate)
+                .GreaterThan(a => a.StartDate)
+                .When(a => a.EndDate != null && a.EndDate != default)
+                .WithMessage(x => InvalidProperty(nameof(x.EndDate)));
         }
 
         private bool BeValidJsonDateArray(string specificDatesJson)

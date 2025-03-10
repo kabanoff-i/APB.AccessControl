@@ -1,4 +1,4 @@
-﻿namespace Shared.Models.DTOs
+﻿namespace APB.AccessControl.Shared.Models.DTOs
 {
     public class EmployeeDto
     {

@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using Shared.Models.DTOs;
-using System.Linq.Expressions;
-using APB.AccessControl.Domain.Entities;
-using System;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.Shared.Models.DTOs;
+using APB.AccessControl.Application.Filters;
 
 namespace APB.AccessControl.Application.Services.Interfaces
 {
-    public interface IEmployeeService
+    /// <summary>
+    /// Сервис для работы с сотрудниками
+    /// </summary>
+    public interface IEmployeeService: IService<CreateEmployeeReq, UpdateEmployeeReq, int, EmployeeDto>
     {
         Task<EmployeeDto> GetEmployeeByIdAsync(int employeeId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(Expression<Func<EmployeeDto, bool>> filter, CancellationToken cancellationToken = default);
-        Task CreateEmployeeAsync(CreateEmployeeReq request, CancellationToken cancellationToken = default);
-        Task UpdateEmployeeAsync(UpdateEmployeeReq request, CancellationToken cancellationToken = default);
-        Task DeleteEmployeeAsync(int employeeId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<EmployeeDto>> GetEmployeesByFilterAsync(EmployeeFilter employeeFilter = default, CancellationToken cancellationToken = default);
+        Task<EmployeeDto> GetEmployeeByCardIdAsync(int cardId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CardDto>> GetCardsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default);
     }
 }
