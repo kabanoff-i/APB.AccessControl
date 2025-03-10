@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace APB.AccessControl.Shared.Models.Requests
+namespace APB.AccessControl.Shared.Models.DTOs
 {
-    public class CreateAccessLogReq
+    public class AccessLogDto
     {
+        public Guid Id { get; set; }
         public int CardId { get; set; }
         public int EmployeeId { get; set; }
         public int AccessPointId { get; set; }

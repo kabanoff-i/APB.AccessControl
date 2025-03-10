@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace APB.AccessControl.Application.Services.Interfaces
 {
+    /// <summary>
+    /// Сервис для работы с правилами прохода
+    /// </summary>
     public interface IAccessRuleService: IService<CreateAccessRuleReq, UpdateAccessRuleReq, int, AccessRuleDto>
     { }
 }
