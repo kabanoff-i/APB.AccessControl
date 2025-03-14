@@ -10,7 +10,7 @@ namespace APB.AccessControl.Application.Interfaces
 {
     public interface IEmployeeRepository: IRepository<Employee, int>
     {
-        Task<Employee> GetByCardHashAsync(string cardHash, CancellationToken cancellationToken = default);
+        Task<Employee> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Employee>> GetByAccessGroupAsync(int accessGroupId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Employee>> GetByFilterAsync(IFilter<Employee> filter, CancellationToken cancellationToken = default);
 
