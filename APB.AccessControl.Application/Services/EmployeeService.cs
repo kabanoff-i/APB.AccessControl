@@ -21,7 +21,7 @@ namespace APB.AccessControl.Application.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper) 
+        public EmployeeService(IEmployeeRepository employeeRepository, ICardRepository cardRepository, IMapper mapper) 
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace APB.AccessControl.Application.Services
             try
             {
                 var repReq = _mapper.Map<Employee>(request);
-                Employee repResponce = await _employeeRepository.AddAsync(repReq);
+                Employee repResponce = await _employeeRepository.AddAsync(repReq, cancellationToken);
 
                 var response = _mapper.Map<EmployeeDto>(repResponce);
                 return response;
@@ -48,11 +48,11 @@ namespace APB.AccessControl.Application.Services
         {
             try {    
                 //check if already exists
-                if (!await _employeeRepository.ExistsAsync(request.Id))
-                    throw new NotFoundException();
+                if (!await _employeeRepository.ExistsAsync(request.Id, cancellationToken))
+                    throw new NotFoundException(nameof(Employee));
 
                 var repReq = _mapper.Map<Employee>(request);
-                await _employeeRepository.UpdateAsync(repReq);
+                await _employeeRepository.UpdateAsync(repReq, cancellationToken);
             }
             catch {
                 throw;
@@ -64,11 +64,10 @@ namespace APB.AccessControl.Application.Services
             try
             {
                 //check for already existing
-                if (!await _employeeRepository.ExistsAsync(id))
-                    throw new NotFoundException();
+                if (!await _employeeRepository.ExistsAsync(id, cancellationToken))
+                    throw new NotFoundException(nameof(Employee), nameof(Employee.Id), id);
 
-                var repReq = _mapper.Map<Employee>(id);
-                await _employeeRepository.UpdateAsync(repReq);
+                await _employeeRepository.DeleteAsync(id, cancellationToken);
             }
             catch
             {
@@ -80,7 +79,7 @@ namespace APB.AccessControl.Application.Services
         {
             try
             {
-                var repResponse = await _employeeRepository.GetAllAsync();
+                var repResponse = await _employeeRepository.GetAllAsync(cancellationToken);
                 var response = _mapper.Map<IEnumerable<EmployeeDto>>(repResponse);
 
                 return response;
@@ -95,11 +94,9 @@ namespace APB.AccessControl.Application.Services
         {
             try
             {
-                var repResponse = await _employeeRepository.GetByIdAsync(employeeId);
-                if (repResponse == null)
-                {
-                    throw new NotFoundException();
-                }
+                var repResponse = await _employeeRepository.GetByIdAsync(employeeId, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Employee), nameof(Employee.Id), employeeId);
+
                 var response = _mapper.Map<EmployeeDto>(repResponse);
 
                 return response;
@@ -115,7 +112,7 @@ namespace APB.AccessControl.Application.Services
         {
             try
             {
-                var repResponse = await _employeeRepository.GetByFilterAsync(employeeFilter);
+                var repResponse = await _employeeRepository.GetByFilterAsync(employeeFilter, cancellationToken);
                 var response = _mapper.Map<IEnumerable<EmployeeDto>>(repResponse);
 
                 return response;
@@ -130,9 +127,8 @@ namespace APB.AccessControl.Application.Services
         {
             try
             {
-                var repResponse = await _employeeRepository.GetByCardIdAsync(cardId);
-                if(repResponse == null)
-                    { throw new NotFoundException(); }
+                var repResponse = await _employeeRepository.GetByCardIdAsync(cardId, cancellationToken)
+                     ?? throw new NotFoundException(nameof(Employee), nameof(Card.Id), cardId);
 
                 var response = _mapper.Map<EmployeeDto>(repResponse);
 
@@ -140,22 +136,6 @@ namespace APB.AccessControl.Application.Services
             }
             catch (Exception)
             {
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<CardDto>> GetCardsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                var repResponse = await _employeeRepository.GetByIdAsync(employeeId);
-                if (repResponse == null)
-                    { throw new NotFoundException(); }
-
-                var cards = _mapper.Map<IEnumerable<CardDto>>(repResponse.Cards);
-                return cards;
-            }
-            catch {
                 throw;
             }
         }

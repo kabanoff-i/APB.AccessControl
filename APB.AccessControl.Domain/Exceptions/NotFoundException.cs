@@ -11,5 +11,9 @@ namespace APB.AccessControl.Domain.Exceptions
 
         public NotFoundException(string message, Exception ex) : base(message, ex)
         { }
+        public NotFoundException(string name, string field, object key)
+        : base($"Объект \"{name}\" с ключом  ({key}) не найден.")
+        {
+        }
     }
 }
