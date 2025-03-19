@@ -26,25 +26,7 @@ namespace APB.AccessControl.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddEmployeeToGroupAsync(AddEmployeeToGroupReq request, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                if (!await _accessGroupRepository.ExistsAsync(request.GroupId ,cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.GroupId);
-
-                if (!await _accessGroupRepository.ExistsAsync(request.EmployeeId, cancellationToken))
-                    throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
-
-                var repReq = _mapper.Map<AccessGrid>(request);
-                await _accessGroupRepository.AddEmployeeToGroupAsync(repReq, cancellationToken);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+        #region CRUD
 
         public async Task<AccessGroupDto> CreateAsync(CreateGroupReq request, CancellationToken cancellationToken = default)
         {
@@ -97,31 +79,9 @@ namespace APB.AccessControl.Application.Services
             }
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployeesInGroupAsync(int groupId, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                //check for already existing
-                if (!await _accessGroupRepository.ExistsAsync(groupId, cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), groupId);
+        
 
-                var repRes = await _employeeRepository.GetByAccessGroupAsync(groupId, cancellationToken);
-                var response = _mapper.Map<IEnumerable<EmployeeDto>>(repRes);
-
-                return response;
-                
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public async Task RemoveEmployeeFromGroupAsync(RemoveEmployeeFromGroupReq request, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task UpdateAsync(UpdateGroupReq request, CancellationToken cancellationToken = default)
         {
@@ -136,6 +96,64 @@ namespace APB.AccessControl.Application.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+#endregion
+
+        public async Task AddEmployeeToGroupAsync(AddEmployeeToGroupReq request, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (!await _accessGroupRepository.ExistsAsync(request.GroupId, cancellationToken))
+                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.GroupId);
+
+                if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
+                    throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
+
+                await _accessGroupRepository.AssignEmployeeToGroupAsync(request.EmployeeId, request.GroupId, cancellationToken);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesInGroupAsync(int groupId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                //check for already existing
+                if (!await _accessGroupRepository.ExistsAsync(groupId, cancellationToken))
+                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), groupId);
+
+                var repRes = await _accessGroupRepository.GetEmployeesByGroupIdAsync(groupId, cancellationToken);
+                var response = _mapper.Map<IEnumerable<EmployeeDto>>(repRes);
+
+                return response;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task RemoveEmployeeFromGroupAsync(RemoveEmployeeFromGroupReq request, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (!await _accessGroupRepository.ExistsAsync(request.GroupId, cancellationToken))
+                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.GroupId);
+
+                if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
+                    throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
+
+                await _accessGroupRepository.RemoveEmployeeFromGroupAsync(request.EmployeeId, request.GroupId, cancellationToken);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

@@ -2,7 +2,7 @@
 {
     public class RemoveEmployeeFromGroupReq
     {
-        public string EmployeeId { get; set; }
-        public string GroupId { get; set; }
+        public int EmployeeId { get; set; }
+        public int GroupId { get; set; }
     }
 }
