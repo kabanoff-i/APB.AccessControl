@@ -12,7 +12,7 @@ namespace APB.AccessControl.Application.Services.Interfaces
     /// </summary>
     public interface IAccessLogService
     {
-        Task LogAccessAttemptAsync(CreateAccessLogReq request, CancellationToken cancellationToken = default);
+        Task<AccessLogDto> LogAccessAttemptAsync(CreateAccessLogReq request, CancellationToken cancellationToken = default);
         Task<IEnumerable<AccessLogDto>> GetLogsByFilterAsync(AccessLogFilter filter = default, CancellationToken cancellationToken = default);
     }
 }

@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
 using System.Threading;
-using System.Linq.Expressions;
 using System;
 using APB.AccessControl.Application.Filters;
 using APB.AccessControl.Domain.Entities;
-using System.Net.Http.Headers;
-using System.Data;
 using APB.AccessControl.Domain.Exceptions;
 
 namespace APB.AccessControl.Application.Services
