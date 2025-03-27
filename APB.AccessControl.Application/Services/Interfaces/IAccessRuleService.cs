@@ -10,5 +10,7 @@ namespace APB.AccessControl.Application.Services.Interfaces
     /// Сервис для работы с правилами прохода
     /// </summary>
     public interface IAccessRuleService: IService<CreateAccessRuleReq, UpdateAccessRuleReq, int, AccessRuleDto>
-    { }
+    {
+        Task<bool> CheckAccessByGroupIdAsync(int groupId, CancellationToken cancellationToken = default);
+    }
 }

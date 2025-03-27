@@ -12,5 +12,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
     public interface ICardService: IService<CreateCardReq, UpdateCardReq, int, CardDto>
     {
         Task<IEnumerable<CardDto>> GetCardsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default);
+        Task<CardDto> GetCardByHashAsync(string hash, CancellationToken cancellationToken = default);
     }
 }

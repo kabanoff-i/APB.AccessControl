@@ -40,7 +40,6 @@ namespace APB.AccessControl.Application.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
