@@ -12,6 +12,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
     public interface INotificationService: IService<CreateNotificationReq, UpdateNotificationReq, Guid, NotificationDto>
     {
         Task ReadNotificationAsync(Guid id, CancellationToken cancellationToken = default);
-        Task SendNotificationAsync();
+        Task CheckActiveNotificationsAsync(int accessPointId, int employeeId, CancellationToken cancellationToken = default);
     }
 }

@@ -15,17 +15,14 @@ namespace APB.AccessControl.Application.Services
         private readonly ICardService _cardService;
         private readonly IAccessRuleService _accessRuleService;
         private readonly IAccessGroupService _accessGroupService;
-        private readonly IAccessLogService _accessLogService;
 
         public AccessCheckService(IAccessRuleService accessRuleService,
                                   ICardService cardService,
-                                  IAccessGroupService accessGroupService,
-                                  IAccessLogService accessLogService)
+                                  IAccessGroupService accessGroupService)
         {
             _accessRuleService = accessRuleService;
             _cardService = cardService;
             _accessGroupService = accessGroupService;
-            _accessLogService = accessLogService;
         }
 
         public async Task<AccessCheckResponse> CheckAccessAsync(CheckAccessReq request, CancellationToken cancellationToken = default)
