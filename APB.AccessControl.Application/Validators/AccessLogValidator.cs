@@ -12,7 +12,13 @@ namespace APB.AccessControl.APB.AccessControl.Application.Validators
         public AccesslogValidator()
         {
             RuleFor(e => e.CardId)
-                .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.CardId)));
+                .GreaterThan(-1).When(x => x.CardId != null)
+                .WithMessage(x => InvalidProperty(nameof(x.CardId)));
+                
+            RuleFor(e => e.CardHash)
+                .NotNull().WithMessage(x => NotNull(nameof(x.CardHash)))
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.CardHash)))
+                .Matches("^[a-fA-F0-9]{40}$").WithMessage(x => InvalidProperty(nameof(x.CardHash)));
 
             RuleFor(e => e.EmployeeId)
                 .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.EmployeeId)));

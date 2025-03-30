@@ -11,6 +11,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using APB.AccessControl.Application.Common;
+using System.Linq;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -18,104 +21,90 @@ namespace APB.AccessControl.Application.Services
     {
         private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<NotificationService> _logger;
 
-        public NotificationService(INotificationRepository notificationRepository, IMapper mapper) 
+        public NotificationService(
+            INotificationRepository notificationRepository, 
+            IMapper mapper,
+            ILogger<NotificationService> logger)
         {
             _notificationRepository = notificationRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<NotificationDto> CreateAsync(CreateNotificationReq request, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var repReq = _mapper.Map<Notification>(request);
-                var repResponse = await _notificationRepository.AddAsync(repReq)
-                    ?? throw new ConflictException();
-
-                var response = _mapper.Map<NotificationDto>(repResponse);
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                var repRes = await _notificationRepository.AddAsync(repReq, cancellationToken);
+                return _mapper.Map<NotificationDto>(repRes);
+            }, nameof(CreateAsync));
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _notificationRepository.ExistsAsync(id))
+                if (!await _notificationRepository.ExistsAsync(id, cancellationToken))
                     throw new NotFoundException(nameof(Notification), nameof(Notification.Id), id);
 
-                await _notificationRepository.DeleteAsync(id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                await _notificationRepository.DeleteAsync(id, cancellationToken);
+            }, nameof(DeleteAsync));
         }
 
         public async Task<IEnumerable<NotificationDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var repRes = await _notificationRepository.GetAllAsync(cancellationToken);
                 return _mapper.Map<IEnumerable<NotificationDto>>(repRes);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(GetAllAsync));
         }
 
-        public async Task ReadNotificationAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<NotificationDto>> GetNotificationsByAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
-                var repResponse = await _notificationRepository.GetByIdAsync(id)
-                    ?? throw new NotFoundException(nameof(Notification), nameof(Notification.Id), id);
+                var notifications = await _notificationRepository.GetActiveNotificationsByAccessPointAsync(accessPointId, cancellationToken);
+                return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
+            }, nameof(GetNotificationsByAccessPointAsync));
+        }
 
-                repResponse.IsRead = true;
-
-                await _notificationRepository.UpdateAsync(repResponse);
-            }
-            catch (Exception)
+        public async Task<IEnumerable<NotificationDto>> GetNotificationsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
             {
-                throw;
-            }
+                var notifications = await _notificationRepository.GetActiveNotificationsByEmployeeAsync(employeeId, cancellationToken);
+                return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
+            }, nameof(GetNotificationsByEmployeeAsync));
+        }
+
+        public async Task ProcessNotificationAsync(Guid notificationId, CancellationToken cancellationToken = default)
+        {
+            await _logger.HandleOperationAsync(async () =>
+            {
+                var notification = await _notificationRepository.GetByIdAsync(notificationId, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Notification), nameof(Notification.Id), notificationId);
+
+                notification.IsRead = true;
+                await _notificationRepository.UpdateAsync(notification, cancellationToken);
+            }, nameof(ProcessNotificationAsync));
         }
 
         public async Task UpdateAsync(UpdateNotificationReq request, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
-                //check if already exists
                 if (!await _notificationRepository.ExistsAsync(request.Id, cancellationToken))
                     throw new NotFoundException(nameof(Notification), nameof(Notification.Id), request.Id);
 
                 var repReq = _mapper.Map<Notification>(request);
                 await _notificationRepository.UpdateAsync(repReq, cancellationToken);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            }, nameof(UpdateAsync));
         }
 
-        public async Task CheckActiveNotificationsAsync(int accessPointId, int employeeId, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+       
     }
 }

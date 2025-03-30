@@ -3,6 +3,7 @@
     public enum AccessResult
     {
         Denied = 0,
-        Granted = 1
+        Granted = 1,
+        Error = 2
     }
 }

@@ -5,6 +5,8 @@ using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
+using APB.AccessControl.Application.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,13 +23,15 @@ namespace APB.AccessControl.Application.Services
         private readonly IAccessTriggerLogService _accessTriggerLogService;
         private readonly ITriggerExecuter _triggerExecuter;
         private readonly IMapper _mapper;
+        private readonly ILogger<TriggerService> _logger;
 
         public TriggerService(
             ITriggerRepository triggerRepository,
             IAccessLogRepository accessLogRepository,
             IAccessTriggerLogService accessTriggerLogService,
             ITriggerExecuter triggerExecuter,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<TriggerService> logger)
         {
             _triggerRepository = triggerRepository 
                 ?? throw new ArgumentNullException(nameof(triggerRepository));
@@ -39,11 +43,12 @@ namespace APB.AccessControl.Application.Services
                 ?? throw new ArgumentNullException(nameof(triggerExecuter));
             _mapper = mapper 
                 ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger;
         }
 
         public async Task ExecuteTriggersAsync(Guid accessLogId, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
                 // 1. Найти запись в логах доступа
                 var accessLog = await _accessLogRepository.GetByIdAsync(accessLogId, cancellationToken)
@@ -60,17 +65,12 @@ namespace APB.AccessControl.Application.Services
                 {
                     await ExecuteTriggerAsync(trigger, accessLog, cancellationToken);
                 }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(ExecuteTriggersAsync));
         }
 
         private async Task ExecuteTriggerAsync(Trigger trigger, AccessLog accessLog, CancellationToken cancellationToken)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
                 // Здесь кастомная логика выполнения триггера, зависит от типа ActionType
                 // Например, отправка уведомлений, включение/выключение системы и т. д.
@@ -85,71 +85,49 @@ namespace APB.AccessControl.Application.Services
                 };
 
                 await _accessTriggerLogService.LogAccessTriggerExecutionAsync(logEntry, cancellationToken);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(ExecuteTriggerAsync));
         }
 
         public async Task<TriggerDto> CreateAsync(CreateTriggerReq request, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var trigger = _mapper.Map<Trigger>(request);
                 var created = await _triggerRepository.AddAsync(trigger, cancellationToken);
                 return _mapper.Map<TriggerDto>(created);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(CreateAsync));
         }
 
         public async Task UpdateAsync(UpdateTriggerReq request, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
                 var trigger = await _triggerRepository.GetByIdAsync(request.Id, cancellationToken)
-                ?? throw new NotFoundException(nameof(Trigger), nameof(Trigger.Id), request.Id);
+                    ?? throw new NotFoundException(nameof(Trigger), nameof(Trigger.Id), request.Id);
 
                 _mapper.Map(request, trigger);
                 await _triggerRepository.UpdateAsync(trigger, cancellationToken);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(UpdateAsync));
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
-                await _triggerRepository.DeleteAsync(id, cancellationToken);
-            }
-            catch (Exception)
-            {
+                if (!await _triggerRepository.ExistsAsync(id, cancellationToken))
+                    throw new NotFoundException(nameof(Trigger), nameof(Trigger.Id), id);
 
-                throw;
-            }
+                await _triggerRepository.DeleteAsync(id, cancellationToken);
+            }, nameof(DeleteAsync));
         }
 
         public async Task<IEnumerable<TriggerDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var triggers = await _triggerRepository.GetAllAsync(cancellationToken);
                 return _mapper.Map<IEnumerable<TriggerDto>>(triggers);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(GetAllAsync));
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+using APB.AccessControl.Application.Common;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -17,44 +19,41 @@ namespace APB.AccessControl.Application.Services
     {
         private readonly IAccessLogRepository _accessLogRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<AccessLogService> _logger;
 
-        public AccessLogService(IAccessLogRepository accessLogRepository, IMapper mapper)
+        public AccessLogService(
+            IAccessLogRepository accessLogRepository, 
+            IMapper mapper,
+            ILogger<AccessLogService> logger)
         {
             _accessLogRepository = accessLogRepository 
                 ?? throw new ArgumentNullException(nameof(accessLogRepository));
             _mapper = mapper 
                 ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger 
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<AccessLogDto> LogAccessAttemptAsync(CreateAccessLogReq request, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
-                if (request == null) throw new ArgumentNullException(nameof(request));
+                if (request == null) 
+                    throw new ArgumentNullException(nameof(request));
 
                 var accessLog = _mapper.Map<AccessLog>(request);
                 var repResponse = await _accessLogRepository.AddAsync(accessLog, cancellationToken);
-
-                var response = _mapper.Map<AccessLogDto>(repResponse);
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                return _mapper.Map<AccessLogDto>(repResponse);
+            }, nameof(LogAccessAttemptAsync));
         }
 
         public async Task<IEnumerable<AccessLogDto>> GetLogsByFilterAsync(AccessLogFilter filter = default, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var logs = await _accessLogRepository.GetLogsByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessLogDto>>(logs);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            }, nameof(GetLogsByFilterAsync));
         }
     }
 }

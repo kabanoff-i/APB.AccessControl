@@ -5,7 +5,8 @@ using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
 using AutoMapper;
-using System;
+using Microsoft.Extensions.Logging;
+using APB.AccessControl.Application.Common;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,88 +17,69 @@ namespace APB.AccessControl.Application.Services
     {
         private readonly IAccessPointRepository _accessPointRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<AccessPointService> _logger;
 
-        public AccessPointService(IAccessPointRepository accessPointRepository, IMapper mapper)
+        public AccessPointService(
+            IAccessPointRepository accessPointRepository,
+            IMapper mapper,
+            ILogger<AccessPointService> logger)
         {
-            _accessPointRepository = accessPointRepository ?? throw new ArgumentNullException(nameof(accessPointRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _accessPointRepository = accessPointRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<AccessPointDto> CreateAsync(CreateAccessPointReq request, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var repReq = _mapper.Map<AccessPoint>(request);
-                var repRes = await _accessPointRepository.AddAsync(repReq, cancellationToken);
-
-                return _mapper.Map<AccessPointDto>(repRes);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task UpdateAsync(UpdateAccessPointReq request, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                if (!await _accessPointRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessPoint), nameof(AccessPoint.Id), request.Id);
-
-                var repReq = _mapper.Map<AccessPoint>(request);
-                await _accessPointRepository.UpdateAsync(repReq, cancellationToken);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                var repResponse = await _accessPointRepository.AddAsync(repReq, cancellationToken);
+                return _mapper.Map<AccessPointDto>(repResponse);
+            }, nameof(CreateAsync));
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            try
+            await _logger.HandleOperationAsync(async () =>
             {
                 if (!await _accessPointRepository.ExistsAsync(id, cancellationToken))
                     throw new NotFoundException(nameof(AccessPoint), nameof(AccessPoint.Id), id);
 
                 await _accessPointRepository.DeleteAsync(id, cancellationToken);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(DeleteAsync));
         }
 
         public async Task<IEnumerable<AccessPointDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
-                var repRes = await _accessPointRepository.GetAllAsync(cancellationToken);
-                return _mapper.Map<IEnumerable<AccessPointDto>>(repRes);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                var repResponse = await _accessPointRepository.GetAllAsync(cancellationToken);
+                return _mapper.Map<IEnumerable<AccessPointDto>>(repResponse);
+            }, nameof(GetAllAsync));
         }
 
         public async Task<AccessPointDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
-                var repRes = await _accessPointRepository.GetByIdAsync(id, cancellationToken)
+                var repResponse = await _accessPointRepository.GetByIdAsync(id, cancellationToken)
                     ?? throw new NotFoundException(nameof(AccessPoint), nameof(AccessPoint.Id), id);
 
-                return _mapper.Map<AccessPointDto>(repRes);
-            }
-            catch (Exception)
-            {
+                return _mapper.Map<AccessPointDto>(repResponse);
+            }, nameof(GetByIdAsync));
+        }
 
-                throw;
-            }
+        public async Task UpdateAsync(UpdateAccessPointReq request, CancellationToken cancellationToken = default)
+        {
+            await _logger.HandleOperationAsync(async () =>
+            {
+                if (!await _accessPointRepository.ExistsAsync(request.Id, cancellationToken))
+                    throw new NotFoundException(nameof(AccessPoint));
+
+                var repReq = _mapper.Map<AccessPoint>(request);
+                await _accessPointRepository.UpdateAsync(repReq, cancellationToken);
+            }, nameof(UpdateAsync));
         }
     }
 }

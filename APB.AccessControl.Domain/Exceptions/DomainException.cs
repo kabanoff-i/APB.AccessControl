@@ -4,7 +4,7 @@ namespace APB.AccessControl.Domain.Exceptions
 {
     public class DomainException: Exception
     {
-        public DomainException():base()
+        public DomainException():base("Ошибка уровня домена")
         { }
         public DomainException(string message) : base(message)
         { }

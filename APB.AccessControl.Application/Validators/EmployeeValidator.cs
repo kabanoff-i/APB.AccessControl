@@ -16,6 +16,15 @@ namespace APB.AccessControl.Application.Validators
             RuleFor(e => e.LastName)
                 .NotNull().WithMessage(x => NotNull(nameof(x.LastName)))
                 .NotEmpty().WithMessage(x => NotEmpty(nameof(x.LastName)));
+
+            RuleFor(e => e.PassportNumber)
+                .NotNull().WithMessage(x => NotNull(nameof(x.PassportNumber)))
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.PassportNumber)))
+                .Matches(@"^\d{7}$").WithMessage(x => InvalidProperty(nameof(x.PassportNumber)));
+
+            RuleFor(e => e.Photo)
+                .NotNull().WithMessage(x => NotNull(nameof(x.Photo)))
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.Photo)));
         }
     }
 }

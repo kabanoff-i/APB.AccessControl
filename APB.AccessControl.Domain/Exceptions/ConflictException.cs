@@ -2,9 +2,9 @@
 
 namespace APB.AccessControl.Domain.Exceptions
 {
-    public class ConflictException: Exception
+    public class ConflictException: ApplicationException
     {
-        public ConflictException():base()
+        public ConflictException():base("Конфликт данных")
         { }
         public ConflictException(string message) : base(message)
         { }
