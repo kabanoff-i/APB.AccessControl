@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.DataAccess", "APB.AccessControl.DataAccess\APB.AccessControl.DataAccess.csproj", "{502D6CB5-2979-4E69-AC90-CB7515E99B4F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1B7B493A-681A-4436-AF99-244EE8A9D034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Application.Tests", "APB.AccessControl.Application.Tests\APB.AccessControl.Application.Tests.csproj", "{EAE3F262-4261-420F-802D-7751E70CE51D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{502D6CB5-2979-4E69-AC90-CB7515E99B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE3F262-4261-420F-802D-7751E70CE51D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE3F262-4261-420F-802D-7751E70CE51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE3F262-4261-420F-802D-7751E70CE51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE3F262-4261-420F-802D-7751E70CE51D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,5 +55,6 @@ Global
 		{139B0C47-5045-46A3-B05E-F563519A5169} = {12ED2C4E-BD54-48A3-B6BD-5FBFEEBE40EF}
 		{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482} = {12ED2C4E-BD54-48A3-B6BD-5FBFEEBE40EF}
 		{502D6CB5-2979-4E69-AC90-CB7515E99B4F} = {67B2F374-8171-46C7-9615-2727EE434079}
+		{EAE3F262-4261-420F-802D-7751E70CE51D} = {1B7B493A-681A-4436-AF99-244EE8A9D034}
 	EndGlobalSection
 EndGlobal
