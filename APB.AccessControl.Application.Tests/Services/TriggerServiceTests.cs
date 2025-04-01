@@ -9,11 +9,7 @@ using APB.AccessControl.Shared.Models.Requests;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -52,8 +48,8 @@ namespace APB.AccessControl.Application.Tests.Services
             var createRequest = new CreateTriggerReq 
             { 
                 AccessPointId = 1,
-                AccessResult = (int)AccessResult.Allowed,
-                ActionTypeId = 1,
+                AccessResult = (int)AccessResult.Granted,
+                ActionType = 1,
                 ActionValue = "SomeAction"
             };
             
@@ -61,8 +57,8 @@ namespace APB.AccessControl.Application.Tests.Services
             { 
                 Id = 1,
                 AccessPointId = 1,
-                AccessResult = AccessResult.Allowed,
-                ActionTypeId = 1,
+                AccessResult = AccessResult.Granted,
+                ActionType = (ActionType)1,
                 ActionValue = "SomeAction",
                 IsActive = true
             };
@@ -71,8 +67,8 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 Id = 1,
                 AccessPointId = 1,
-                AccessResult = (int)AccessResult.Allowed,
-                ActionTypeId = 1,
+                AccessResult = (int)AccessResult.Granted,
+                ActionType = 1,
                 ActionValue = "SomeAction",
                 IsActive = true
             };
@@ -98,7 +94,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 Id = 1,
                 AccessPointId = 1,
                 AccessResult = (int)AccessResult.Denied,
-                ActionTypeId = 2,
+                ActionType = 2,
                 ActionValue = "UpdatedAction",
                 IsActive = true
             };
@@ -107,8 +103,8 @@ namespace APB.AccessControl.Application.Tests.Services
             { 
                 Id = 1,
                 AccessPointId = 1,
-                AccessResult = AccessResult.Allowed,
-                ActionTypeId = 1,
+                AccessResult = AccessResult.Granted,
+                ActionType = (ActionType)1,
                 ActionValue = "SomeAction",
                 IsActive = true
             };
@@ -118,17 +114,17 @@ namespace APB.AccessControl.Application.Tests.Services
                 Id = 1,
                 AccessPointId = 1,
                 AccessResult = AccessResult.Denied,
-                ActionTypeId = 2,
+                ActionType = (ActionType)2,
                 ActionValue = "UpdatedAction",
                 IsActive = true
             };
 
             _mockTriggerRepository.Setup(r => r.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(existingTrigger);
-            _mockMapper.Setup(m => m.Map(updateRequest, existingTrigger)).Callback(() => {
+            _mockMapper.Setup(m => m.Map(updateRequest, existingTrigger)).Callback((Action)(() => {
                 existingTrigger.AccessResult = AccessResult.Denied;
-                existingTrigger.ActionTypeId = 2;
+                existingTrigger.ActionType = (ActionType)2;
                 existingTrigger.ActionValue = "UpdatedAction";
-            });
+            }));
 
             // Act
             await _service.UpdateAsync(updateRequest);
@@ -136,7 +132,7 @@ namespace APB.AccessControl.Application.Tests.Services
             // Assert
             _mockTriggerRepository.Verify(r => r.UpdateAsync(existingTrigger, It.IsAny<CancellationToken>()), Times.Once);
             Assert.Equal(AccessResult.Denied, existingTrigger.AccessResult);
-            Assert.Equal(2, existingTrigger.ActionTypeId);
+            Assert.Equal(2, (int)existingTrigger.ActionType);
             Assert.Equal("UpdatedAction", existingTrigger.ActionValue);
         }
 
@@ -187,13 +183,13 @@ namespace APB.AccessControl.Application.Tests.Services
             // Arrange
             var triggers = new List<Trigger>
             {
-                new Trigger { Id = 1, AccessPointId = 1, AccessResult = AccessResult.Allowed, IsActive = true },
+                new Trigger { Id = 1, AccessPointId = 1, AccessResult = AccessResult.Granted, IsActive = true },
                 new Trigger { Id = 2, AccessPointId = 2, AccessResult = AccessResult.Denied, IsActive = true }
             };
             
             var triggerDtos = new List<TriggerDto>
             {
-                new TriggerDto { Id = 1, AccessPointId = 1, AccessResult = (int)AccessResult.Allowed, IsActive = true },
+                new TriggerDto { Id = 1, AccessPointId = 1, AccessResult = (int)AccessResult.Granted, IsActive = true },
                 new TriggerDto { Id = 2, AccessPointId = 2, AccessResult = (int)AccessResult.Denied, IsActive = true }
             };
 
@@ -219,20 +215,20 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 Id = accessLogId,
                 AccessPointId = accessPointId,
-                AccessResult = AccessResult.Allowed
+                AccessResult = AccessResult.Granted
             };
             
             var triggers = new List<Trigger>
             {
-                new Trigger { Id = 1, AccessPointId = accessPointId, AccessResult = AccessResult.Allowed, IsActive = true },
-                new Trigger { Id = 2, AccessPointId = accessPointId, AccessResult = AccessResult.Allowed, IsActive = true }
+                new Trigger { Id = 1, AccessPointId = accessPointId, AccessResult = AccessResult.Granted, IsActive = true },
+                new Trigger { Id = 2, AccessPointId = accessPointId, AccessResult = AccessResult.Granted, IsActive = true }
             };
 
             _mockAccessLogRepository.Setup(r => r.GetByIdAsync(accessLogId, It.IsAny<CancellationToken>())).ReturnsAsync(accessLog);
             _mockTriggerRepository.Setup(r => r.GetTriggersForAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(triggers);
             
             _mockTriggerExecuter.Setup(e => e.ExecuteAsync(It.IsAny<Trigger>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-            _mockAccessTriggerLogService.Setup(s => s.LogAccessTriggerExecutionAsync(It.IsAny<CreateAccessTriggerLogReq>(), It.IsAny<CancellationToken>())).ReturnsAsync(new AccessTriggerLogDto());
+            _mockAccessTriggerLogService.Setup(s => s.LogAccessTriggerExecutionAsync(It.IsAny<CreateAccessTriggerLogReq>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(new AccessTriggerLogDto()));
 
             // Act
             await _service.ExecuteTriggersAsync(accessLogId);
@@ -276,7 +272,7 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 Id = accessLogId,
                 AccessPointId = accessPointId,
-                AccessResult = AccessResult.Allowed
+                AccessResult = AccessResult.Granted
             };
             
             var emptyTriggers = new List<Trigger>();

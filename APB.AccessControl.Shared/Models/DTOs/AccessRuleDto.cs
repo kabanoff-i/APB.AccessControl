@@ -5,7 +5,7 @@ namespace APB.AccessControl.Shared.Models.DTOs
 {
     public class AccessRuleDto
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int AccessGroupId { get; set; }
         public int AccessPointId { get; set; }
         public TimeSpan AllowedTimeStart { get; set; }

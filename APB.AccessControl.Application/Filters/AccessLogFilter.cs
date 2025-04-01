@@ -22,7 +22,7 @@ namespace APB.AccessControl.Application.Filters
                  (EmployeeId == null || p.EmployeeId == EmployeeId) &&
                  (AccessPointId == null || p.AccessPointId == AccessPointId) &&
                  (AccessResult == null || p.AccessResult == AccessResult) &&
-                 (AccessTimeStart == null || (p.AccessTime >= AccessTimeStart && p.AccessTime <= AccessTimeEnd))
+                 (AccessTimeStart == null || (p.DateAccess >= AccessTimeStart && p.DateAccess <= AccessTimeEnd))
                 );
         }
     }

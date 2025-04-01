@@ -48,7 +48,7 @@ namespace APB.AccessControl.Application.Tests.Services
             
             var notification = new Notification
             { 
-                Id = Guid.NewGuid(),
+                Id = 1,
                 AccessPointId = 1,
                 Message = "Тестовое уведомление",
                 ShowOnPass = true,
@@ -84,7 +84,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task UpdateAsync_ShouldCallRepositoryUpdateAsync_WhenNotificationExists()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             var updateRequest = new UpdateNotificationReq 
             { 
                 Id = notificationId,
@@ -120,7 +120,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task UpdateAsync_ShouldThrowNotFoundException_WhenNotificationDoesNotExist()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             var updateRequest = new UpdateNotificationReq { Id = notificationId };
             
             _mockRepository.Setup(r => r.ExistsAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
@@ -134,7 +134,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenNotificationExists()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             
             _mockRepository.Setup(r => r.ExistsAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
@@ -149,7 +149,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenNotificationDoesNotExist()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             
             _mockRepository.Setup(r => r.ExistsAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
@@ -166,14 +166,14 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 1, 
                     AccessPointId = 1, 
                     Message = "Уведомление 1",
                     IsRead = false
                 },
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 2, 
                     AccessPointId = 2, 
                     Message = "Уведомление 2",
                     IsRead = true
@@ -218,14 +218,14 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 1, 
                     AccessPointId = accessPointId, 
                     Message = "Уведомление 1",
                     IsRead = false
                 },
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 2, 
                     AccessPointId = accessPointId, 
                     Message = "Уведомление 2",
                     IsRead = false
@@ -270,14 +270,14 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 1, 
                     EmployeeId = employeeId, 
                     Message = "Уведомление 1",
                     IsRead = false
                 },
                 new Notification 
                 { 
-                    Id = Guid.NewGuid(), 
+                    Id = 2, 
                     EmployeeId = employeeId, 
                     Message = "Уведомление 2",
                     IsRead = false
@@ -317,7 +317,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task ProcessNotificationAsync_ShouldMarkNotificationAsRead_WhenNotificationExists()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             var notification = new Notification
             {
                 Id = notificationId,
@@ -340,7 +340,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task ProcessNotificationAsync_ShouldThrowNotFoundException_WhenNotificationDoesNotExist()
         {
             // Arrange
-            var notificationId = Guid.NewGuid();
+            var notificationId = 1;
             
             _mockRepository.Setup(r => r.GetByIdAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync((Notification)null);
 

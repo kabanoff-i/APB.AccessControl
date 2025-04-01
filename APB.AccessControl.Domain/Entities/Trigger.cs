@@ -9,13 +9,12 @@ namespace APB.AccessControl.Domain.Entities
         public int Id { get; set; }
         public int AccessPointId { get; set; }
         public AccessResult AccessResult { get; set; }
-        public int ActionTypeId { get; set; }
+        public ActionType ActionType { get; set; }
         public string ActionValue { get; set; }
         public bool IsActive { get; set; }
 
         public AccessPoint AccessPoint { get; set; }
-        public ActionType ActionType { get; set; }
-        public ICollection<AccessTriggerLog> AccessLogTriggers { get; set; } = new List<AccessTriggerLog>();
+        public ICollection<AccessTriggerLog> AccessTriggerLogs { get; set; } = new List<AccessTriggerLog>();
     }
 
 }

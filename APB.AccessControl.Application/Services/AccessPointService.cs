@@ -10,6 +10,7 @@ using APB.AccessControl.Application.Common;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -24,9 +25,12 @@ namespace APB.AccessControl.Application.Services
             IMapper mapper,
             ILogger<AccessPointService> logger)
         {
-            _accessPointRepository = accessPointRepository;
-            _mapper = mapper;
-            _logger = logger;
+            _accessPointRepository = accessPointRepository
+                ?? throw new ArgumentNullException(nameof(accessPointRepository));
+            _mapper = mapper
+                ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<AccessPointDto> CreateAsync(CreateAccessPointReq request, CancellationToken cancellationToken = default)

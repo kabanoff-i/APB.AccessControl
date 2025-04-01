@@ -5,7 +5,7 @@ namespace APB.AccessControl.Domain.Entities
 {
     public class Notification: AuditedEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int AccessPointId { get; set; }
         public bool ShowOnPass { get; set; }
         public int? EmployeeId { get; set; }

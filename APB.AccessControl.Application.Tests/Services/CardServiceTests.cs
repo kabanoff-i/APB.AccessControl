@@ -76,15 +76,14 @@ namespace APB.AccessControl.Application.Tests.Services
             var updateRequest = new UpdateCardReq 
             { 
                 Id = 1, 
-                EmployeeId = 2,
-                IsActive = true
+                IsActive = false
             };
             
             var card = new Card 
             { 
                 Id = 1, 
                 EmployeeId = 2,
-                IsActive = true
+                IsActive = false
             };
 
             _mockRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);

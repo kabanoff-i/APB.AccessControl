@@ -13,8 +13,12 @@ namespace APB.AccessControl.Application.MappingProfiles
             CreateMap<AccessRule, AccessRuleDto>();
 
             // Request to Entity
-            CreateMap<CreateAccessRuleReq, AccessRule>();
+            CreateMap<CreateAccessRuleReq, AccessRule>()
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+                
             CreateMap<UpdateAccessRuleReq, AccessRule>();
+
+
         }
     }
 } 

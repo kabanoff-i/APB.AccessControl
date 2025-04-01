@@ -16,6 +16,7 @@ namespace APB.AccessControl.Domain.Entities
         public string SpecificDates { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsActive { get; set; }
 
         public AccessGroup AccessGroup { get; set; }
         public AccessPoint AccessPoint { get; set; }

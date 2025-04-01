@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace APB.AccessControl.Application.Interfaces
 {
-    public interface INotificationRepository: IRepository<Notification, Guid>
+    public interface INotificationRepository: IRepository<Notification, int>
     {
         Task<IEnumerable<Notification>> GetActiveNotificationsByAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Notification>> GetActiveNotificationsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default);

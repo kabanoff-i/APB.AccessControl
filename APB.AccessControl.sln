@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Application", "APB.AccessControl.Application\APB.AccessControl.Application.csproj", "{E0BB6F86-F39B-4BA2-AF56-51DA7EC6D482}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.DataAccess", "APB.AccessControl.DataAccess\APB.AccessControl.DataAccess.csproj", "{502D6CB5-2979-4E69-AC90-CB7515E99B4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{139B0C47-5045-46A3-B05E-F563519A5169} = {139B0C47-5045-46A3-B05E-F563519A5169}
+		{FB58561A-38E6-4DF9-A354-728C0938C0A1} = {FB58561A-38E6-4DF9-A354-728C0938C0A1}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1B7B493A-681A-4436-AF99-244EE8A9D034}"
 EndProject

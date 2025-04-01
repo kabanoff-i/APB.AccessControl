@@ -2,7 +2,7 @@
 {
     public class CreateCardReq
     {
-        public string EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public string Hash { get; set; }
     }
 }

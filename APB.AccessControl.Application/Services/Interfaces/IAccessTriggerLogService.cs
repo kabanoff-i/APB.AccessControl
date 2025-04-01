@@ -12,6 +12,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
     public interface IAccessTriggerLogService
     {
         Task LogAccessTriggerExecutionAsync(CreateAccessTriggerLogReq request, CancellationToken cancellationToken = default);
-        Task<IEnumerable<AccessTriggerLogDto>> GetAll(CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessTriggerLogDto>> GetTriggerLogsByFilter(AccessTriggerLogFilter filter = default, CancellationToken cancellationToken = default);
     }
 }

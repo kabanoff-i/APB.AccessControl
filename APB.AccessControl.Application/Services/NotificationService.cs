@@ -28,9 +28,12 @@ namespace APB.AccessControl.Application.Services
             IMapper mapper,
             ILogger<NotificationService> logger)
         {
-            _notificationRepository = notificationRepository;
-            _mapper = mapper;
-            _logger = logger;
+            _notificationRepository = notificationRepository
+                ?? throw new ArgumentNullException(nameof(notificationRepository));
+            _mapper = mapper
+                ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<NotificationDto> CreateAsync(CreateNotificationReq request, CancellationToken cancellationToken = default)
@@ -43,7 +46,7 @@ namespace APB.AccessControl.Application.Services
             }, nameof(CreateAsync));
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             await _logger.HandleOperationAsync(async () =>
             {
@@ -81,7 +84,7 @@ namespace APB.AccessControl.Application.Services
             }, nameof(GetNotificationsByEmployeeAsync));
         }
 
-        public async Task ProcessNotificationAsync(Guid notificationId, CancellationToken cancellationToken = default)
+        public async Task ProcessNotificationAsync(int notificationId, CancellationToken cancellationToken = default)
         {
             await _logger.HandleOperationAsync(async () =>
             {

@@ -29,10 +29,14 @@ namespace APB.AccessControl.Application.Services
             IEmployeeRepository employeeRepository,
             ILogger<AccessGroupService> logger)
         {
-            _accessGroupRepository = accessGroupRepository;
-            _employeeRepository = employeeRepository;
-            _mapper = mapper;
-            _logger = logger;
+            _accessGroupRepository = accessGroupRepository
+                ?? throw new ArgumentNullException(nameof(accessGroupRepository));
+            _employeeRepository = employeeRepository
+                ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _mapper = mapper
+                ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         #region CRUD

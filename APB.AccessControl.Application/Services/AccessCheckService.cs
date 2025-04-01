@@ -32,12 +32,18 @@ namespace APB.AccessControl.Application.Services
             IEmployeeService employeeService,
             ILogger<AccessCheckService> logger)
         {
-            _accessRuleService = accessRuleService;
-            _cardService = cardService;
-            _accessGroupService = accessGroupService;
-            _accessLogService = accessLogService;
-            _employeeService = employeeService;
-            _logger = logger;
+            _accessRuleService = accessRuleService
+                ?? throw new ArgumentNullException(nameof(accessRuleService));
+            _cardService = cardService
+                ?? throw new ArgumentNullException(nameof(cardService));
+            _accessGroupService = accessGroupService
+                ?? throw new ArgumentNullException(nameof(accessGroupService));
+            _accessLogService = accessLogService
+                ?? throw new ArgumentNullException(nameof(accessLogService));
+            _employeeService = employeeService
+                ?? throw new ArgumentNullException(nameof(employeeService));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<AccessCheckResponse> CheckAccessAsync(CheckAccessReq request, CancellationToken cancellationToken = default)
@@ -52,7 +58,7 @@ namespace APB.AccessControl.Application.Services
                     {
                         CardHash = request.CardHash,
                         AccessPointId = request.AcсessPointId,
-                        AccessTime = request.DateAccess,
+                        DateAccess = request.DateAccess,
                         AccessResult = (int)AccessResult.Denied,
                         Message = $"Карта с хэшем {request.CardHash} не найдена"
                     }, cancellationToken);
@@ -73,7 +79,7 @@ namespace APB.AccessControl.Application.Services
                         CardId = card.Id,
                         CardHash = request.CardHash,
                         AccessPointId = request.AcсessPointId,
-                        AccessTime = request.DateAccess,
+                        DateAccess = request.DateAccess,
                         AccessResult = (int)AccessResult.Denied,
                         Message = "Сотрудник не найден"
                     }, cancellationToken);
@@ -93,7 +99,7 @@ namespace APB.AccessControl.Application.Services
                         CardId = card.Id,
                         EmployeeId = card.EmployeeId,
                         AccessPointId = request.AcсessPointId,
-                        AccessTime = request.DateAccess,
+                        DateAccess = request.DateAccess,
                         AccessResult = (int)AccessResult.Denied,
                         Message = "Карта деактивирована"
                     }, cancellationToken);
@@ -120,7 +126,7 @@ namespace APB.AccessControl.Application.Services
                         CardId = card.Id,
                         EmployeeId = card.EmployeeId,
                         AccessPointId = request.AcсessPointId,
-                        AccessTime = request.DateAccess,
+                        DateAccess = request.DateAccess,
                         AccessResult = (int)AccessResult.Denied,
                         Message = "Отсутствуют группы доступа"
                     }, cancellationToken);
@@ -157,7 +163,7 @@ namespace APB.AccessControl.Application.Services
                     CardId = card.Id,
                     EmployeeId = card.EmployeeId,
                     AccessPointId = request.AcсessPointId,
-                    AccessTime = request.DateAccess,
+                    DateAccess = request.DateAccess,
                     AccessResult = (int)accessResult,
                     Message = message
                 }, cancellationToken);

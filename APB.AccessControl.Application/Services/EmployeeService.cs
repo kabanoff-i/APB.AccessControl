@@ -26,9 +26,12 @@ namespace APB.AccessControl.Application.Services
             IMapper mapper,
             ILogger<EmployeeService> logger) 
         {
-            _employeeRepository = employeeRepository;
-            _mapper = mapper;
-            _logger = logger;
+            _employeeRepository = employeeRepository
+                ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _mapper = mapper
+                ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<EmployeeDto> CreateAsync(CreateEmployeeReq request, CancellationToken cancellationToken = default)

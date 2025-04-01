@@ -51,7 +51,7 @@ namespace APB.AccessControl.Application.Tests.Services
             
             var accessGroupDto = new AccessGroupDto
             {
-                Id = "1",
+                Id = 1,
                 Name = "Администраторы",
                 IsActive = true
             };
@@ -149,8 +149,8 @@ namespace APB.AccessControl.Application.Tests.Services
             
             var accessGroupDtos = new List<AccessGroupDto>
             {
-                new AccessGroupDto { Id = "1", Name = "Администраторы", IsActive = true },
-                new AccessGroupDto { Id = "2", Name = "Пользователи", IsActive = true }
+                new AccessGroupDto { Id = 1, Name = "Администраторы", IsActive = true },
+                new AccessGroupDto { Id = 2, Name = "Пользователи", IsActive = true }
             };
 
             _mockAccessGroupRepository.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(accessGroups);

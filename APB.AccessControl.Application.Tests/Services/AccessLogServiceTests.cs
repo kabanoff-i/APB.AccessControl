@@ -43,8 +43,8 @@ namespace APB.AccessControl.Application.Tests.Services
                 CardId = 1,
                 EmployeeId = 1,
                 AccessPointId = 1,
-                AccessTime = DateTime.UtcNow,
-                AccessResult = (int)AccessResult.Allowed 
+                DateAccess = DateTime.UtcNow,
+                AccessResult = (int)AccessResult.Granted 
             };
             
             var accessLog = new AccessLog
@@ -53,8 +53,8 @@ namespace APB.AccessControl.Application.Tests.Services
                 CardId = 1,
                 EmployeeId = 1,
                 AccessPointId = 1,
-                AccessTime = DateTime.UtcNow,
-                AccessResult = AccessResult.Allowed
+                DateAccess = DateTime.UtcNow,
+                AccessResult = AccessResult.Granted
             };
             
             var accessLogDto = new AccessLogDto
@@ -63,8 +63,8 @@ namespace APB.AccessControl.Application.Tests.Services
                 CardId = 1,
                 EmployeeId = 1,
                 AccessPointId = 1,
-                AccessTime = accessLog.AccessTime,
-                AccessResult = (int)AccessResult.Allowed
+                DateAccess = accessLog.DateAccess,
+                AccessResult = (int)AccessResult.Granted
             };
 
             _mockMapper.Setup(m => m.Map<AccessLog>(createRequest)).Returns(accessLog);
@@ -103,15 +103,15 @@ namespace APB.AccessControl.Application.Tests.Services
                     Id = Guid.NewGuid(), 
                     EmployeeId = 1, 
                     AccessPointId = 1,
-                    AccessTime = DateTime.UtcNow,
-                    AccessResult = AccessResult.Allowed
+                    DateAccess = DateTime.UtcNow,
+                    AccessResult = AccessResult.Granted
                 },
                 new AccessLog 
                 { 
                     Id = Guid.NewGuid(), 
                     EmployeeId = 1, 
                     AccessPointId = 2,
-                    AccessTime = DateTime.UtcNow.AddDays(-1),
+                    DateAccess = DateTime.UtcNow.AddDays(-1),
                     AccessResult = AccessResult.Denied
                 }
             };
@@ -123,15 +123,15 @@ namespace APB.AccessControl.Application.Tests.Services
                     Id = accessLogs[0].Id, 
                     EmployeeId = 1, 
                     AccessPointId = 1,
-                    AccessTime = accessLogs[0].AccessTime,
-                    AccessResult = (int)AccessResult.Allowed
+                    DateAccess = accessLogs[0].DateAccess,
+                    AccessResult = (int)AccessResult.Granted
                 },
                 new AccessLogDto 
                 { 
                     Id = accessLogs[1].Id, 
                     EmployeeId = 1, 
                     AccessPointId = 2,
-                    AccessTime = accessLogs[1].AccessTime,
+                    DateAccess = accessLogs[1].DateAccess,
                     AccessResult = (int)AccessResult.Denied
                 }
             };

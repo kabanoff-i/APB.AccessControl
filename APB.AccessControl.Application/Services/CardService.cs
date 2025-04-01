@@ -27,9 +27,12 @@ namespace APB.AccessControl.Application.Services
             IMapper mapper,
             ILogger<CardService> logger)
         {
-            _cardRepository = cardRepository;
-            _mapper = mapper;
-            _logger = logger;
+            _cardRepository = cardRepository
+                ?? throw new ArgumentNullException(nameof(cardRepository));
+            _mapper = mapper
+                ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger
+                ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<CardDto> CreateAsync(CreateCardReq request, CancellationToken cancellationToken = default)
@@ -98,7 +101,7 @@ namespace APB.AccessControl.Application.Services
 
         public async Task<IEnumerable<CardDto>> GetCardsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default)
         {
-            try
+            return await _logger.HandleOperationAsync(async () =>
             {
                 var repRes = await _cardRepository.GetAllByEmployeeId(employeeId, cancellationToken)
                     ?? throw new NotFoundException(nameof(Card), nameof(Card.EmployeeId), employeeId);
@@ -106,12 +109,7 @@ namespace APB.AccessControl.Application.Services
                 var response = _mapper.Map<IEnumerable<CardDto>>(repRes);
 
                 return response;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            }, nameof(GetCardsByEmployeeAsync));
         }
     }
 }

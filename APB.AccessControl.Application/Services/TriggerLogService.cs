@@ -10,17 +10,19 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using APB.AccessControl.Shared.Models.Requests;
+using static APB.AccessControl.Application.Common.Extensions;
 
 namespace APB.AccessControl.Application.Services
 {
     public class TriggerLogService : IAccessTriggerLogService
     {
-        private readonly ITriggerLogRepository _triggerLogRepository;
+        private readonly IAccessTriggerLogRepository _triggerLogRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<TriggerLogService> _logger;
 
         public TriggerLogService(
-            ITriggerLogRepository triggerLogRepository,
+            IAccessTriggerLogRepository triggerLogRepository,
             IMapper mapper, 
             ILogger<TriggerLogService> logger)
         {
@@ -31,6 +33,22 @@ namespace APB.AccessControl.Application.Services
             _logger = logger;
         }
 
-        
+        public async Task<IEnumerable<AccessTriggerLogDto>> GetTriggerLogsByFilter(AccessTriggerLogFilter filter = null, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
+            {
+                var repResponse = await _triggerLogRepository.GetByFilterAsync(filter, cancellationToken);
+                return _mapper.Map<IEnumerable<AccessTriggerLogDto>>(repResponse);
+            }, nameof(GetTriggerLogsByFilter));
+        }
+
+        public Task LogAccessTriggerExecutionAsync(CreateAccessTriggerLogReq request, CancellationToken cancellationToken = default)
+        {
+            return _logger.HandleOperationAsync(async () =>
+            {
+                var repReq = _mapper.Map<AccessTriggerLog>(request);
+                await _triggerLogRepository.AddAsync(repReq, cancellationToken);
+            }, nameof(LogAccessTriggerExecutionAsync));
+        }
     }
 }
