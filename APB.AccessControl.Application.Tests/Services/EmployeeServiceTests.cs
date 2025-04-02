@@ -115,28 +115,28 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenEmployeeExists()
         {
             // Arrange
-            int employeeId = 1;
+            var employee = new Employee { Id = 1, FirstName = "Иван", LastName = "Иванов" };
             
-            _mockRepository.Setup(r => r.ExistsAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockRepository.Setup(r => r.GetByIdAsync(employee.Id, It.IsAny<CancellationToken>())).ReturnsAsync(employee);
 
             // Act
-            await _service.DeleteAsync(employeeId);
+            await _service.DeleteAsync(employee.Id);
 
             // Assert
-            _mockRepository.Verify(r => r.DeleteAsync(employeeId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.DeleteAsync(employee, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenEmployeeDoesNotExist()
         {
             // Arrange
-            int employeeId = 999;
+            var employee = new Employee { Id = 999, FirstName = "Иван", LastName = "Иванов" };
             
-            _mockRepository.Setup(r => r.ExistsAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _mockRepository.Setup(r => r.GetByIdAsync(employee.Id, It.IsAny<CancellationToken>())).ReturnsAsync((Employee)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(employeeId));
-            _mockRepository.Verify(r => r.DeleteAsync(employeeId, It.IsAny<CancellationToken>()), Times.Never);
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(employee.Id));
+            _mockRepository.Verify(r => r.DeleteAsync(employee, It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]

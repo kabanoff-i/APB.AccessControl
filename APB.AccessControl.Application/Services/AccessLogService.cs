@@ -51,7 +51,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var logs = await _accessLogRepository.GetLogsByFilterAsync(filter, cancellationToken);
+                var logs = await _accessLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessLogDto>>(logs);
             }, nameof(GetLogsByFilterAsync));
         }

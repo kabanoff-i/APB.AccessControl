@@ -136,7 +136,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 }
             };
 
-            _mockRepository.Setup(r => r.GetLogsByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(accessLogs);
+            _mockRepository.Setup(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(accessLogs);
             _mockMapper.Setup(m => m.Map<IEnumerable<AccessLogDto>>(accessLogs)).Returns(accessLogDtos);
 
             // Act
@@ -144,7 +144,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             // Assert
             Assert.Equal(accessLogDtos, result);
-            _mockRepository.Verify(r => r.GetLogsByFilterAsync(filter, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace APB.AccessControl.Application.Tests.Services
             var emptyList = new List<AccessLog>();
             var emptyDtoList = new List<AccessLogDto>();
 
-            _mockRepository.Setup(r => r.GetLogsByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(emptyList);
+            _mockRepository.Setup(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(emptyList);
             _mockMapper.Setup(m => m.Map<IEnumerable<AccessLogDto>>(emptyList)).Returns(emptyDtoList);
 
             // Act
@@ -163,7 +163,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             // Assert
             Assert.Empty(result);
-            _mockRepository.Verify(r => r.GetLogsByFilterAsync(filter, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 } 

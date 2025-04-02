@@ -114,10 +114,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _triggerRepository.ExistsAsync(id, cancellationToken))
-                    throw new NotFoundException(nameof(Trigger), nameof(Trigger.Id), id);
+                var repRes = await _triggerRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Trigger), nameof(Trigger.Id), id);
 
-                await _triggerRepository.DeleteAsync(id, cancellationToken);
+                await _triggerRepository.DeleteAsync(repRes, cancellationToken);
             }, nameof(DeleteAsync));
         }
 

@@ -13,8 +13,8 @@ namespace APB.AccessControl.Application.Validators
             RuleFor(e => e.EmployeeId)
                 .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.EmployeeId)));
 
-            RuleFor(e => e.GroupId)
-                .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.GroupId)));
+            RuleFor(e => e.AccessGroupId)
+                .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.AccessGroupId)));
         }
 
     }

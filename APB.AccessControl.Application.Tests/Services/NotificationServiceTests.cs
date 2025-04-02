@@ -134,28 +134,28 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenNotificationExists()
         {
             // Arrange
-            var notificationId = 1;
+            var notification = new Notification { Id = 1, AccessPointId = 1, Message = "Тестовое уведомление", ShowOnPass = true, EmployeeId = 1, ExpirationDate = DateTime.UtcNow.AddDays(1), IsRead = false };
             
-            _mockRepository.Setup(r => r.ExistsAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockRepository.Setup(r => r.GetByIdAsync(notification.Id, It.IsAny<CancellationToken>())).ReturnsAsync(notification);
 
             // Act
-            await _service.DeleteAsync(notificationId);
+            await _service.DeleteAsync(notification.Id);
 
             // Assert
-            _mockRepository.Verify(r => r.DeleteAsync(notificationId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.DeleteAsync(notification, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenNotificationDoesNotExist()
         {
             // Arrange
-            var notificationId = 1;
+            var notification = new Notification { Id = 1, AccessPointId = 1, Message = "Тестовое уведомление", ShowOnPass = true, EmployeeId = 1, ExpirationDate = DateTime.UtcNow.AddDays(1), IsRead = false };
             
-            _mockRepository.Setup(r => r.ExistsAsync(notificationId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _mockRepository.Setup(r => r.GetByIdAsync(notification.Id, It.IsAny<CancellationToken>())).ReturnsAsync((Notification)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(notificationId));
-            _mockRepository.Verify(r => r.DeleteAsync(notificationId, It.IsAny<CancellationToken>()), Times.Never);
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(notification.Id));
+            _mockRepository.Verify(r => r.DeleteAsync(notification, It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]

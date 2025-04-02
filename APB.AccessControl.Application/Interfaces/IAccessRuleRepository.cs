@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using APB.AccessControl.Shared.Models.Common;
 
 namespace APB.AccessControl.Application.Interfaces
 {
     public interface IAccessRuleRepository : IRepository<AccessRule, int>
     {
-        Task<IEnumerable<AccessRule>> GetRulesForGroupAsync(int groupId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<AccessRule>> GetRulesForAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessRule>> GetByFilterAsync(IFilter<AccessRule> filter, CancellationToken cancellationToken = default);
     }
 }

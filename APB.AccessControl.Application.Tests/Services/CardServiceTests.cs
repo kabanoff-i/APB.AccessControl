@@ -113,28 +113,28 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenCardExists()
         {
             // Arrange
-            int cardId = 1;
+            var card = new Card { Id = 1, EmployeeId = 1, IsActive = true };
             
-            _mockRepository.Setup(r => r.ExistsAsync(cardId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockRepository.Setup(r => r.GetByIdAsync(card.Id, It.IsAny<CancellationToken>())).ReturnsAsync(card);
 
             // Act
-            await _service.DeleteAsync(cardId);
+            await _service.DeleteAsync(card.Id);
 
             // Assert
-            _mockRepository.Verify(r => r.DeleteAsync(cardId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.DeleteAsync(card, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenCardDoesNotExist()
         {
             // Arrange
-            int cardId = 999;
+            var card = new Card { Id = 999, EmployeeId = 1, IsActive = true };
             
-            _mockRepository.Setup(r => r.ExistsAsync(cardId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _mockRepository.Setup(r => r.GetByIdAsync(card.Id, It.IsAny<CancellationToken>())).ReturnsAsync((Card)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(cardId));
-            _mockRepository.Verify(r => r.DeleteAsync(cardId, It.IsAny<CancellationToken>()), Times.Never);
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(card.Id));
+            _mockRepository.Verify(r => r.DeleteAsync(card, It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
@@ -241,7 +241,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 new CardDto { Id = 2, EmployeeId = employeeId, IsActive = false }
             };
 
-            _mockRepository.Setup(r => r.GetAllByEmployeeId(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(cards);
+            _mockRepository.Setup(r => r.GetAllByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(cards);
             _mockMapper.Setup(m => m.Map<IEnumerable<CardDto>>(cards)).Returns(cardDtos);
 
             // Act
@@ -257,7 +257,7 @@ namespace APB.AccessControl.Application.Tests.Services
             // Arrange
             int employeeId = 999;
             
-            _mockRepository.Setup(r => r.GetAllByEmployeeId(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync((IEnumerable<Card>)null);
+            _mockRepository.Setup(r => r.GetAllByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync((IEnumerable<Card>)null);
 
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() => _service.GetCardsByEmployeeAsync(employeeId));

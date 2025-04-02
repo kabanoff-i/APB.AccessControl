@@ -49,10 +49,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _cardRepository.ExistsAsync(id, cancellationToken))
-                    throw new NotFoundException(nameof(Card), nameof(Card.Id), id);
+                var card = await _cardRepository.GetByIdAsync(id, cancellationToken) 
+                    ?? throw new NotFoundException(nameof(Card), nameof(Card.Id), id);
 
-                await _cardRepository.DeleteAsync(id, cancellationToken);
+                await _cardRepository.DeleteAsync(card, cancellationToken);
             }, nameof(DeleteAsync));
         }
 
@@ -103,7 +103,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var repRes = await _cardRepository.GetAllByEmployeeId(employeeId, cancellationToken)
+                var repRes = await _cardRepository.GetAllByEmployeeIdAsync(employeeId, cancellationToken)
                     ?? throw new NotFoundException(nameof(Card), nameof(Card.EmployeeId), employeeId);
 
                 var response = _mapper.Map<IEnumerable<CardDto>>(repRes);

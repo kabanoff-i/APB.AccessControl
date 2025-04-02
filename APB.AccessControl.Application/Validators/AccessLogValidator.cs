@@ -26,9 +26,9 @@ namespace APB.AccessControl.APB.AccessControl.Application.Validators
             RuleFor(e => e.AccessPointId)
                 .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.AccessPointId)));
 
-            RuleFor(e => e.AccessTime)
-                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.AccessTime)))
-                .LessThanOrEqualTo(DateTime.UtcNow).WithMessage(x => InvalidProperty(nameof(x.AccessTime)));
+            RuleFor(e => e.DateAccess)
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.DateAccess)))
+                .LessThanOrEqualTo(DateTime.UtcNow).WithMessage(x => InvalidProperty(nameof(x.DateAccess)));
 
             RuleFor(e => e.AccessResult)
                 .IsInEnum().WithMessage(x => NotEmpty(nameof(x.AccessResult)));

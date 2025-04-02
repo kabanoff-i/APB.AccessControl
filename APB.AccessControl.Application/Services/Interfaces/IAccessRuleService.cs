@@ -3,7 +3,8 @@ using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Collections.Generic;
+using APB.AccessControl.Application.Filters;
 namespace APB.AccessControl.Application.Services.Interfaces
 {
     /// <summary>
@@ -11,6 +12,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
     /// </summary>
     public interface IAccessRuleService: IService<CreateAccessRuleReq, UpdateAccessRuleReq, int, AccessRuleDto>
     {
-        Task<bool> CheckAccessByGroupIdAsync(int groupId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessRuleDto>> GetByFilterAsync(AccessRuleFilter filter = default, CancellationToken cancellationToken = default);
     }
 }

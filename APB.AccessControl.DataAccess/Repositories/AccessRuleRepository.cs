@@ -82,24 +82,16 @@ namespace APB.AccessControl.DataAccess.Repositories
             }, nameof(ExistsAsync), id);
         }
 
-        public async Task<IEnumerable<AccessRule>> GetRulesForGroupAsync(int groupId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AccessRule>> GetByFilterAsync(IFilter<AccessRule> filter, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleRepositoryExceptionAsync(async () =>
             {
-                return await _context.AccessRules
-                    .Where(ar => ar.AccessGroupId == groupId)
-                    .ToListAsync(cancellationToken);
-            }, nameof(GetRulesForGroupAsync), groupId);
-        }
+                var query = _context.AccessRules.AsQueryable();
 
-        public async Task<IEnumerable<AccessRule>> GetRulesForAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default)
-        {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
-            {
-                return await _context.AccessRules
-                    .Where(ar => ar.AccessPointId == accessPointId)
-                    .ToListAsync(cancellationToken);
-            }, nameof(GetRulesForAccessPointAsync), accessPointId);
+                query = query.Where(filter.GetExpression());    
+
+                return await query.ToListAsync(cancellationToken);
+            }, nameof(GetByFilterAsync), filter);
         }
     }
 }

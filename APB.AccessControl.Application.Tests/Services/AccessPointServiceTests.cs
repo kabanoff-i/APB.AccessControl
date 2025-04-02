@@ -126,28 +126,28 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenAccessPointExists()
         {
             // Arrange
-            int accessPointId = 1;
+            var accessPoint = new AccessPoint { Id = 1, Name = "Главный вход", AccessPointTypeId = 1, IsActive = true };
             
-            _mockRepository.Setup(r => r.ExistsAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockRepository.Setup(r => r.GetByIdAsync(accessPoint.Id, It.IsAny<CancellationToken>())).ReturnsAsync(accessPoint);
 
             // Act
-            await _service.DeleteAsync(accessPointId);
+            await _service.DeleteAsync(accessPoint.Id);
 
             // Assert
-            _mockRepository.Verify(r => r.DeleteAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.DeleteAsync(accessPoint, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenAccessPointDoesNotExist()
         {
             // Arrange
-            int accessPointId = 999;
+            var accessPoint = new AccessPoint { Id = 999, Name = "Главный вход", AccessPointTypeId = 1, IsActive = true };
             
-            _mockRepository.Setup(r => r.ExistsAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _mockRepository.Setup(r => r.GetByIdAsync(accessPoint.Id, It.IsAny<CancellationToken>())).ReturnsAsync((AccessPoint)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(accessPointId));
-            _mockRepository.Verify(r => r.DeleteAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Never);
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(accessPoint.Id));
+            _mockRepository.Verify(r => r.DeleteAsync(accessPoint, It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]

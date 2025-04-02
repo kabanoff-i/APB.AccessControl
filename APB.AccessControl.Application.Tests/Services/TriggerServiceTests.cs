@@ -153,28 +153,28 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task DeleteAsync_ShouldCallRepositoryDeleteAsync_WhenTriggerExists()
         {
             // Arrange
-            int triggerId = 1;
+            var trigger = new Trigger { Id = 1, AccessPointId = 1, AccessResult = AccessResult.Granted, IsActive = true };
             
-            _mockTriggerRepository.Setup(r => r.ExistsAsync(triggerId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockTriggerRepository.Setup(r => r.GetByIdAsync(trigger.Id, It.IsAny<CancellationToken>())).ReturnsAsync(trigger);
 
             // Act
-            await _service.DeleteAsync(triggerId);
+            await _service.DeleteAsync(trigger.Id);
 
             // Assert
-            _mockTriggerRepository.Verify(r => r.DeleteAsync(triggerId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockTriggerRepository.Verify(r => r.DeleteAsync(trigger, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldThrowNotFoundException_WhenTriggerDoesNotExist()
         {
             // Arrange
-            int triggerId = 999;
+            var trigger = new Trigger { Id = 999, AccessPointId = 1, AccessResult = AccessResult.Granted, IsActive = true };
             
-            _mockTriggerRepository.Setup(r => r.ExistsAsync(triggerId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _mockTriggerRepository.Setup(r => r.GetByIdAsync(trigger.Id, It.IsAny<CancellationToken>())).ReturnsAsync((Trigger)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(triggerId));
-            _mockTriggerRepository.Verify(r => r.DeleteAsync(triggerId, It.IsAny<CancellationToken>()), Times.Never);
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(trigger.Id));
+            _mockTriggerRepository.Verify(r => r.DeleteAsync(trigger, It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]

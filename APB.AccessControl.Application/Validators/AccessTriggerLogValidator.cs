@@ -21,8 +21,8 @@ namespace APB.AccessControl.Application.Validators
             RuleFor(x => x.TriggerId)
                 .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.TriggerId)));
 
-            RuleFor(x => x.ExecuteAt)
-                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.ExecuteAt)));
+            RuleFor(x => x.ExecutedAt)
+                .NotEmpty().WithMessage(x => NotEmpty(nameof(x.ExecutedAt)));
         }
     }
 }

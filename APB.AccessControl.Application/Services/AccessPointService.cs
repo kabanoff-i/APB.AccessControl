@@ -47,10 +47,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessPointRepository.ExistsAsync(id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessPoint), nameof(AccessPoint.Id), id);
+                var repRes = await _accessPointRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessPoint), nameof(AccessPoint.Id), id);
 
-                await _accessPointRepository.DeleteAsync(id, cancellationToken);
+                await _accessPointRepository.DeleteAsync(repRes, cancellationToken);
             }, nameof(DeleteAsync));
         }
 

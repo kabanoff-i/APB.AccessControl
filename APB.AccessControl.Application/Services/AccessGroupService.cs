@@ -92,8 +92,8 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessGroupRepository.ExistsAsync(request.GroupId, cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.GroupId);
+                if (!await _accessGroupRepository.ExistsAsync(request.AccessGroupId, cancellationToken))
+                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.AccessGroupId);
 
                 if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
@@ -101,7 +101,7 @@ namespace APB.AccessControl.Application.Services
                 await _accessGridRepository.AddAsync(new AccessGrid
                 {
                     EmployeeId = request.EmployeeId,
-                    AccessGroupId = request.GroupId,
+                    AccessGroupId = request.AccessGroupId,
                     IsActive = true
                 }, cancellationToken);
             }, nameof(AddEmployeeToGroupAsync));
@@ -151,9 +151,11 @@ namespace APB.AccessControl.Application.Services
                 if (!await _employeeRepository.ExistsAsync(employeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), employeeId);
 
-                var repRes = await _accessGridRepository.GetByEmployeeIdAsync(employeeId, cancellationToken);
+                var repRes = (await _accessGridRepository.GetByEmployeeIdAsync(employeeId, cancellationToken));
 
-                return repRes.Where(g => g.IsActive).Select(g => _mapper.Map<AccessGroupDto>(g.AccessGroup));
+                var response = repRes.Select(g => _mapper.Map<AccessGroupDto>(g.AccessGroup));
+
+                return response;
             }, nameof(GetByEmployeeIdAsync));
         }
     }

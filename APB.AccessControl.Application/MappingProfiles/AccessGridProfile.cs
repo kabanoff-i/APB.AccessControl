@@ -11,7 +11,7 @@ namespace APB.AccessControl.Application.MappingProfiles
             // Request to Entity
             CreateMap<AddEmployeeToGroupReq, AccessGrid>()
                 .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.EmployeeId))
-                .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId))
+                .ForMember(dest => dest.AccessGroupId, opt => opt.MapFrom(src => src.AccessGroupId))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
         }
     }

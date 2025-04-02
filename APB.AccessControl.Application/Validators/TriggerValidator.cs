@@ -12,7 +12,7 @@ namespace APB.AccessControl.Application.Validators
                 .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.AccessPointId)));
 
             RuleFor(x => x.ActionType)
-                .GreaterThan(-1).WithMessage(x => InvalidProperty(nameof(x.ActionType)));
+                .IsInEnum().WithMessage(x => InvalidProperty(nameof(x.ActionType)));
 
             RuleFor(x => x.AccessResult)
                 .IsInEnum().WithMessage(x => InvalidProperty(nameof(x.ActionType)));

@@ -60,10 +60,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _employeeRepository.ExistsAsync(id, cancellationToken))
-                    throw new NotFoundException(nameof(Employee), nameof(Employee.Id), id);
+                var repRes = await _employeeRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Employee), nameof(Employee.Id), id);
 
-                await _employeeRepository.DeleteAsync(id, cancellationToken);
+                await _employeeRepository.DeleteAsync(repRes, cancellationToken);
             }, nameof(DeleteAsync));
         }
 
