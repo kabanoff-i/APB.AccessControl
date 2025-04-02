@@ -13,12 +13,14 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using static APB.AccessControl.Application.Common.Extensions;
+using System.Resources;
 
 namespace APB.AccessControl.Application.Services
 {
     public class AccessGroupService: IAccessGroupService
     {
         private readonly IAccessGroupRepository _accessGroupRepository;
+        private readonly IAccessGridRepository _accessGridRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<AccessGroupService> _logger;
@@ -27,12 +29,15 @@ namespace APB.AccessControl.Application.Services
             IAccessGroupRepository accessGroupRepository, 
             IMapper mapper, 
             IEmployeeRepository employeeRepository,
+            IAccessGridRepository accessGridRepository,
             ILogger<AccessGroupService> logger)
         {
             _accessGroupRepository = accessGroupRepository
                 ?? throw new ArgumentNullException(nameof(accessGroupRepository));
             _employeeRepository = employeeRepository
                 ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _accessGridRepository = accessGridRepository
+                ?? throw new ArgumentNullException(nameof(accessGridRepository));
             _mapper = mapper
                 ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger
@@ -54,10 +59,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessGroupRepository.ExistsAsync(id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), id);
+                var group = await _accessGroupRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), id);
 
-                await _accessGroupRepository.DeleteAsync(id, cancellationToken);
+                await _accessGroupRepository.DeleteAsync(group, cancellationToken);
             }, nameof(DeleteAsync));
         }
 
@@ -93,7 +98,12 @@ namespace APB.AccessControl.Application.Services
                 if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
 
-                await _accessGroupRepository.AssignEmployeeToGroupAsync(request.EmployeeId, request.GroupId, cancellationToken);
+                await _accessGridRepository.AddAsync(new AccessGrid
+                {
+                    EmployeeId = request.EmployeeId,
+                    AccessGroupId = request.GroupId,
+                    IsActive = true
+                }, cancellationToken);
             }, nameof(AddEmployeeToGroupAsync));
         }
 
@@ -104,8 +114,16 @@ namespace APB.AccessControl.Application.Services
                 if (!await _accessGroupRepository.ExistsAsync(groupId, cancellationToken))
                     throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), groupId);
 
-                var repRes = await _accessGroupRepository.GetEmployeesByGroupIdAsync(groupId, cancellationToken);
-                return _mapper.Map<IEnumerable<EmployeeDto>>(repRes);
+                var repRes = await _accessGridRepository.GetByAccessGroupIdAsync(groupId, cancellationToken);
+
+                var employees = new List<EmployeeDto>();
+                foreach (var accessGrid in repRes)
+                {
+                    var employee = await _employeeRepository.GetByIdAsync(accessGrid.EmployeeId, cancellationToken);
+                    employees.Add(_mapper.Map<EmployeeDto>(employee));
+                }
+
+                return employees;
             }, nameof(GetEmployeesInGroupAsync));
         }
 
@@ -119,20 +137,24 @@ namespace APB.AccessControl.Application.Services
                 if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
 
-                await _accessGroupRepository.RemoveEmployeeFromGroupAsync(request.EmployeeId, request.GroupId, cancellationToken);
+                var accessGrid = await _accessGridRepository.GetByIdAsync(request.EmployeeId, request.GroupId, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessGrid), $"{nameof(AccessGrid.EmployeeId)}, {nameof(AccessGrid.AccessGroupId)}", $"{request.EmployeeId}, {request.GroupId}");
+                
+                await _accessGridRepository.DeleteAsync(accessGrid, cancellationToken);
             }, nameof(RemoveEmployeeFromGroupAsync));
         }
 
-        public async Task<IEnumerable<int>> GetGroupIdByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AccessGroupDto>> GetByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
                 if (!await _employeeRepository.ExistsAsync(employeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), employeeId);
 
-                var groups = await _accessGroupRepository.GetGroupsByEmployeeIdAsync(employeeId, cancellationToken);
-                return groups.Select(g => g.Id);
-            }, nameof(GetGroupIdByEmployeeIdAsync));
+                var repRes = await _accessGridRepository.GetByEmployeeIdAsync(employeeId, cancellationToken);
+
+                return repRes.Where(g => g.IsActive).Select(g => _mapper.Map<AccessGroupDto>(g.AccessGroup));
+            }, nameof(GetByEmployeeIdAsync));
         }
     }
 }

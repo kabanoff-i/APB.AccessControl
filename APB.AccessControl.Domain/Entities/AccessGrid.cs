@@ -5,7 +5,7 @@ namespace APB.AccessControl.Domain.Entities
     public class AccessGrid: AuditedEntity
     {
         public int EmployeeId { get; set; }
-        public int GroupId { get; set; }
+        public int AccessGroupId { get; set; }
         public bool IsActive { get; set; }
 
         public Employee Employee { get; set; }

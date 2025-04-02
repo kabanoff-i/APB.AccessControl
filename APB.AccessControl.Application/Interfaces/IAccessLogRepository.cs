@@ -7,15 +7,12 @@ using System.Threading;
 using System.Linq.Expressions;
 using APB.AccessControl.Application.Filters;
 using System.Security.Cryptography;
+using APB.AccessControl.Shared.Models.Common;
 
 namespace APB.AccessControl.Application.Interfaces
 {
-    public interface IAccessLogRepository
+    public interface IAccessLogRepository: IRepository<AccessLog, Guid>
     {
-        Task<AccessLog> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<AccessLog>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<AccessLog> AddAsync(AccessLog entity, CancellationToken cancellationToken = default);
-        Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<AccessLog>> GetLogsByFilterAsync(AccessLogFilter filter, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessLog>> GetByFilterAsync(IFilter<AccessLog> filter, CancellationToken cancellationToken = default);
     }
 }

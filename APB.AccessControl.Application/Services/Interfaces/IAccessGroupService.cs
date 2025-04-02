@@ -14,6 +14,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
         Task AddEmployeeToGroupAsync(AddEmployeeToGroupReq request, CancellationToken cancellationToken = default);
         Task RemoveEmployeeFromGroupAsync(RemoveEmployeeFromGroupReq request, CancellationToken cancellationToken = default);
         Task<IEnumerable<EmployeeDto>> GetEmployeesInGroupAsync(int groupId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<int>> GetGroupIdByEmployeeIdAsync(int employeeId,  CancellationToken cancellationToken = default);
+        Task<IEnumerable<AccessGroupDto>> GetByEmployeeIdAsync(int employeeId,  CancellationToken cancellationToken = default);
     }
 }

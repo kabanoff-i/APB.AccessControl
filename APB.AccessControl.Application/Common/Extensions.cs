@@ -16,26 +16,27 @@ namespace APB.AccessControl.Application.Common
             }
             catch (NotFoundException ex)
             {
-                logger.LogWarning(ex, "Не найдена сущность при выполнении операции {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogWarning(ex, $"Не найдена сущность при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
             catch (ValidationException ex)
             {
-                logger.LogWarning(ex, "Ошибка валидации при выполнении операции {OperationName}: {Errors}", 
-                    operationName, string.Join(", ", ex.Errors));
+                logger.LogWarning(ex, $"Ошибка валидации при выполнении операции {operationName}: {string.Join(", ", ex.Errors)}");
+                throw;
+            }
+            catch (RepositoryException ex)
+            {
+                logger.LogError(ex, $"Ошибка при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
             catch (InvalidOperationException ex)
             {
-                logger.LogError(ex, "Некорректная операция {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogError(ex, $"Некорректная операция {operationName}: {ex.Message}");
                 throw;
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "Критическая ошибка при выполнении операции {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogCritical(ex, $"Критическая ошибка при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
         }
@@ -48,27 +49,68 @@ namespace APB.AccessControl.Application.Common
             }
             catch (NotFoundException ex)
             {
-                logger.LogWarning(ex, "Не найдена сущность при выполнении операции {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogWarning(ex, $"Не найдена сущность при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
             catch (ValidationException ex)
             {
-                logger.LogWarning(ex, "Ошибка валидации при выполнении операции {OperationName}: {Errors}", 
-                    operationName, string.Join(", ", ex.Errors));
+                logger.LogWarning(ex, $"Ошибка валидации при выполнении операции {operationName}: {string.Join(", ", ex.Errors)}");
+                throw;
+            }
+            catch (RepositoryException ex)
+            {
+                logger.LogError(ex, $"Ошибка при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
             catch (InvalidOperationException ex)
             {
-                logger.LogError(ex, "Некорректная операция {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogError(ex, $"Некорректная операция {operationName}: {ex.Message}");
                 throw;
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "Критическая ошибка при выполнении операции {OperationName}: {Message}", 
-                    operationName, ex.Message);
+                logger.LogCritical(ex, $"Критическая ошибка при выполнении операции {operationName}: {ex.Message}");
                 throw;
+            }
+        }
+
+
+        public static async Task HandleRepositoryExceptionAsync(this ILogger logger, Func<Task> operation, string operationName, object key)
+        {
+            try
+            {
+                await operation();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Ошибка при выполнении операции {operationName}: {ex.Message}");
+                throw new RepositoryException(ex, operationName, key);
+            }
+        }
+        
+        public static async Task<T> HandleRepositoryExceptionAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName, object key)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Ошибка при выполнении операции {operationName}: {ex.Message}");
+                throw new RepositoryException(ex, operationName, key);
+            }
+        }
+
+        public static async Task<T> HandleRepositoryExceptionAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Ошибка при выполнении операции {operationName}: {ex.Message}");
+                throw new RepositoryException(ex, operationName, null);
             }
         }
     }

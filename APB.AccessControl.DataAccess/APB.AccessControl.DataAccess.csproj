@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APB.AccessControl.Application\APB.AccessControl.Application.csproj" />
     <ProjectReference Include="..\APB.AccessControl.Domain\APB.AccessControl.Domain.csproj" />
     <ProjectReference Include="..\APB.AccessControl.Shared\APB.AccessControl.Shared.csproj" />
   </ItemGroup>

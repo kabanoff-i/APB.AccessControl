@@ -14,6 +14,9 @@ namespace APB.AccessControl.DataAccess
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Trigger> Triggers { get; set; }
         public DbSet<AccessTriggerLog> AccessTriggerLogs { get; set; }
+        public DbSet<AccessGroup> AccessGroups { get; set; }
+        public DbSet<AccessRule> AccessRules { get; set; }
+        public DbSet<AccessGrid> AccessGrids { get; set; }
 
         public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options) 
             : base(options)

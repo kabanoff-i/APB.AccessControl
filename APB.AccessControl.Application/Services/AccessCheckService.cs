@@ -118,7 +118,7 @@ namespace APB.AccessControl.Application.Services
                 }
 
                 // Получаем группы доступа сотрудника
-                var employeeGroups = await _accessGroupService.GetGroupIdByEmployeeIdAsync(card.EmployeeId, cancellationToken);
+                var employeeGroups = await _accessGroupService.GetByEmployeeIdAsync(card.EmployeeId, cancellationToken);
                 if (!employeeGroups.Any())
                 {
                     await _accessLogService.LogAccessAttemptAsync(new CreateAccessLogReq
@@ -146,9 +146,9 @@ namespace APB.AccessControl.Application.Services
 
                 // Проверяем наличие доступа хотя бы в одной группе
                 var hasAccess = false;
-                foreach (var groupId in employeeGroups)
+                foreach (var group in employeeGroups)
                 {
-                    if (await _accessRuleService.CheckAccessByGroupIdAsync(groupId, cancellationToken))
+                    if (await _accessRuleService.CheckAccessByGroupIdAsync(group.Id, cancellationToken))
                     {
                         hasAccess = true;
                         break;
