@@ -15,16 +15,16 @@ using static APB.AccessControl.Application.Common.Extensions;
 
 namespace APB.AccessControl.Application.Services
 {
-    public class TriggerLogService : IAccessTriggerLogService
+    public class AccessTriggerLogService : IAccessTriggerLogService
     {
         private readonly IAccessTriggerLogRepository _triggerLogRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<TriggerLogService> _logger;
+        private readonly ILogger<AccessTriggerLogService> _logger;
 
-        public TriggerLogService(
+        public AccessTriggerLogService(
             IAccessTriggerLogRepository triggerLogRepository,
             IMapper mapper, 
-            ILogger<TriggerLogService> logger)
+            ILogger<AccessTriggerLogService> logger)
         {
             _triggerLogRepository = triggerLogRepository 
                 ?? throw new ArgumentNullException(nameof(triggerLogRepository));
