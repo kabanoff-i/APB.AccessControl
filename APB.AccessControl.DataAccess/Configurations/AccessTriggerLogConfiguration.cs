@@ -22,8 +22,7 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.Property(tl => tl.ExecutedAt)
                 .IsRequired();
 
-            builder.Property(tl => tl.ErrorMessage)
-                .HasColumnType("clob");
+            builder.Property(tl => tl.ErrorMessage);
 
             builder.HasOne(tl => tl.Trigger)
                 .WithMany(t => t.AccessTriggerLogs)

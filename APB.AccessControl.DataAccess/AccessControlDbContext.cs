@@ -18,9 +18,15 @@ namespace APB.AccessControl.DataAccess
         public DbSet<AccessRule> AccessRules { get; set; }
         public DbSet<AccessGrid> AccessGrids { get; set; }
 
-        public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options) 
-            : base(options)
+        //public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options) 
+        //    : base(options)
+        //{
+        //    Database.EnsureCreated();
+        //}
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AccessControlDb;Username=postgres;Password=mysecretpassword");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +40,10 @@ namespace APB.AccessControl.DataAccess
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
             modelBuilder.ApplyConfiguration(new TriggerConfiguration());
             modelBuilder.ApplyConfiguration(new AccessTriggerLogConfiguration());
+            modelBuilder.ApplyConfiguration(new AccessPointTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccessGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new AccessRuleConfiguration());
+            modelBuilder.ApplyConfiguration(new AccessGridConfiguration());
         }
 
         public override int SaveChanges()

@@ -11,28 +11,22 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.FirstName)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
 
             builder.Property(e => e.LastName)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
             
-            builder.Property(e => e.PatronymicName)
-                .HasMaxLength(100);
+            builder.Property(e => e.PatronymicName);
 
             builder.Property(e => e.PassportNumber)
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired();
 
             builder.Property(e => e.Photo)
                 .IsRequired();
 
-            builder.Property(e => e.Department)
-                .HasMaxLength(100);
+            builder.Property(e => e.Department);
 
-            builder.Property(e => e.Position)
-                .HasMaxLength(100);
+            builder.Property(e => e.Position);
 
             builder.Property(e => e.IsActive)
                 .IsRequired();

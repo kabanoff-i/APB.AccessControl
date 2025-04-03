@@ -28,8 +28,7 @@ namespace APB.AccessControl.DataAccess.Configurations
                 )   
                 .IsRequired();
 
-            builder.Property(t => t.ActionValue)
-                .HasMaxLength(500);
+            builder.Property(t => t.ActionValue);
 
             builder.Property(t => t.IsActive)
                 .IsRequired();

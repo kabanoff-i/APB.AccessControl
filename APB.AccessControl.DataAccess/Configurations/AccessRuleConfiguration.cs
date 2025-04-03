@@ -23,7 +23,7 @@ namespace APB.AccessControl.DataAccess.Configurations
 
             builder.Property(ar => ar.DaysOfWeek)
                 .IsRequired()
-                .HasConversion(new BitArrayToLongConverter())
+                //.HasConversion(new BitArrayToLongConverter())
                 .HasColumnType("bit(7)");
 
             builder.Property(ar => ar.SpecificDates)

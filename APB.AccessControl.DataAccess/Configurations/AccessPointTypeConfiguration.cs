@@ -8,11 +8,17 @@ namespace APB.AccessControl.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<AccessPointType> builder)
         {
-            builder.HasKey(apt => apt.Id);
+            builder.HasKey(e => e.Id);
 
-            builder.Property(apt => apt.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+            builder.Property(e => e.Id)
+                .IsRequired();
+
+            builder.Property(e => e.Name)
+                .IsRequired();
+
+            builder.HasMany(e => e.AccessPoints)
+                .WithOne(e => e.AccessPointType)
+                .HasForeignKey(e => e.AccessPointTypeId);
         }
     }
-} 
+}

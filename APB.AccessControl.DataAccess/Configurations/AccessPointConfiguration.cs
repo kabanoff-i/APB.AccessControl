@@ -12,18 +12,18 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.HasKey(ap => ap.Id);
 
             builder.Property(ap => ap.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
 
-            builder.Property(ap => ap.IpAddress)
-                .HasMaxLength(50);
+            builder.Property(ap => ap.IpAddress);
 
-            builder.Property(ap => ap.Location)
-                .HasMaxLength(100);
+            builder.Property(ap => ap.Location);
 
             builder.Property(ap => ap.IsActive)
                 .IsRequired();
 
+            builder.Property(ap => ap.AccessPointTypeId)
+                .IsRequired();
+                
             builder.Property(ap => ap.CreatedAt)
                 .IsRequired();
 

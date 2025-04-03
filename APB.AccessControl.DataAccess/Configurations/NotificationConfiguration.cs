@@ -21,8 +21,7 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.Property(n => n.ExpirationDate);
 
             builder.Property(n => n.Message)
-                .IsRequired()
-                .HasMaxLength(500);
+                .IsRequired();
 
             builder.Property(n => n.IsRead)
                 .IsRequired();

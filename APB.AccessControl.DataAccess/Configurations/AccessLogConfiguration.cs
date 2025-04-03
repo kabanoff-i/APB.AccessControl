@@ -13,7 +13,7 @@ namespace APB.AccessControl.DataAccess.Configurations
 
             builder.Property(al => al.CardHash)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(256);
 
             builder.Property(al => al.EmployeeId);
 
@@ -38,6 +38,9 @@ namespace APB.AccessControl.DataAccess.Configurations
 
             builder.Property(al => al.UpdatedAt)
                 .IsRequired();
+
+            builder.HasIndex(al => al.CardHash)
+                .IsUnique();
 
             builder.HasOne(al => al.Card)
                 .WithMany(c => c.AccessLogs)

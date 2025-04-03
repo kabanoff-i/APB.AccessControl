@@ -272,13 +272,23 @@ namespace APB.AccessControl.Application.Tests.Services
 
             var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
             var employee = new Employee { Id = 100, IsActive = true };
+
+            var accessGroup = new AccessGroup { Id = 1, IsActive = true };
+
+            var accessGrid = new AccessGrid
+            {
+                EmployeeId = employee.Id,
+                AccessGroupId = accessGroup.Id,
+                IsActive = true
+            };
+
             var rule = new AccessRule
             {
                 IsActive = true,
                 AccessPointId = 1,
                 StartDate = now.AddDays(1),
                 EndDate = now.AddDays(10),
-                DaysOfWeek = new bool[] { true, true, true, true, true, true, true },
+                DaysOfWeek = new System.Collections.BitArray(new bool[] { true, true, true, true, true, true, true }),
                 AllowedTimeStart = TimeSpan.Zero,
                 AllowedTimeEnd = TimeSpan.FromHours(23).Add(TimeSpan.FromMinutes(59))
             };
@@ -287,7 +297,18 @@ namespace APB.AccessControl.Application.Tests.Services
                 .ReturnsAsync(card);
             _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(employee);
-            _mockAccessRuleRepository.Setup(repo => repo.GetRulesForEmployeeAsync(employee.Id, It.IsAny<CancellationToken>()))
+            
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessGrid> { accessGrid });
+
+            _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(accessGroup);
+
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
+            {
+                AccessGroupId = accessGroup.Id,
+                AccessPointId = request.AcсessPointId
+            }, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessRule> { rule });
 
             // Act

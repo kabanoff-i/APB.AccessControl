@@ -11,8 +11,7 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.HasKey(ag => ag.Id);
 
             builder.Property(ag => ag.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
 
             builder.Property(ag => ag.IsActive)
                 .IsRequired();
