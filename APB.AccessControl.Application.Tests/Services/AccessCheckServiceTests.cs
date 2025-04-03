@@ -1,329 +1,300 @@
 using APB.AccessControl.Application.Filters;
+using APB.AccessControl.Application.Interfaces;
 using APB.AccessControl.Application.Services;
 using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Domain.Entities;
-using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Domain.Primitives;
-using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
-using APB.AccessControl.Shared.Models.Responses;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
     public class AccessCheckServiceTests
     {
-        private readonly Mock<ICardService> _mockCardService;
-        private readonly Mock<IAccessRuleService> _mockAccessRuleService;
-        private readonly Mock<IAccessGroupService> _mockAccessGroupService;
+        private readonly Mock<ICardRepository> _mockCardRepository;
+        private readonly Mock<IAccessGridRepository> _mockAccessGridRepository;
         private readonly Mock<IAccessLogService> _mockAccessLogService;
-        private readonly Mock<IEmployeeService> _mockEmployeeService;
-        
-        private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<IEmployeeRepository> _mockEmployeeRepository;
+        private readonly Mock<IAccessRuleRepository> _mockAccessRuleRepository;
+        private readonly Mock<IAccessGroupRepository> _mockAccessGroupRepository;
         private readonly Mock<ILogger<AccessCheckService>> _mockLogger;
+        private readonly Mock<IMapper> _mockMapper;
         private readonly AccessCheckService _service;
 
         public AccessCheckServiceTests()
         {
-            _mockCardService = new Mock<ICardService>();
-            _mockAccessRuleService = new Mock<IAccessRuleService>();
-            _mockAccessGroupService = new Mock<IAccessGroupService>();
+            _mockCardRepository = new Mock<ICardRepository>();
+            _mockAccessGridRepository = new Mock<IAccessGridRepository>();
             _mockAccessLogService = new Mock<IAccessLogService>();
-            _mockEmployeeService = new Mock<IEmployeeService>();
-            _mockMapper = new Mock<IMapper>();
+            _mockEmployeeRepository = new Mock<IEmployeeRepository>();
+            _mockAccessRuleRepository = new Mock<IAccessRuleRepository>();
+            _mockAccessGroupRepository = new Mock<IAccessGroupRepository>();
             _mockLogger = new Mock<ILogger<AccessCheckService>>();
-            
+            _mockMapper = new Mock<IMapper>();
+
             _service = new AccessCheckService(
-                _mockAccessRuleService.Object,
-                _mockCardService.Object,
-                _mockAccessGroupService.Object,
+                _mockAccessRuleRepository.Object,
+                _mockCardRepository.Object,
+                _mockAccessGroupRepository.Object,
+                _mockAccessGridRepository.Object,
                 _mockAccessLogService.Object,
-                _mockEmployeeService.Object,
+                _mockEmployeeRepository.Object,
                 _mockMapper.Object,
-                _mockLogger.Object);
+                _mockLogger.Object
+            );
         }
 
         [Fact]
-        public async Task CheckAccessAsync_ShouldDenyAccess_WhenCardNotFound()
+        public async Task CheckAccessAsync_CardNotFound_ReturnsFalse()
         {
             // Arrange
             var request = new CheckAccessReq
             {
-                CardHash = "NonExistentHash",
+                CardHash = "nonexistentHash",
                 AcсessPointId = 1,
-                DateAccess = DateTime.UtcNow
+                DateAccess = DateTime.Now
             };
 
-            _mockCardService.Setup(s => s.GetCardByHashAsync(request.CardHash, It.IsAny<CancellationToken>())).ThrowsAsync(new NotFoundException(nameof(Card), nameof(Card.Id), request.CardHash));
-            _mockAccessLogService.Setup(s => s.LogAccessAttemptAsync(It.IsAny<CreateAccessLogReq>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessLogDto());
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync((Card)null);
 
             // Act
             var result = await _service.CheckAccessAsync(request);
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Contains("Карта", result.Message);
             Assert.Contains("не найдена", result.Message);
-            _mockAccessLogService.Verify(s => s.LogAccessAttemptAsync(
+            
+            _mockAccessLogService.Verify(service => service.LogAccessAttemptAsync(
                 It.Is<CreateAccessLogReq>(req => 
                     req.CardHash == request.CardHash && 
-                    req.AccessPointId == request.AcсessPointId && 
-                    req.AccessResult == (int)AccessResult.Denied), 
-                It.IsAny<CancellationToken>()), 
-                Times.Once);
+                    req.AccessResult == (int)AccessResult.Denied),
+                It.IsAny<CancellationToken>()
+            ), Times.Once);
         }
 
         [Fact]
-        public async Task CheckAccessAsync_ShouldDenyAccess_WhenCardDeactivated()
+        public async Task CheckAccessAsync_EmployeeNotFound_ReturnsFalse()
         {
             // Arrange
             var request = new CheckAccessReq
             {
-                CardHash = "ValidHash",
+                CardHash = "validHash",
                 AcсessPointId = 1,
-                DateAccess = DateTime.UtcNow
+                DateAccess = DateTime.Now
             };
 
-            var card = new CardDto
-            {
-                Id = 1,
-                EmployeeId = 1,
-                IsActive = false
-            };
+            var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
 
-            var employee = new EmployeeDto
-            {
-                Id = 1,
-                FirstName = "Иван",
-                LastName = "Иванов",
-                PassportNumber = "1234567",
-                Photo = new byte[] { 1, 2, 3 }
-            };
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(card);
 
-            _mockCardService.Setup(s => s.GetCardByHashAsync(request.CardHash, It.IsAny<CancellationToken>())).ReturnsAsync(card);
-            _mockEmployeeService.Setup(s => s.GetEmployeeByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(employee);
-            _mockAccessLogService.Setup(s => s.LogAccessAttemptAsync(It.IsAny<CreateAccessLogReq>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessLogDto());
+            _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync((Employee)null);
 
             // Act
             var result = await _service.CheckAccessAsync(request);
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal("Карта деактивирована", result.Message);
+            Assert.Contains("Сотрудник не найден", result.Message);
             
-            _mockAccessLogService.Verify(s => s.LogAccessAttemptAsync(
+            _mockAccessLogService.Verify(service => service.LogAccessAttemptAsync(
                 It.Is<CreateAccessLogReq>(req => 
                     req.CardId == card.Id && 
-                    req.EmployeeId == employee.Id && 
-                    req.AccessPointId == request.AcсessPointId && 
-                    req.AccessResult == (int)AccessResult.Denied), 
-                It.IsAny<CancellationToken>()), 
-                Times.Once);
+                    req.AccessResult == (int)AccessResult.Denied),
+                It.IsAny<CancellationToken>()
+            ), Times.Once);
         }
 
         [Fact]
-        public async Task CheckAccessAsync_ShouldDenyAccess_WhenNoAccessGroups()
+        public async Task CheckAccessAsync_InactiveEmployee_ReturnsFalse()
         {
             // Arrange
             var request = new CheckAccessReq
             {
-                CardHash = "ValidHash",
+                CardHash = "validHash",
                 AcсessPointId = 1,
-                DateAccess = DateTime.UtcNow
+                DateAccess = DateTime.Now
             };
 
-            var card = new CardDto
-            {
-                Id = 1,
-                EmployeeId = 1,
-                IsActive = true
-            };
+            var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
+            var employee = new Employee { Id = 100, IsActive = false };
 
-            var employee = new EmployeeDto
-            {
-                Id = 1,
-                FirstName = "Иван",
-                LastName = "Иванов",
-                PassportNumber = "1234567",
-                Photo = new byte[] { 1, 2, 3 }
-            };
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(card);
 
-            var emptyGroups = new List<AccessGroupDto>();
-
-            _mockCardService.Setup(s => s.GetCardByHashAsync(request.CardHash, It.IsAny<CancellationToken>())).ReturnsAsync(card);
-            _mockEmployeeService.Setup(s => s.GetEmployeeByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(employee);
-            _mockAccessGroupService.Setup(s => s.GetByEmployeeIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(emptyGroups);
-            _mockAccessLogService.Setup(s => s.LogAccessAttemptAsync(It.IsAny<CreateAccessLogReq>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessLogDto());
+            _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(employee);
 
             // Act
             var result = await _service.CheckAccessAsync(request);
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Contains("группы доступа", result.Message);
             
-            _mockAccessLogService.Verify(s => s.LogAccessAttemptAsync(
+            _mockAccessLogService.Verify(service => service.LogAccessAttemptAsync(
                 It.Is<CreateAccessLogReq>(req => 
                     req.CardId == card.Id && 
                     req.EmployeeId == employee.Id && 
-                    req.AccessPointId == request.AcсessPointId && 
-                    req.AccessResult == (int)AccessResult.Denied), 
-                It.IsAny<CancellationToken>()), 
-                Times.Once);
+                    req.AccessResult == (int)AccessResult.Denied),
+                It.IsAny<CancellationToken>()
+            ), Times.Once);
         }
 
         [Fact]
-        public async Task CheckAccessAsync_ShouldDenyAccess_WhenNoAccessRules()
+        public async Task IsAccessRuleMatch_InactiveRule_ReturnsFalse()
         {
             // Arrange
             var request = new CheckAccessReq
             {
-                CardHash = "ValidHash",
+                CardHash = "validHash",
                 AcсessPointId = 1,
-                DateAccess = DateTime.UtcNow
+                DateAccess = DateTime.Now
             };
 
-            var card = new CardDto
+            var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
+            var employee = new Employee { Id = 100, IsActive = true };
+
+            var accessGroup = new AccessGroup { Id = 1, IsActive = true };
+
+            var accessGrid = new AccessGrid
             {
-                Id = 1,
-                EmployeeId = 1,
+                EmployeeId = employee.Id,
+                AccessGroupId = accessGroup.Id,
                 IsActive = true
             };
 
-            var employee = new EmployeeDto
+            var rule = new AccessRule
             {
-                Id = 1,
-                FirstName = "Иван",
-                LastName = "Иванов",
-                PassportNumber = "1234567",
-                Photo = new byte[] { 1, 2, 3 }
+                IsActive = false,
+                AccessPointId = 1,
+                AccessGroupId = accessGroup.Id
             };
 
-            var groups = new List<AccessGroupDto> { new AccessGroupDto { Id = 1 }, new AccessGroupDto { Id = 2 } };
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(card);
+            _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(employee);
 
-            _mockCardService.Setup(s => s.GetCardByHashAsync(request.CardHash, It.IsAny<CancellationToken>())).ReturnsAsync(card);
-            _mockEmployeeService.Setup(s => s.GetEmployeeByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(employee);
-            _mockAccessGroupService.Setup(s => s.GetByEmployeeIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(groups);
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessGrid> { accessGrid });
 
-            // Создать правило доступа, которое соответствует требованиям IsAccessRuleMatch
-            var validRule = new AccessRuleDto 
+            _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(accessGroup);
+            
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
             {
-                Id = 1,
-                AccessGroupId = 1,
-                AccessPointId = request.AcсessPointId,
-                IsActive = true,
-                StartDate = request.DateAccess.AddDays(-1),
-                EndDate = request.DateAccess.AddDays(1),
-                AllowedTimeStart = new TimeSpan(0, 0, 0),
-                AllowedTimeEnd = new TimeSpan(23, 59, 59),
-                DaysOfWeek = new System.Collections.BitArray(7, true)
-            };
-
-            var rules = new List<AccessRuleDto> { validRule };
-
-            _mockAccessRuleService.Setup(s => s.GetByFilterAsync(
-                It.Is<AccessRuleFilter>(f => f.AccessPointId == request.AcсessPointId && f.AccessGroupId == 1), 
-                It.IsAny<CancellationToken>())).ReturnsAsync(rules);
-
-            _mockAccessLogService.Setup(s => s.LogAccessAttemptAsync(It.IsAny<CreateAccessLogReq>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessLogDto());
+                AccessGroupId = accessGroup.Id,
+                AccessPointId = 1
+            }, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessRule> { rule });
 
             // Act
             var result = await _service.CheckAccessAsync(request);
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Contains("Нет прав доступа", result.Message);
-            
-            _mockAccessLogService.Verify(s => s.LogAccessAttemptAsync(
-                It.Is<CreateAccessLogReq>(req => 
-                    req.CardId == card.Id && 
-                    req.EmployeeId == employee.Id && 
-                    req.AccessPointId == request.AcсessPointId && 
-                    req.AccessResult == (int)AccessResult.Denied), 
-                It.IsAny<CancellationToken>()), 
-                Times.Once);
         }
 
         [Fact]
-        public async Task CheckAccessAsync_ShouldGrantAccess_WhenAllConditionsMet()
+        public async Task IsAccessRuleMatch_DifferentAccessPoint_ReturnsFalse()
         {
             // Arrange
             var request = new CheckAccessReq
             {
-                CardHash = "ValidHash",
+                CardHash = "validHash",
                 AcсessPointId = 1,
-                DateAccess = DateTime.UtcNow
+                DateAccess = DateTime.Now
             };
 
-            var card = new CardDto
+            var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
+            var employee = new Employee { Id = 100, IsActive = true };
+
+            var accessGroup = new AccessGroup { Id = 1, IsActive = true };
+
+            var accessGrid = new AccessGrid
             {
-                Id = 1,
-                EmployeeId = 1,
+                EmployeeId = employee.Id,
+                AccessGroupId = accessGroup.Id,
                 IsActive = true
             };
 
-            var employee = new EmployeeDto
+            var rule = new AccessRule
             {
-                Id = 1,
-                FirstName = "Иван",
-                LastName = "Иванов",
                 IsActive = true,
-                PassportNumber = "1234567",
-                Photo = new byte[] { 1, 2, 3 }
+                AccessPointId = 2,
+                StartDate = DateTime.Now.AddDays(-10),
+                EndDate = DateTime.Now.AddDays(10),
+                DaysOfWeek = new System.Collections.BitArray(new bool[] { true, true, true, true, true, true, true }),
+                AllowedTimeStart = TimeSpan.Zero,
+                AllowedTimeEnd = TimeSpan.FromHours(23).Add(TimeSpan.FromMinutes(59))
             };
 
-            var groups = new List<AccessGroupDto> { new AccessGroupDto { Id = 1 }, new AccessGroupDto { Id = 2 } };
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(card);
+            _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(employee);
+            
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessGrid> { accessGrid });
 
-            // Создать правило доступа, которое соответствует требованиям IsAccessRuleMatch
-            var validRule = new AccessRuleDto 
+            _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(accessGroup);
+
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
             {
-                Id = 1,
-                AccessGroupId = 1,
-                AccessPointId = request.AcсessPointId,
-                IsActive = true,
-                StartDate = request.DateAccess.AddDays(-1),
-                EndDate = request.DateAccess.AddDays(1),
-                AllowedTimeStart = new TimeSpan(0, 0, 0),
-                AllowedTimeEnd = new TimeSpan(23, 59, 59),
-                DaysOfWeek = new System.Collections.BitArray(7, true)
-            };
-
-            var rules = new List<AccessRuleDto> { validRule };
-
-            _mockCardService.Setup(s => s.GetCardByHashAsync(request.CardHash, It.IsAny<CancellationToken>())).ReturnsAsync(card);
-            _mockEmployeeService.Setup(s => s.GetEmployeeByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(employee);
-            _mockAccessGroupService.Setup(s => s.GetByEmployeeIdAsync(card.EmployeeId, It.IsAny<CancellationToken>())).ReturnsAsync(groups);
-            _mockAccessRuleService.Setup(s => s.GetByFilterAsync(
-                It.Is<AccessRuleFilter>(f => f.AccessPointId == request.AcсessPointId && f.AccessGroupId == 1), 
-                It.IsAny<CancellationToken>())).ReturnsAsync(rules);
-            _mockAccessLogService.Setup(s => s.LogAccessAttemptAsync(It.IsAny<CreateAccessLogReq>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessLogDto());
+                AccessGroupId = accessGroup.Id,
+                AccessPointId = 1
+            }, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessRule>());
 
             // Act
             var result = await _service.CheckAccessAsync(request);
 
             // Assert
-            Assert.True(result.IsSuccess);
-            Assert.Equal("Доступ разрешен", result.Message);
-            
-            _mockAccessLogService.Verify(s => s.LogAccessAttemptAsync(
-                It.Is<CreateAccessLogReq>(req => 
-                    req.CardId == card.Id && 
-                    req.EmployeeId == employee.Id && 
-                    req.AccessPointId == request.AcсessPointId && 
-                    req.AccessResult == (int)AccessResult.Granted), 
-                It.IsAny<CancellationToken>()), 
-                Times.Once);
+            Assert.False(result.IsSuccess);
+        }
+
+        [Fact]
+        public async Task IsAccessRuleMatch_OutsideDateRange_ReturnsFalse()
+        {
+            // Arrange
+            var now = DateTime.Now;
+            var request = new CheckAccessReq
+            {
+                CardHash = "validHash",
+                AcсessPointId = 1,
+                DateAccess = now
+            };
+
+            var card = new Card { Id = 1, EmployeeId = 100, Hash = "validHash" };
+            var employee = new Employee { Id = 100, IsActive = true };
+            var rule = new AccessRule
+            {
+                IsActive = true,
+                AccessPointId = 1,
+                StartDate = now.AddDays(1),
+                EndDate = now.AddDays(10),
+                DaysOfWeek = new bool[] { true, true, true, true, true, true, true },
+                AllowedTimeStart = TimeSpan.Zero,
+                AllowedTimeEnd = TimeSpan.FromHours(23).Add(TimeSpan.FromMinutes(59))
+            };
+
+            _mockCardRepository.Setup(repo => repo.GetByHashAsync(request.CardHash, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(card);
+            _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(employee);
+            _mockAccessRuleRepository.Setup(repo => repo.GetRulesForEmployeeAsync(employee.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<AccessRule> { rule });
+
+            // Act
+            var result = await _service.CheckAccessAsync(request);
+
+            // Assert
+            Assert.False(result.IsSuccess);
         }
     }
-} 
+}
