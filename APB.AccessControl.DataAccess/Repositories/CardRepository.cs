@@ -26,7 +26,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<Card?> GetByHashAsync(string cardHash, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.Cards
                     .FirstOrDefaultAsync(c => c.Hash == cardHash, cancellationToken);
@@ -35,7 +35,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<Card?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.Cards
                     .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
@@ -44,7 +44,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<Card>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.Cards.ToListAsync(cancellationToken);
             }, nameof(GetAllAsync));
@@ -52,7 +52,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<Card?> AddAsync(Card entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.Cards.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -80,7 +80,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.Cards.AnyAsync(c => c.Id == id, cancellationToken);
             }, nameof(ExistsAsync), id);
@@ -88,7 +88,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<Card>> GetAllByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.Cards
                     .Where(c => c.EmployeeId == employeeId)

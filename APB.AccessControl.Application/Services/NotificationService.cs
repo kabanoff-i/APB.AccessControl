@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
 using System.Linq;
+using APB.AccessControl.Application.Filters;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -70,7 +71,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var notifications = await _notificationRepository.GetActiveNotificationsByAccessPointAsync(accessPointId, cancellationToken);
+                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { AccessPointId = accessPointId}, cancellationToken);
                 return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
             }, nameof(GetNotificationsByAccessPointAsync));
         }
@@ -79,7 +80,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var notifications = await _notificationRepository.GetActiveNotificationsByEmployeeAsync(employeeId, cancellationToken);
+                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { EmployeeId = employeeId}, cancellationToken);
                 return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
             }, nameof(GetNotificationsByEmployeeAsync));
         }
@@ -108,6 +109,15 @@ namespace APB.AccessControl.Application.Services
             }, nameof(UpdateAsync));
         }
 
-       
+        public async Task<NotificationDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
+            {
+                var notification = await _notificationRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Notification), nameof(Notification.Id), id);  
+
+                return _mapper.Map<NotificationDto>(notification);
+            }, nameof(GetByIdAsync));
+        }
     }
 }

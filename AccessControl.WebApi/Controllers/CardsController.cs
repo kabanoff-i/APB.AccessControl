@@ -1,0 +1,81 @@
+using APB.AccessControl.Application.Services.Interfaces;
+using APB.AccessControl.Shared.Models.Common;
+using APB.AccessControl.Shared.Models.DTOs;
+using APB.AccessControl.Shared.Models.Requests;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace AccessControl.WebApi.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CardsController : ControllerBase
+    {
+        private readonly ICardService _cardService;
+        private readonly ILogger<CardsController> _logger;
+
+        public CardsController(ICardService cardService, ILogger<CardsController> logger)
+        {
+            _cardService = cardService;
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Result<IEnumerable<CardDto>>>> GetAll(CancellationToken cancellationToken = default)
+        {
+            var cards = await _cardService.GetAllAsync(cancellationToken);
+            return Ok(Result.Success(cards));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Result<CardDto>>> GetById(int id, CancellationToken cancellationToken = default)
+        {
+            var card = await _cardService.GetByIdAsync(id, cancellationToken);
+            return Ok(Result.Success(card));
+        }
+
+        [HttpGet("employee/{employeeId}")]
+        public async Task<ActionResult<Result<IEnumerable<CardDto>>>> GetByEmployeeId(int employeeId, CancellationToken cancellationToken = default)
+        {
+            var cards = await _cardService.GetByEmployeeIdAsync(employeeId, cancellationToken);
+            return Ok(Result.Success(cards));
+        }
+
+        [HttpGet("hash/{cardHash}")]
+        public async Task<ActionResult<Result<CardDto>>> GetByCardHash(string cardHash, CancellationToken cancellationToken = default)
+        {
+            var card = await _cardService.GetByHashAsync(cardHash, cancellationToken);
+            return Ok(Result.Success(card));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Result<CardDto>>> Create([FromBody] CreateCardReq request, CancellationToken cancellationToken = default)
+        {
+            var card = await _cardService.CreateAsync(request, cancellationToken);
+            return CreatedAtAction(nameof(GetById), new { id = card.Id }, Result.Success(card));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result<CardDto>>> Update(int id, [FromBody] UpdateCardReq request, CancellationToken cancellationToken = default)
+        {
+            if (id != request.Id)
+            {
+                var error = new Error("ID в URL не соответствует ID в теле запроса");
+                return BadRequest(Result.Failure(error));
+            }
+
+            await _cardService.UpdateAsync(request, cancellationToken);
+            var updatedCard = await _cardService.GetByIdAsync(id, cancellationToken);
+            return Ok(Result.Success(updatedCard));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id, CancellationToken cancellationToken = default)
+        {
+            await _cardService.DeleteAsync(id, cancellationToken);
+            return Ok(Result.Success());
+        }
+    }
+} 

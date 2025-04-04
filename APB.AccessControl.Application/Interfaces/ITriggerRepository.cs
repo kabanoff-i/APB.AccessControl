@@ -7,6 +7,7 @@ namespace APB.AccessControl.Application.Interfaces
 {
     public interface ITriggerRepository : IRepository<Trigger, int>
     {
-        Task<IEnumerable<Trigger>> GetTriggersForAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Trigger>> GetByAccessPointAsync(int accessPointId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Trigger>> GetByActionTypeAsync(int actionTypeId, CancellationToken cancellationToken = default);
     }
 }

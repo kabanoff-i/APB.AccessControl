@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
+using APB.AccessControl.Domain.Exceptions;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -54,6 +55,16 @@ namespace APB.AccessControl.Application.Services
                 var logs = await _accessLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessLogDto>>(logs);
             }, nameof(GetLogsByFilterAsync));
+        }
+
+        public async Task<AccessLogDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
+            {
+                var accessLog = await _accessLogRepository.GetByIdAsync(id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessLog), nameof(AccessLog.Id), id);
+                return _mapper.Map<AccessLogDto>(accessLog);
+            }, nameof(GetByIdAsync));
         }
     }
 }

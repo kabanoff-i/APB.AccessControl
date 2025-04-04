@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Application.Services;
 using APB.AccessControl.DataAccess;
+using APB.AccessControl.Application.Common;
+using APB.AccessControl.DataAccess.Common;
+using System.Reflection;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,15 +16,15 @@ builder.Services.AddDbContext<AccessControlDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //services
-builder.Services.AddScoped<IAccessCheckService, AccessCheckService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IAccessPointService, AccessPointService>();
-builder.Services.AddScoped<IAccessGroupService, AccessGroupService>();
-builder.Services.AddScoped<IAccessRuleService, AccessRuleService>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<ITriggerService, TriggerService>();
-builder.Services.AddScoped<IAccessLogService, AccessLogService>();
-builder.Services.AddScoped<IAccessTriggerLogService, AccessTriggerLogService>();
+builder.Services.AddApplicationServices();
+
+using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+ILogger logger = factory.CreateLogger("Program");
+
+//repositories
+builder.Services.AddRepositories();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +42,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 //app.UseAuthorization();
+
+//add error handling
+app.ConfigureExceptionHandler(logger);
 
 app.MapControllers();
 

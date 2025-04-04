@@ -10,7 +10,6 @@ namespace APB.AccessControl.Application.Interfaces
 {
     public interface IAccessTriggerLogRepository : IRepository<AccessTriggerLog, Guid>
     {
-        Task<IEnumerable<AccessTriggerLog>> GetByAccessLogAsync(int accessLogId, CancellationToken cancellationToken = default);
         Task<IEnumerable<AccessTriggerLog>> GetByFilterAsync(IFilter<AccessTriggerLog> filter, CancellationToken cancellationToken = default);
     }
 }

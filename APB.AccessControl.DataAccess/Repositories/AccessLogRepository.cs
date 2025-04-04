@@ -23,7 +23,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessLog>> GetByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessLogs
                     .Where(al => al.EmployeeId == employeeId)
@@ -36,7 +36,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessLog>> GetByAccessPointIdAsync(int accessPointId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessLogs
                     .Where(al => al.AccessPointId == accessPointId)
@@ -49,7 +49,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessLog>> GetByFilterAsync(IFilter<AccessLog> filter, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 var query = _context.AccessLogs.AsQueryable();
 
@@ -66,7 +66,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessLog?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessLogs
                     .Include(al => al.Employee)
@@ -78,7 +78,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessLog>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessLogs
                     .Include(al => al.Employee)
@@ -91,7 +91,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessLog?> AddAsync(AccessLog entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.AccessLogs.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -119,7 +119,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessLogs.AnyAsync(al => al.Id == id, cancellationToken);
             }, nameof(ExistsAsync), id);

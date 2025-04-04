@@ -12,6 +12,6 @@ namespace APB.AccessControl.Application.Services.Interfaces
     /// </summary>
     public interface ITriggerService : IService<CreateTriggerReq, UpdateTriggerReq, int, TriggerDto>
     {
-        Task ExecuteTriggersAsync(Guid accessLogId, CancellationToken cancellationToken = default);
+        // Task ExecuteTriggersAsync(Guid accessLogId, CancellationToken cancellationToken = default);
     }
 }

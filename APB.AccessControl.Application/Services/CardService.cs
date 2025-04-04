@@ -88,7 +88,7 @@ namespace APB.AccessControl.Application.Services
             }, nameof(UpdateAsync));
         }
 
-        public async Task<CardDto> GetCardByHashAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<CardDto> GetByHashAsync(string hash, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
@@ -96,10 +96,10 @@ namespace APB.AccessControl.Application.Services
                     ?? throw new NotFoundException(nameof(Card), "Hash", hash);
 
                 return _mapper.Map<CardDto>(repResponse);
-            }, nameof(GetCardByHashAsync));
+            }, nameof(GetByHashAsync));
         }
 
-        public async Task<IEnumerable<CardDto>> GetCardsByEmployeeAsync(int employeeId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CardDto>> GetByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
@@ -109,7 +109,7 @@ namespace APB.AccessControl.Application.Services
                 var response = _mapper.Map<IEnumerable<CardDto>>(repRes);
 
                 return response;
-            }, nameof(GetCardsByEmployeeAsync));
+            }, nameof(GetByEmployeeIdAsync));
         }
     }
 }

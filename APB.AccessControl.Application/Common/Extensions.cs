@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Domain.Exceptions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+using APB.AccessControl.Application.Services.Interfaces;
+using APB.AccessControl.Application.Services;
 
 namespace APB.AccessControl.Application.Common
 {
@@ -88,7 +91,7 @@ namespace APB.AccessControl.Application.Common
             }
         }
         
-        public static async Task<T> HandleRepositoryExceptionAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName, object key)
+        public static async Task<T> HandleRepositoryOperationAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName, object key)
         {
             try
             {
@@ -101,7 +104,7 @@ namespace APB.AccessControl.Application.Common
             }
         }
 
-        public static async Task<T> HandleRepositoryExceptionAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName)
+        public static async Task<T> HandleRepositoryOperationAsync<T>(this ILogger logger, Func<Task<T>> operation, string operationName)
         {
             try
             {

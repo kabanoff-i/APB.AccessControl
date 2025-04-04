@@ -17,17 +17,18 @@ namespace APB.AccessControl.DataAccess
         public DbSet<AccessGroup> AccessGroups { get; set; }
         public DbSet<AccessRule> AccessRules { get; set; }
         public DbSet<AccessGrid> AccessGrids { get; set; }
+        public DbSet<AccessPointType> AccessPointTypes { get; set; }
 
-        //public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options) 
-        //    : base(options)
-        //{
-        //    Database.EnsureCreated();
-        //}
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AccessControlDb;Username=postgres;Password=mysecretpassword");
+            Database.EnsureCreated();
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AccessControlDb;Username=postgres;Password=mysecretpassword");
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

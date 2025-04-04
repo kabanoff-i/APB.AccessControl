@@ -1,3 +1,4 @@
+using APB.AccessControl.Application.Filters;
 using APB.AccessControl.Application.Interfaces;
 using APB.AccessControl.Application.Services;
 using APB.AccessControl.Domain.Entities;
@@ -250,7 +251,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 }
             };
 
-            _mockRepository.Setup(r => r.GetActiveNotificationsByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(notifications);
+            _mockRepository.Setup(r => r.GetByFilter(new NotificationFilter() { AccessPointId = accessPointId }, It.IsAny<CancellationToken>())).ReturnsAsync(notifications);
             _mockMapper.Setup(m => m.Map<IEnumerable<NotificationDto>>(notifications)).Returns(notificationDtos);
 
             // Act
@@ -258,7 +259,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             // Assert
             Assert.Equal(notificationDtos, result);
-            _mockRepository.Verify(r => r.GetActiveNotificationsByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.GetByFilter(new NotificationFilter() { AccessPointId = accessPointId }, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -302,7 +303,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 }
             };
 
-            _mockRepository.Setup(r => r.GetActiveNotificationsByEmployeeAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(notifications);
+            _mockRepository.Setup(r => r.GetByFilter(new NotificationFilter() { EmployeeId = employeeId}, It.IsAny<CancellationToken>())).ReturnsAsync(notifications);
             _mockMapper.Setup(m => m.Map<IEnumerable<NotificationDto>>(notifications)).Returns(notificationDtos);
 
             // Act
@@ -310,7 +311,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             // Assert
             Assert.Equal(notificationDtos, result);
-            _mockRepository.Verify(r => r.GetActiveNotificationsByEmployeeAsync(employeeId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepository.Verify(r => r.GetByFilter(new NotificationFilter() { EmployeeId = employeeId }, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

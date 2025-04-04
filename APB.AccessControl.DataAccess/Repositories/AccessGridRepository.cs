@@ -24,7 +24,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessGrid> AddAsync(AccessGrid entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.AccessGrids.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -43,7 +43,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(int employeeId, int accessGroupId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGrids.AnyAsync(x => x.EmployeeId == employeeId && x.AccessGroupId == accessGroupId, cancellationToken);
             }, nameof(ExistsAsync), new {employeeId, accessGroupId});
@@ -51,7 +51,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessGrid>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGrids
                     .Include(x => x.Employee)
@@ -62,7 +62,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessGrid?> GetByIdAsync(int employeeId, int accessGroupId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGrids
                     .Include(x => x.Employee)
@@ -73,7 +73,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessGrid>> GetByEmployeeIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGrids
                     .Include(x => x.Employee)
@@ -85,7 +85,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessGrid>> GetByAccessGroupIdAsync(int accessGroupId, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGrids
                     .Include(x => x.Employee)

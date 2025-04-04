@@ -206,7 +206,7 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockMapper.Setup(m => m.Map<CardDto>(card)).Returns(cardDto);
 
             // Act
-            var result = await _service.GetCardByHashAsync(hash);
+            var result = await _service.GetByHashAsync(hash);
 
             // Assert
             Assert.Equal(cardDto, result);
@@ -221,7 +221,7 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockRepository.Setup(r => r.GetByHashAsync(hash, It.IsAny<CancellationToken>())).ReturnsAsync((Card)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetCardByHashAsync(hash));
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetByHashAsync(hash));
         }
 
         [Fact]
@@ -245,7 +245,7 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockMapper.Setup(m => m.Map<IEnumerable<CardDto>>(cards)).Returns(cardDtos);
 
             // Act
-            var result = await _service.GetCardsByEmployeeAsync(employeeId);
+            var result = await _service.GetByEmployeeIdAsync(employeeId);
 
             // Assert
             Assert.Equal(cardDtos, result);
@@ -260,7 +260,7 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockRepository.Setup(r => r.GetAllByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync((IEnumerable<Card>)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetCardsByEmployeeAsync(employeeId));
+            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetByEmployeeIdAsync(employeeId));
         }
     }
 } 

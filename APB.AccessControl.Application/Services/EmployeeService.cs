@@ -76,6 +76,11 @@ namespace APB.AccessControl.Application.Services
             }, nameof(GetAllAsync));
         }
 
+        public async Task<EmployeeDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await GetEmployeeByIdAsync(id, cancellationToken);
+        }
+
         public async Task<EmployeeDto> GetEmployeeByIdAsync(int employeeId, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>

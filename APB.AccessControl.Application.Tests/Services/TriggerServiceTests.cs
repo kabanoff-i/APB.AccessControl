@@ -225,7 +225,7 @@ namespace APB.AccessControl.Application.Tests.Services
             };
 
             _mockAccessLogRepository.Setup(r => r.GetByIdAsync(accessLogId, It.IsAny<CancellationToken>())).ReturnsAsync(accessLog);
-            _mockTriggerRepository.Setup(r => r.GetTriggersForAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(triggers);
+            _mockTriggerRepository.Setup(r => r.GetByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(triggers);
             
             _mockTriggerExecuter.Setup(e => e.ExecuteAsync(It.IsAny<Trigger>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
             _mockAccessTriggerLogService.Setup(s => s.LogAccessTriggerExecutionAsync(It.IsAny<CreateAccessTriggerLogReq>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(new AccessTriggerLogDto()));
@@ -235,7 +235,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             // Assert
             _mockAccessLogRepository.Verify(r => r.GetByIdAsync(accessLogId, It.IsAny<CancellationToken>()), Times.Once);
-            _mockTriggerRepository.Verify(r => r.GetTriggersForAccessPointAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockTriggerRepository.Verify(r => r.GetByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
             
             // Verify each trigger was executed and logged
             _mockTriggerExecuter.Verify(e => e.ExecuteAsync(It.IsAny<Trigger>(), It.IsAny<CancellationToken>()), Times.Exactly(triggers.Count));
@@ -256,7 +256,7 @@ namespace APB.AccessControl.Application.Tests.Services
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() => _service.ExecuteTriggersAsync(accessLogId));
             
-            _mockTriggerRepository.Verify(r => r.GetTriggersForAccessPointAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+            _mockTriggerRepository.Verify(r => r.GetByAccessPointAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
             _mockTriggerExecuter.Verify(e => e.ExecuteAsync(It.IsAny<Trigger>(), It.IsAny<CancellationToken>()), Times.Never);
             _mockAccessTriggerLogService.Verify(s => s.LogAccessTriggerExecutionAsync(It.IsAny<CreateAccessTriggerLogReq>(), It.IsAny<CancellationToken>()), Times.Never);
         }
@@ -278,14 +278,14 @@ namespace APB.AccessControl.Application.Tests.Services
             var emptyTriggers = new List<Trigger>();
 
             _mockAccessLogRepository.Setup(r => r.GetByIdAsync(accessLogId, It.IsAny<CancellationToken>())).ReturnsAsync(accessLog);
-            _mockTriggerRepository.Setup(r => r.GetTriggersForAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(emptyTriggers);
+            _mockTriggerRepository.Setup(r => r.GetByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>())).ReturnsAsync(emptyTriggers);
 
             // Act
             await _service.ExecuteTriggersAsync(accessLogId);
 
             // Assert
             _mockAccessLogRepository.Verify(r => r.GetByIdAsync(accessLogId, It.IsAny<CancellationToken>()), Times.Once);
-            _mockTriggerRepository.Verify(r => r.GetTriggersForAccessPointAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockTriggerRepository.Verify(r => r.GetByAccessPointAsync(accessPointId, It.IsAny<CancellationToken>()), Times.Once);
             
             // Verify no triggers were executed or logged
             _mockTriggerExecuter.Verify(e => e.ExecuteAsync(It.IsAny<Trigger>(), It.IsAny<CancellationToken>()), Times.Never);

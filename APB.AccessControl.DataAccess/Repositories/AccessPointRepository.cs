@@ -26,7 +26,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessPoint?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessPoints
                     .Include(ap => ap.AccessPointType)
@@ -36,7 +36,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessPoint>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessPoints
                     .Include(ap => ap.AccessPointType)
@@ -46,7 +46,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessPoint?> AddAsync(AccessPoint entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.AccessPoints.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -74,7 +74,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessPoints.AnyAsync(ap => ap.Id == id, cancellationToken);
             }, nameof(ExistsAsync), id);

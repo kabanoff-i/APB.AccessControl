@@ -26,7 +26,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessRule?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessRules
                     .Include(ar => ar.AccessGroup)
@@ -37,7 +37,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessRule>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessRules
                     .Include(ar => ar.AccessGroup)
@@ -48,7 +48,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessRule?> AddAsync(AccessRule entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.AccessRules.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -76,7 +76,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessRules.AnyAsync(ar => ar.Id == id, cancellationToken);
             }, nameof(ExistsAsync), id);
@@ -84,7 +84,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessRule>> GetByFilterAsync(IFilter<AccessRule> filter, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 var query = _context.AccessRules.AsQueryable();
 

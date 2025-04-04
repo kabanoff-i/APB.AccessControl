@@ -26,7 +26,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessGroup> AddAsync(AccessGroup entity, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 await _context.AccessGroups.AddAsync(entity, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -45,7 +45,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGroups.AnyAsync(g => g.Id == id, cancellationToken);
             }, nameof(ExistsAsync), id);
@@ -53,7 +53,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<IEnumerable<AccessGroup>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGroups.ToListAsync(cancellationToken);
             }, nameof(GetAllAsync));
@@ -61,7 +61,7 @@ namespace APB.AccessControl.DataAccess.Repositories
 
         public async Task<AccessGroup?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _logger.HandleRepositoryExceptionAsync(async () =>
+            return await _logger.HandleRepositoryOperationAsync(async () =>
             {
                 return await _context.AccessGroups.FindAsync(new object[] { id }, cancellationToken);
             }, nameof(GetByIdAsync), id);

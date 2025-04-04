@@ -75,6 +75,15 @@ namespace APB.AccessControl.Application.Services
             }, nameof(GetAllAsync));
         }
 
+        public async Task<AccessGroupDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
+            {
+                var repRes = await _accessGroupRepository.GetByIdAsync(id, cancellationToken);
+                return _mapper.Map<AccessGroupDto>(repRes);
+            }, nameof(GetByIdAsync));
+        }
+
         public async Task UpdateAsync(UpdateGroupReq request, CancellationToken cancellationToken = default)
         {
             await _logger.HandleOperationAsync(async () =>
