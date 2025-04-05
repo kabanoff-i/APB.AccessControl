@@ -140,14 +140,14 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessGroupRepository.ExistsAsync(request.GroupId, cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.GroupId);
+                if (!await _accessGroupRepository.ExistsAsync(request.AccessGroupId, cancellationToken))
+                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.AccessGroupId);
 
                 if (!await _employeeRepository.ExistsAsync(request.EmployeeId, cancellationToken))
                     throw new NotFoundException(nameof(Employee), nameof(Employee.Id), request.EmployeeId);
 
-                var accessGrid = await _accessGridRepository.GetByIdAsync(request.EmployeeId, request.GroupId, cancellationToken)
-                    ?? throw new NotFoundException(nameof(AccessGrid), $"{nameof(AccessGrid.EmployeeId)}, {nameof(AccessGrid.AccessGroupId)}", $"{request.EmployeeId}, {request.GroupId}");
+                var accessGrid = await _accessGridRepository.GetByIdAsync(request.EmployeeId, request.AccessGroupId, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessGrid), $"{nameof(AccessGrid.EmployeeId)}, {nameof(AccessGrid.AccessGroupId)}", $"{request.EmployeeId}, {request.AccessGroupId}");
                 
                 await _accessGridRepository.DeleteAsync(accessGrid, cancellationToken);
             }, nameof(RemoveEmployeeFromGroupAsync));

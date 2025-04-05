@@ -4,6 +4,7 @@ using System.Collections;
 using APB.AccessControl.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APB.AccessControl.DataAccess.Migrations
 {
     [DbContext(typeof(AccessControlDbContext))]
-    partial class AccessControlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250404210613_fix")]
+    partial class fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +103,7 @@ namespace APB.AccessControl.DataAccess.Migrations
                     b.Property<DateTime>("DateAccess")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Message")
@@ -462,7 +465,8 @@ namespace APB.AccessControl.DataAccess.Migrations
                     b.HasOne("APB.AccessControl.Domain.Entities.Employee", "Employee")
                         .WithMany("AccessLogs")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AccessPoint");
 

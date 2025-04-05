@@ -86,7 +86,7 @@ namespace APB.AccessControl.Application.Services
             if (!string.IsNullOrEmpty(rule.SpecificDates))
             {
                 var specificDates = rule.SpecificDates.DeserializeJson<DateTime[]>();
-                if (!specificDates.Any(d => d.Date == request.DateAccess.Date))
+                if (specificDates.Any(d => d.Date == request.DateAccess.Date))
                     return false;
             }
 
@@ -232,6 +232,7 @@ namespace APB.AccessControl.Application.Services
                 await _accessLogService.LogAccessAttemptAsync(new CreateAccessLogReq
                 {
                     CardId = card.Id,
+                    CardHash = request.CardHash,
                     EmployeeId = card.EmployeeId,
                     AccessPointId = request.AcсessPointId,
                     DateAccess = request.DateAccess,

@@ -1,4 +1,5 @@
 using APB.AccessControl.Application.Services.Interfaces;
+using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
@@ -77,16 +78,28 @@ namespace AccessControl.WebApi.Controllers
             return Ok(Result.Success());
         }
 
-        [HttpPost("{request.GroupId}/employees/{request.EmployeeId}")]
-        public async Task<ActionResult<Result>> AddEmployeeToGroup(AddEmployeeToGroupReq request, CancellationToken cancellationToken = default)
+        [HttpPost("{AccessGroupId}/employees/{EmployeeId}")]
+        public async Task<ActionResult<Result>> AddEmployeeToGroup(int AccessGroupId, int EmployeeId, CancellationToken cancellationToken = default)
         {
+            var request = new AddEmployeeToGroupReq
+            {
+                AccessGroupId = AccessGroupId,
+                EmployeeId = EmployeeId
+            };
+
             await _accessGroupService.AddEmployeeToGroupAsync(request, cancellationToken);
             return Ok(Result.Success());
         }
 
-        [HttpDelete("{request.GroupId}/employees/{request.EmployeeId}")]
-        public async Task<ActionResult<Result>> RemoveEmployeeFromGroup(RemoveEmployeeFromGroupReq request, CancellationToken cancellationToken = default)
+        [HttpDelete("{AccessGroupId}/employees/{EmployeeId}")]
+        public async Task<ActionResult<Result>> RemoveEmployeeFromGroup(int AccessGroupId, int EmployeeId, CancellationToken cancellationToken = default)
         {
+            var request = new RemoveEmployeeFromGroupReq
+            {
+                AccessGroupId = AccessGroupId,
+                EmployeeId = EmployeeId
+            };
+
             await _accessGroupService.RemoveEmployeeFromGroupAsync(request, cancellationToken);
             return Ok(Result.Success());
         }

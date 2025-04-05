@@ -18,13 +18,13 @@ builder.Services.AddDbContext<AccessControlDbContext>(options =>
 //services
 builder.Services.AddApplicationServices();
 
+builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(APB.AccessControl.Application.MappingProfiles.EmployeeProfile)));
+
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 ILogger logger = factory.CreateLogger("Program");
 
 //repositories
 builder.Services.AddRepositories();
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

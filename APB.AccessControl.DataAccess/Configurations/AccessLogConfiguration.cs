@@ -15,7 +15,11 @@ namespace APB.AccessControl.DataAccess.Configurations
                 .IsRequired()
                 .HasMaxLength(256);
 
-            builder.Property(al => al.EmployeeId);
+            builder.Property(al => al.EmployeeId)
+                .IsRequired(false);
+
+            builder.Property(al => al.CardId)
+                .IsRequired(false);
 
             builder.Property(al => al.AccessPointId);
 
@@ -39,23 +43,24 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.Property(al => al.UpdatedAt)
                 .IsRequired();
 
-            builder.HasIndex(al => al.CardHash)
-                .IsUnique();
+            builder.HasIndex(al => al.CardHash);
 
             builder.HasOne(al => al.Card)
                 .WithMany(c => c.AccessLogs)
                 .HasForeignKey(al => al.CardId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             builder.HasOne(al => al.Employee)
                 .WithMany(e => e.AccessLogs)
                 .HasForeignKey(al => al.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             builder.HasOne(al => al.AccessPoint)
                 .WithMany(ap => ap.AccessLogs)
                 .HasForeignKey(al => al.AccessPointId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 } 

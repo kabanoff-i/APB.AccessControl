@@ -289,12 +289,12 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task RemoveEmployeeFromGroupAsync_ShouldCallRepositoryRemoveEmployeeFromGroupAsync_WhenBothExist()
         {
             // Arrange
-            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 1, GroupId = 1 };
-            var accessGrid = new AccessGrid { EmployeeId = request.EmployeeId, AccessGroupId = request.GroupId , IsActive = true };
+            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 1, AccessGroupId = 1 };
+            var accessGrid = new AccessGrid { EmployeeId = request.EmployeeId, AccessGroupId = request.AccessGroupId , IsActive = true };
 
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _mockAccessGridRepository.Setup(r => r.GetByIdAsync(request.EmployeeId, request.GroupId, It.IsAny<CancellationToken>())).ReturnsAsync(accessGrid);
+            _mockAccessGridRepository.Setup(r => r.GetByIdAsync(request.EmployeeId, request.AccessGroupId, It.IsAny<CancellationToken>())).ReturnsAsync(accessGrid);
 
             // Act
             await _service.RemoveEmployeeFromGroupAsync(request);
@@ -307,7 +307,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task RemoveEmployeeFromGroupAsync_ShouldThrowNotFoundException_WhenGroupDoesNotExist()
         {
             // Arrange
-            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 1, GroupId = 999 };
+            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 1, AccessGroupId = 999 };
             
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(999, It.IsAny<CancellationToken>())).ReturnsAsync(false);
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
@@ -321,7 +321,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task RemoveEmployeeFromGroupAsync_ShouldThrowNotFoundException_WhenEmployeeDoesNotExist()
         {
             // Arrange
-            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 999, GroupId = 1 };
+            var request = new RemoveEmployeeFromGroupReq { EmployeeId = 999, AccessGroupId = 1 };
             
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(999, It.IsAny<CancellationToken>())).ReturnsAsync(false);

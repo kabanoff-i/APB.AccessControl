@@ -25,6 +25,8 @@ namespace APB.AccessControl.Application.Common
             services.AddScoped<ITriggerService, TriggerService>();
             services.AddScoped<IAccessLogService, AccessLogService>();
             services.AddScoped<IAccessTriggerLogService, AccessTriggerLogService>();
+            services.AddScoped<ICardService, CardService>();
+
             return services;
         }
     }

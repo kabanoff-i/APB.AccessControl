@@ -10,7 +10,7 @@ namespace APB.AccessControl.Domain.Entities
         public Guid Id { get; set; }
         public int? CardId { get; set; }
         public string CardHash { get; set; }
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         public int AccessPointId { get; set; }
         public DateTime DateAccess { get; set; }
         public AccessResult AccessResult { get; set; }
