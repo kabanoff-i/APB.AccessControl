@@ -2,12 +2,15 @@ using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccessControl.WebApi.Controllers
+namespace APB.AccessControl.WebApi.Controllers
 {
+    [Authorize(Roles = "Admin,")]
+
     [ApiController]
     [Route("api/[controller]")]
     public class AccessCheckController : ControllerBase

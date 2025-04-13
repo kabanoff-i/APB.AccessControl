@@ -25,9 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1B7B493A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.Application.Tests", "APB.AccessControl.Application.Tests\APB.AccessControl.Application.Tests.csproj", "{EAE3F262-4261-420F-802D-7751E70CE51D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControl.WebApi", "AccessControl.WebApi\AccessControl.WebApi.csproj", "{6FD6D7FA-FC22-4D9B-A7AA-C7CFA67996C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.WebApi", "APB.AccessControl.WebApi\APB.AccessControl.WebApi.csproj", "{6FD6D7FA-FC22-4D9B-A7AA-C7CFA67996C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControl.ClientApp", "AccessControl.ClientApp\AccessControl.ClientApp.csproj", "{2C75AA76-ECD9-4852-8340-BE1CC7FAA15A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APB.AccessControl.ClientApp", "APB.AccessControl.ClientApp\APB.AccessControl.ClientApp.csproj", "{2C75AA76-ECD9-4852-8340-BE1CC7FAA15A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,6 +5,9 @@ using APB.AccessControl.DataAccess;
 using APB.AccessControl.Application.Common;
 using APB.AccessControl.DataAccess.Common;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
+using APB.AccessControl.DataAccess.Identity;
+using APB.AccessControl.WebApi.Services;
 
 
 
@@ -26,6 +29,13 @@ ILogger logger = factory.CreateLogger("Program");
 //repositories
 builder.Services.AddRepositories();
 
+//auth 
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddIdentity<AppUser, AppRole>()
+    .AddEntityFrameworkStores<AccessControlDbContext>()
+    .AddDefaultTokenProviders();
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -41,7 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 //add error handling
 app.ConfigureExceptionHandler(logger);

@@ -1,0 +1,6 @@
+@APB.AccessControl.WebApi_HostAddress = http://localhost:5150
+
+GET {{APB.AccessControl.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

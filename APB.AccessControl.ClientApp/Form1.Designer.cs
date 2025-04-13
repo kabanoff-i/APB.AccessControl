@@ -1,4 +1,4 @@
-﻿namespace AccessControl.ClientApp
+﻿namespace APB.AccessControl.ClientApp
 {
     partial class Form1
     {

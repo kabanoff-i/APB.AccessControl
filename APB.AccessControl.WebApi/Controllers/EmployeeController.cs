@@ -9,10 +9,12 @@ using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models.Common;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 
-namespace AccessControl.WebApi.Controllers
+namespace APB.AccessControl.WebApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase

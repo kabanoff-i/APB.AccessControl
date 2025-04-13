@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AccessControl.ClientApp
+namespace APB.AccessControl.ClientApp
 {
     internal static class Program
     {

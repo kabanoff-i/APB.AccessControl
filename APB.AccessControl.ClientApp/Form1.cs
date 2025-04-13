@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-using AccessControl.ClientApp.Services;
+using APB.AccessControl.ClientApp.Services;
 using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models.Common;
 
-namespace AccessControl.ClientApp
+namespace APB.AccessControl.ClientApp
 {
     public partial class Form1 : DevExpress.XtraBars.FluentDesignSystem.FluentDesignForm
     {

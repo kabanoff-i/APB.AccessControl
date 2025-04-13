@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AccessControl.WebApi.Controllers
+namespace APB.AccessControl.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

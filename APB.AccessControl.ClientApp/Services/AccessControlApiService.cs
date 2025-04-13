@@ -8,7 +8,7 @@ using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models;
 using APB.AccessControl.Shared.Models.Common;
 
-namespace AccessControl.ClientApp.Services
+namespace APB.AccessControl.ClientApp.Services
 {
     public class AccessControlApiService
     {

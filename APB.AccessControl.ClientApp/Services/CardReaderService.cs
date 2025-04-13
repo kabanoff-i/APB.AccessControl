@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using APB.SV.CardData;
 
-namespace AccessControl.ClientApp.Services
+namespace APB.AccessControl.ClientApp.Services
 {
     public class CardReaderService
     {

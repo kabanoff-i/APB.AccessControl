@@ -3,10 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using APB.AccessControl.DataAccess.Configurations;
 using APB.AccessControl.Domain.Abstractions;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using APB.AccessControl.DataAccess.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace APB.AccessControl.DataAccess
 {
-    public class AccessControlDbContext : DbContext
+    public class AccessControlDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Card> Cards { get; set; }

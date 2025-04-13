@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AccessControl.WebApi/AccessControl.WebApi.csproj", "AccessControl.WebApi/"]
-RUN dotnet restore "./AccessControl.WebApi/AccessControl.WebApi.csproj"
+COPY ["APB.AccessControl.WebApi/APB.AccessControl.WebApi.csproj", "APB.AccessControl.WebApi/"]
+RUN dotnet restore "./APB.AccessControl.WebApi/APB.AccessControl.WebApi.csproj"
 COPY . .
-WORKDIR "/src/AccessControl.WebApi"
-RUN dotnet build "./AccessControl.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/APB.AccessControl.WebApi"
+RUN dotnet build "./APB.AccessControl.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AccessControl.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./APB.AccessControl.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AccessControl.WebApi.dll"]
+ENTRYPOINT ["dotnet", "APB.AccessControl.WebApi.dll"]
