@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using APB.AccessControl.Application.Filters;
 
 namespace APB.AccessControl.Application.Services
-{
+{   
     public class AccessRuleService : IAccessRuleService
     {
         private readonly IAccessRuleRepository _accessRuleRepository;

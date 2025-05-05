@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="APB.SV.CardData">
-      <HintPath>APB.SV.CardData.dll</HintPath>
+      <HintPath>..\APB.SV.CardData.dll</HintPath>
     </Reference>
   </ItemGroup>
 

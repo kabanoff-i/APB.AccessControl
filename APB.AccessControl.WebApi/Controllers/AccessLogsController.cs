@@ -3,6 +3,7 @@ using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AccessLogsController : ControllerBase

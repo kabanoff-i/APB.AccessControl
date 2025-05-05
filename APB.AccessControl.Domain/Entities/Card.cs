@@ -7,6 +7,7 @@ namespace APB.AccessControl.Domain.Entities
     {
         public int Id { get; set; }
         public string Hash { get; set; }
+        public string MaskPan { get; set; }
         public int EmployeeId { get; set; }
         public bool IsActive { get; set; }
 

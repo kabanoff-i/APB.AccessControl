@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
-    [Authorize(Roles = "Admin,")]
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AccessCheckController : ControllerBase

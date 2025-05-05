@@ -4,5 +4,6 @@
     {
         public int EmployeeId { get; set; }
         public string Hash { get; set; }
+        public string MaskPan { get; set; }
     }
 }

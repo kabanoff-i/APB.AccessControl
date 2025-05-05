@@ -4,7 +4,6 @@ using APB.AccessControl.DataAccess.Configurations;
 using APB.AccessControl.Domain.Abstractions;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using APB.AccessControl.DataAccess.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace APB.AccessControl.DataAccess
@@ -29,10 +28,10 @@ namespace APB.AccessControl.DataAccess
             Database.EnsureCreated();
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AccessControlDb;Username=postgres;Password=mysecretpassword");
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AccessControlDb;Username=postgres;Password=mysecretpassword");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +79,8 @@ namespace APB.AccessControl.DataAccess
             foreach (var entity in modifiedEntities)
             {
                 entity.Entity.UpdatedAt = DateTime.UtcNow;
+                
+                entity.Property(x => x.CreatedAt).IsModified = false;
             }
 
             foreach (var entity in addedEntities)
