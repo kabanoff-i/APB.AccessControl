@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using static APB.AccessControl.Application.Common.Extensions;
-using System.Resources;
+using APB.AccessControl.Application.Validators;
+using FluentValidation;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -24,13 +25,16 @@ namespace APB.AccessControl.Application.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<AccessGroupService> _logger;
+        private readonly AccessGroupValidator _accessGroupValidator;
 
         public AccessGroupService(
             IAccessGroupRepository accessGroupRepository, 
             IMapper mapper, 
             IEmployeeRepository employeeRepository,
             IAccessGridRepository accessGridRepository,
-            ILogger<AccessGroupService> logger)
+            ILogger<AccessGroupService> logger,
+            AccessGroupValidator accessGroupValidator
+            )
         {
             _accessGroupRepository = accessGroupRepository
                 ?? throw new ArgumentNullException(nameof(accessGroupRepository));
@@ -42,6 +46,8 @@ namespace APB.AccessControl.Application.Services
                 ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger
                 ?? throw new ArgumentNullException(nameof(logger));
+            _accessGroupValidator = accessGroupValidator
+                ?? throw new ArgumentNullException(nameof(accessGroupValidator));
         }
 
         #region CRUD
@@ -88,10 +94,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessGroupRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.Id);
+                var repReq = await _accessGroupRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessGroup), nameof(AccessGroup.Id), request.Id);
 
-                var repReq = _mapper.Map<AccessGroup>(request);
+                _mapper.Map(request, repReq);
                 await _accessGroupRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
         }

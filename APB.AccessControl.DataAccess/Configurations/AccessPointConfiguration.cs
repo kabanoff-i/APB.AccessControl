@@ -30,6 +30,9 @@ namespace APB.AccessControl.DataAccess.Configurations
             builder.Property(ap => ap.UpdatedAt)
                 .IsRequired();
 
+            builder.Property(ap => ap.LastHeartbeatAt)
+                .IsRequired(false);
+
             builder.HasOne(ap => ap.AccessPointType)
                 .WithMany()
                 .HasForeignKey(ap => ap.AccessPointTypeId)

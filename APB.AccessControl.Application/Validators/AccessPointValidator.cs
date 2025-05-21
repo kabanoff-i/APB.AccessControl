@@ -1,10 +1,10 @@
 ﻿using APB.AccessControl.Domain.Entities;
 using FluentValidation;
-using static APB.AccessControl.Application.Common.ValidationMessage;
+using static APB.AccessControl.Shared.Utils.ValidationMessage;
 
 namespace APB.AccessControl.Application.Validators
 {
-    internal class AccessPointValidator: AbstractValidator<AccessPoint>
+    public class AccessPointValidator: AbstractValidator<AccessPoint>
     {
         public AccessPointValidator() 
         {

@@ -13,7 +13,8 @@ namespace APB.AccessControl.Application.MappingProfiles
             // Entity to DTO
             CreateMap<Trigger, TriggerDto>()
                 .ForMember(dest => dest.AccessResult, opt => opt.MapFrom(src => (int)src.AccessResult))
-                .ForMember(dest => dest.ActionType, opt => opt.MapFrom(src => (int)src.ActionType));
+                .ForMember(dest => dest.ActionType, opt => opt.MapFrom(src => (int)src.ActionType))
+                .ForMember(dest => dest.AccessPointName, opt => opt.MapFrom(src => src.AccessPoint.Name));
 
             // Request to Entity
             CreateMap<CreateTriggerReq, Trigger>()

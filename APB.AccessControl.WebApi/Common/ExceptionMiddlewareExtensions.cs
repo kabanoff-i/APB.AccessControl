@@ -40,10 +40,25 @@ public static class ExceptionMiddlewareExtensions
                         statusCode = (int)HttpStatusCode.NotFound;
                         error = new Error(notFoundEx.Message);
                     }
+                    else if (exception is AlreadyExistsException alreadyExistsEx)
+                    {
+                        statusCode = (int)HttpStatusCode.Conflict;
+                        error = new Error(alreadyExistsEx.Message);
+                    }
                     else if (exception is ValidationException validationEx)
                     {
                         statusCode = (int)HttpStatusCode.BadRequest;
                         error = new Error(validationEx.Message);
+                    }
+                    else if (exception is InvalidOperationException invalidOpEx)
+                    {
+                        statusCode = (int)HttpStatusCode.BadRequest;
+                        error = new Error(invalidOpEx.Message);
+                    }
+                    else if (exception is RepositoryException repositoryEx)
+                    {
+                        statusCode = (int)HttpStatusCode.InternalServerError;
+                        error = new Error(repositoryEx.Message);
                     }
                     else if (exception is UnauthorizedAccessException)
                     {
@@ -52,7 +67,7 @@ public static class ExceptionMiddlewareExtensions
                     }
                     
                     context.Response.StatusCode = statusCode;
-                    var result = Result.Failure(error);
+                    var result = Result.Failure([error]);
                     
                     await context.Response.WriteAsync(result.SerializeJson());
                 }
@@ -60,68 +75,68 @@ public static class ExceptionMiddlewareExtensions
         });
     }
     
-    public static void ConfigureCustomExceptionHandler(this IApplicationBuilder app, ILogger logger)
-    {
-        app.Use(async (context, next) =>
-        {
-            try
-            {
-                await next();
-            }
-            catch (NotFoundException ex)
-            {
-                var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
-                var path = context.Request.Path;
-                var method = context.Request.Method;
+    //public static void ConfigureCustomExceptionHandler(this IApplicationBuilder app, ILogger logger)
+    //{
+    //    app.Use(async (context, next) =>
+    //    {
+    //        try
+    //        {
+    //            await next();
+    //        }
+    //        catch (NotFoundException ex)
+    //        {
+    //            var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
+    //            var path = context.Request.Path;
+    //            var method = context.Request.Method;
                 
-                logger.LogWarning(ex, 
-                    "Ресурс не найден при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
-                    method, path, traceId);
+    //            logger.LogWarning(ex, 
+    //                "Ресурс не найден при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
+    //                method, path, traceId);
                 
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                context.Response.ContentType = "application/json";
+    //            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+    //            context.Response.ContentType = "application/json";
                 
-                var error = new Error(ex.Message);
-                var result = Result.Failure(error);
+    //            var error = new Error(ex.Message);
+    //            var result = Result.Failure(error);
                 
-                await context.Response.WriteAsync(result.SerializeJson());
-            }
-            catch (ValidationException ex)
-            {
-                var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
-                var path = context.Request.Path;
-                var method = context.Request.Method;
+    //            await context.Response.WriteAsync(result.SerializeJson());
+    //        }
+    //        catch (ValidationException ex)
+    //        {
+    //            var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
+    //            var path = context.Request.Path;
+    //            var method = context.Request.Method;
                 
-                logger.LogWarning(ex, 
-                    "Ошибка валидации при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
-                    method, path, traceId);
+    //            logger.LogWarning(ex, 
+    //                "Ошибка валидации при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
+    //                method, path, traceId);
                 
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Response.ContentType = "application/json";
+    //            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+    //            context.Response.ContentType = "application/json";
                 
-                var error = new Error(ex.Message);
-                var result = Result.Failure(error);
+    //            var error = new Error(ex.Message);
+    //            var result = Result.Failure(error);
                 
-                await context.Response.WriteAsync(result.SerializeJson());
-            }
-            catch (Exception ex)
-            {
-                var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
-                var path = context.Request.Path;
-                var method = context.Request.Method;
+    //            await context.Response.WriteAsync(result.SerializeJson());
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            var traceId = Activity.Current?.Id ?? context.TraceIdentifier;
+    //            var path = context.Request.Path;
+    //            var method = context.Request.Method;
                 
-                logger.LogError(ex, 
-                    "Необработанное исключение при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
-                    method, path, traceId);
+    //            logger.LogError(ex, 
+    //                "Необработанное исключение при обработке запроса {Method} {Path}. TraceId: {TraceId}", 
+    //                method, path, traceId);
                 
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
+    //            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+    //            context.Response.ContentType = "application/json";
                 
-                var error = new Error("Внутренняя ошибка сервера");
-                var result = Result.Failure(error);
+    //            var error = new Error("Внутренняя ошибка сервера");
+    //            var result = Result.Failure(error);
 
-                await context.Response.WriteAsync(result.SerializeJson());
-            }
-        });
-    }
+    //            await context.Response.WriteAsync(result.SerializeJson());
+    //        }
+    //    });
+    //}
 }

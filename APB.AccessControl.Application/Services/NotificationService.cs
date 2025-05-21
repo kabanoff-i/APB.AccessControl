@@ -101,10 +101,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _notificationRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(Notification), nameof(Notification.Id), request.Id);
+                var repReq = await _notificationRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Notification), nameof(Notification.Id), request.Id);
 
-                var repReq = _mapper.Map<Notification>(request);
+                _mapper.Map(request, repReq);
                 await _notificationRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
         }

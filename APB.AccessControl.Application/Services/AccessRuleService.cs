@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using APB.AccessControl.Application.Filters;
+using System.Linq;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.Application.Services
 {   
@@ -79,18 +81,20 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessRuleRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessRule), nameof(AccessRule.Id), request.Id);
+                var repReq = await _accessRuleRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessRule), nameof(AccessRule.Id), request.Id);
 
-                var repReq = _mapper.Map<AccessRule>(request);
+                _mapper.Map(request, repReq);
                 await _accessRuleRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
         }
 
-        public async Task<IEnumerable<AccessRuleDto>> GetByFilterAsync(AccessRuleFilter filter = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AccessRuleDto>> GetByFilterAsync(AccessRuleFilterDto filterDto = default, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
+                var filter = filterDto != null ? _mapper.Map<AccessRuleFilter>(filterDto) : default;
+
                 var repRes = await _accessRuleRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessRuleDto>>(repRes);
             }, nameof(GetByFilterAsync));

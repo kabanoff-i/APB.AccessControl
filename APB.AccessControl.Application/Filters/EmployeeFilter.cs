@@ -10,9 +10,9 @@ namespace APB.AccessControl.Application.Filters
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PatronymicName { get; set; }
-        public byte[] Photo { get; set; }
         public string Department { get; set; }
         public string Position { get; set; }
+        public string PassportNumber { get; set; }
         public bool IsActive { get; set; }
 
         public override Expression<Func<Employee, bool>> GetExpression()
@@ -23,6 +23,7 @@ namespace APB.AccessControl.Application.Filters
                 (string.IsNullOrEmpty(PatronymicName) || p.FirstName.Contains(PatronymicName)) &&
                 (string.IsNullOrEmpty(Department) || p.FirstName.Contains(Department)) &&
                 (string.IsNullOrEmpty(Position) || p.FirstName.Contains(Position)) &&
+                (string.IsNullOrEmpty(PassportNumber) || p.PassportNumber.Contains(PassportNumber)) &&
                 IsActive == p.IsActive
                 );
         }

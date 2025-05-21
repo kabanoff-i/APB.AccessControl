@@ -12,6 +12,7 @@ namespace APB.AccessControl.Application.Interfaces
     {
         Task<Employee> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Employee>> GetByFilterAsync(IFilter<Employee> filter, CancellationToken cancellationToken = default);
+        Task<Employee> GetByPassportNumberAsync(string passportNumber, CancellationToken cancellationToken = default);
 
     }
 }

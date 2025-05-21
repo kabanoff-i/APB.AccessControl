@@ -12,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using APB.AccessControl.Shared.Models.Requests;
 using static APB.AccessControl.Application.Common.Extensions;
+using APB.AccessControl.Application.Filters;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -33,10 +35,12 @@ namespace APB.AccessControl.Application.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<AccessTriggerLogDto>> GetTriggerLogsByFilter(AccessTriggerLogFilter filter = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AccessTriggerLogDto>> GetTriggerLogsByFilter(AccessTriggerLogFilterDto filterDto = null, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
+                var filter = filterDto != null ? _mapper.Map<AccessTriggerLogFilter>(filterDto) : default;
+
                 var repResponse = await _triggerLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessTriggerLogDto>>(repResponse);
             }, nameof(GetTriggerLogsByFilter));

@@ -30,7 +30,7 @@ namespace APB.AccessControl.DataAccess.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(tl => tl.AccessLog)
-                .WithMany()
+                .WithMany(al => al.AccessLogTriggers)
                 .HasForeignKey(tl => tl.AccessLogId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

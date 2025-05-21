@@ -8,7 +8,7 @@ namespace APB.AccessControl.Shared.Models.DTOs
         public int Id { get; set; }
         [DisplayName("Название")]
         public string Name { get; set; }
-        [DisplayName("Описание")]
+        [DisplayName("Активна")]
         public bool IsActive { get; set; }
     }
 }

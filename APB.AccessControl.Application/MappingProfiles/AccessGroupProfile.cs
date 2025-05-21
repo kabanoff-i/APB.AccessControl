@@ -1,3 +1,4 @@
+using System.Security;
 using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
@@ -16,7 +17,11 @@ namespace APB.AccessControl.Application.MappingProfiles
             CreateMap<CreateGroupReq, AccessGroup>()
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
-            CreateMap<UpdateGroupReq, AccessGroup>();
+            CreateMap<UpdateGroupReq, AccessGroup>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive))
+                .ForAllOtherMembers(opt => opt.Ignore());
         }
     }
 } 

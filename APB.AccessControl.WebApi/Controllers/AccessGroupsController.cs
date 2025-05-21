@@ -1,13 +1,12 @@
 using APB.AccessControl.Application.Services.Interfaces;
-using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.WebApi.Validators;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace APB.AccessControl.WebApi.Controllers
 {
@@ -18,11 +17,25 @@ namespace APB.AccessControl.WebApi.Controllers
     {
         private readonly IAccessGroupService _accessGroupService;
         private readonly ILogger<AccessGroupsController> _logger;
+        private readonly CreateGroupReqValidator _createValidator;
+        private readonly UpdateGroupReqValidator _updateValidator;
+        private readonly AddEmployeeToGroupReqValidator _addEmployeeValidator;
+        private readonly RemoveEmployeeFromGroupReqValidator _removeEmployeeValidator;
 
-        public AccessGroupsController(IAccessGroupService accessGroupService, ILogger<AccessGroupsController> logger)
+        public AccessGroupsController(
+            IAccessGroupService accessGroupService, 
+            ILogger<AccessGroupsController> logger,
+            CreateGroupReqValidator createValidator,
+            UpdateGroupReqValidator updateValidator,
+            AddEmployeeToGroupReqValidator addEmployeeValidator,
+            RemoveEmployeeFromGroupReqValidator removeEmployeeValidator)
         {
-            _accessGroupService = accessGroupService;
-            _logger = logger;
+            _accessGroupService = accessGroupService ?? throw new ArgumentNullException(nameof(accessGroupService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
+            _addEmployeeValidator = addEmployeeValidator ?? throw new ArgumentNullException(nameof(addEmployeeValidator));
+            _removeEmployeeValidator = removeEmployeeValidator ?? throw new ArgumentNullException(nameof(removeEmployeeValidator));
         }
 
         [HttpGet]
@@ -56,6 +69,13 @@ namespace APB.AccessControl.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Result<AccessGroupDto>>> Create([FromBody] CreateGroupReq request, CancellationToken cancellationToken = default)
         {
+            ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
+
             var accessGroup = await _accessGroupService.CreateAsync(request, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = accessGroup.Id }, Result.Success(accessGroup));
         }
@@ -66,7 +86,14 @@ namespace APB.AccessControl.WebApi.Controllers
             if (id != request.Id)
             {
                 var error = new Error("ID в URL не соответствует ID в теле запроса");
-                return BadRequest(Result.Failure(error));
+                return BadRequest(Result.Failure([error]));
+            }
+
+            ValidationResult validationResult = await _updateValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
             }
 
             await _accessGroupService.UpdateAsync(request, cancellationToken);
@@ -89,6 +116,13 @@ namespace APB.AccessControl.WebApi.Controllers
                 EmployeeId = EmployeeId
             };
 
+            ValidationResult validationResult = await _addEmployeeValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
+
             await _accessGroupService.AddEmployeeToGroupAsync(request, cancellationToken);
             return Ok(Result.Success());
         }
@@ -101,6 +135,13 @@ namespace APB.AccessControl.WebApi.Controllers
                 AccessGroupId = AccessGroupId,
                 EmployeeId = EmployeeId
             };
+
+            ValidationResult validationResult = await _removeEmployeeValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
 
             await _accessGroupService.RemoveEmployeeFromGroupAsync(request, cancellationToken);
             return Ok(Result.Success());

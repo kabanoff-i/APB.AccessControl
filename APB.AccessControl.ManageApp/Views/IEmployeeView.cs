@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using APB.AccessControl.ManageApp.Controls;
+using APB.AccessControl.ManageApp.Forms;
 using APB.AccessControl.Shared.Models.DTOs;
 
 namespace APB.AccessControl.ManageApp.Views
@@ -74,6 +75,16 @@ namespace APB.AccessControl.ManageApp.Views
         /// Событие удаления карты у сотрудника
         /// </summary>
         event EventHandler<int> DeleteCardFromEmployee;
+
+        /// <summary>
+        /// Событие активации карты сотрудника
+        /// </summary>
+        event EventHandler<int> ActivateCard;
+
+        /// <summary>
+        /// Событие деактивации карты сотрудника
+        /// </summary>
+        event EventHandler<int> DeactivateCard;
 
         /// <summary>
         /// Событие получения информации о карте

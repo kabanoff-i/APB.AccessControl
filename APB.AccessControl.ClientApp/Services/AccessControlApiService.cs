@@ -7,6 +7,7 @@ using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models;
 using APB.AccessControl.Shared.Models.Common;
+using System.Collections.Generic;
 
 namespace APB.AccessControl.ClientApp.Services
 {
@@ -41,14 +42,14 @@ namespace APB.AccessControl.ClientApp.Services
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<Result<AccessCheckResponse>>() 
-                        ?? Result.Failure<AccessCheckResponse>(new Error("Ошибка обращения к серверу"));
+                        ?? Result.Failure<AccessCheckResponse>([new Error("Ошибка обращения к серверу")]);
                 }
                 
-                return Result.Failure<AccessCheckResponse>(new Error("Ошибка обращения к серверу"));
+                return Result.Failure<AccessCheckResponse>([new Error("Ошибка обращения к серверу")]);
             }
             catch (Exception ex)
             {
-                return Result.Failure<AccessCheckResponse>(new Error($"Ошибка связи с сервером: {ex.Message}"));
+                return Result.Failure<AccessCheckResponse>([new Error($"Ошибка связи с сервером: {ex.Message}")]);
             }
         }
     }

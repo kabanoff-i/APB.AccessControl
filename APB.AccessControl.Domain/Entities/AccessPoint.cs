@@ -1,4 +1,5 @@
 ﻿using APB.AccessControl.Domain.Abstractions;
+using System;
 using System.Collections.Generic;
 
 namespace APB.AccessControl.Domain.Entities
@@ -11,6 +12,9 @@ namespace APB.AccessControl.Domain.Entities
         public string Name { get; set; }
         public string Location { get; set; }
         public bool IsActive { get; set; }
+        public DateTime? LastHeartbeatAt { get; set; }
+        public bool IsOnline => LastHeartbeatAt.HasValue &&
+                            DateTime.UtcNow - LastHeartbeatAt.Value < TimeSpan.FromMinutes(2);
 
         public AccessPointType AccessPointType { get; set; }
         public ICollection<AccessLog> AccessLogs { get; set; } = new List<AccessLog>();

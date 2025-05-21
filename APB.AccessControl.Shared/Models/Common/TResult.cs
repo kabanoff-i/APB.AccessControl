@@ -8,7 +8,7 @@ namespace APB.AccessControl.Shared.Models.Common
     {
         public T Data { get; }
 
-        public Result(bool isSuccess, Error error, T data) : base(isSuccess, error)
+        public Result(bool isSuccess, List<Error> errors, T data) : base(isSuccess, errors)
         {
             Data = data;
         }

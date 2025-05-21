@@ -3,7 +3,7 @@ using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Domain.Primitives;
 using FluentValidation;
 using System;
-using static APB.AccessControl.Application.Common.ValidationMessage;
+using static APB.AccessControl.Shared.Utils.ValidationMessage;
 
 namespace APB.AccessControl.APB.AccessControl.Application.Validators
 {

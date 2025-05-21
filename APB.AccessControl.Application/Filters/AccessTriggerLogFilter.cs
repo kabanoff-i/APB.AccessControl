@@ -8,7 +8,8 @@ public class AccessTriggerLogFilter:BaseFilter<AccessTriggerLog>
 {
         public Guid? AccessLogId { get; set; }
         public int? TriggerId { get; set; }
-        public DateTime? ExecuteAt { get; set; }
+        public DateTime? ExecuteAtStart { get; set; }
+        public DateTime? ExecuteAtEnd { get; set; }
         public bool? ExecutionResult { get; set; }
 
 
@@ -17,7 +18,8 @@ public class AccessTriggerLogFilter:BaseFilter<AccessTriggerLog>
         return x =>
             (AccessLogId == null || x.AccessLogId == AccessLogId) &&
             (TriggerId == null || x.TriggerId == TriggerId) &&
-            (ExecuteAt == null || x.ExecutedAt == ExecuteAt) &&
+            (ExecuteAtStart == null || x.ExecutedAt >= ExecuteAtStart) &&
+            (ExecuteAtEnd == null || x.ExecutedAt <= ExecuteAtEnd) &&
             (ExecutionResult == null || x.ExecutionResult == ExecutionResult);
     }
 }

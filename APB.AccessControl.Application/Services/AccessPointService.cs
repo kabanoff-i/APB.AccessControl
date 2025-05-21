@@ -78,12 +78,35 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _accessPointRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(AccessPoint));
+                var repReq = await _accessPointRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(AccessPoint));
 
-                var repReq = _mapper.Map<AccessPoint>(request);
+                _mapper.Map(request, repReq);
                 await _accessPointRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
+        }
+
+        public async Task<bool> UpdateHeartbeatAsync(HeartbeatReq request, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleOperationAsync(async () =>
+            {
+                var accessPoint = await _accessPointRepository.GetByIdAsync(request.AccessPointId, cancellationToken);
+                
+                if (accessPoint == null)
+                {
+                    _logger.LogWarning("Heartbeat получен для несуществующей точки доступа с ID: {AccessPointId}", request.AccessPointId);
+                    return false;
+                }
+
+                // Обновляем время последнего heartbeat
+                accessPoint.LastHeartbeatAt = request.TimeStamp;
+                await _accessPointRepository.UpdateAsync(accessPoint, cancellationToken);
+                
+                _logger.LogInformation("Обновлен heartbeat для точки доступа {AccessPointId} ({Name}) на {TimeStamp}", 
+                    accessPoint.Id, accessPoint.Name, request.TimeStamp);
+                
+                return true;
+            }, nameof(UpdateHeartbeatAsync));
         }
     }
 }

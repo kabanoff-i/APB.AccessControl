@@ -12,7 +12,7 @@ namespace APB.AccessControl.Application.Filters
         public int? EmployeeId { get; set; }
         public int? AccessPointId { get; set; }
         public DateTime? AccessTimeStart { get; set; }
-        public DateTime? AccessTimeEnd { get; set; } = DateTime.UtcNow;
+        public DateTime? AccessTimeEnd { get; set; }
         public AccessResult? AccessResult { get; set; }
 
         public override Expression<Func<AccessLog, bool>> GetExpression()

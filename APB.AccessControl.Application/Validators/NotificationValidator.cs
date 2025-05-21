@@ -2,7 +2,7 @@
 using APB.AccessControl.Domain.Entities;
 using FluentValidation;
 using System;
-using static APB.AccessControl.Application.Common.ValidationMessage;
+using static APB.AccessControl.Shared.Utils.ValidationMessage;
 namespace APB.AccessControl.APB.AccessControl.Application.Validators
 {
     public class NotificationValidator: AbstractValidator<Notification>

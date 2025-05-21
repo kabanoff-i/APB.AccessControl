@@ -9,6 +9,8 @@ using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models.Common;
+using APB.AccessControl.Shared.Models.Filters;
+using System.Linq;
 
 namespace APB.AccessControl.ManageApp.Services
 {
@@ -91,9 +93,34 @@ namespace APB.AccessControl.ManageApp.Services
             return await GetAsync<IEnumerable<AccessGroupDto>>($"{ApiSettings.BaseUrl}/api/accessgroups");
         }
         
+        public async Task<ApiResponse<AccessGroupDto>> GetAccessGroupByIdAsync(int accessGroupId)
+        {
+            return await GetAsync<AccessGroupDto>($"{ApiSettings.BaseUrl}/api/accessgroups/{accessGroupId}");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<EmployeeDto>>> GetEmployeesInGroupAsync(int accessGroupId)
+        {
+            return await GetAsync<IEnumerable<EmployeeDto>>($"{ApiSettings.BaseUrl}/api/accessgroups/{accessGroupId}/employees");
+        }
+        
         public async Task<ApiResponse<IEnumerable<AccessGroupDto>>> GetEmployeeAccessGroupsAsync(int employeeId)
         {
             return await GetAsync<IEnumerable<AccessGroupDto>>($"{ApiSettings.BaseUrl}/api/accessgroups/employee/{employeeId}");
+        }
+        
+        public async Task<ApiResponse<AccessGroupDto>> CreateAccessGroupAsync(CreateGroupReq request)
+        {
+            return await PostAsync<AccessGroupDto, CreateGroupReq>($"{ApiSettings.BaseUrl}/api/accessgroups", request);
+        }
+        
+        public async Task<ApiResponse<bool>> UpdateAccessGroupAsync(UpdateGroupReq request)
+        {
+            return await PutAsync<bool, UpdateGroupReq>($"{ApiSettings.BaseUrl}/api/accessgroups/{request.Id}", request);
+        }
+        
+        public async Task<ApiResponse<bool>> DeleteAccessGroupAsync(int accessGroupId)
+        {
+            return await DeleteAsync<bool>($"{ApiSettings.BaseUrl}/api/accessgroups/{accessGroupId}");
         }
         
         public async Task<ApiResponse<bool>> AddEmployeeToGroupAsync(int employeeId, int accessGroupId)
@@ -104,6 +131,103 @@ namespace APB.AccessControl.ManageApp.Services
         public async Task<ApiResponse<bool>> RemoveEmployeeFromGroupAsync(int employeeId, int accessGroupId)
         {
             return await DeleteAsync<bool>($"{ApiSettings.BaseUrl}/api/accessgroups/{accessGroupId}/employees/{employeeId}");
+        }
+        
+        #endregion
+        
+        #region Точки доступа
+        
+        public async Task<ApiResponse<IEnumerable<AccessPointDto>>> GetAccessPointsAsync()
+        {
+            return await GetAsync<IEnumerable<AccessPointDto>>($"{ApiSettings.BaseUrl}/api/accesspoints");
+        }
+        
+        public async Task<ApiResponse<AccessPointDto>> GetAccessPointByIdAsync(int id)
+        {
+            return await GetAsync<AccessPointDto>($"{ApiSettings.BaseUrl}/api/accesspoints/{id}");
+        }
+        
+        public async Task<ApiResponse<AccessPointDto>> CreateAccessPointAsync(CreateAccessPointReq request)
+        {
+            return await PostAsync<AccessPointDto, CreateAccessPointReq>($"{ApiSettings.BaseUrl}/api/accesspoints", request);
+        }
+        
+        public async Task<ApiResponse<object>> UpdateAccessPointAsync(UpdateAccessPointReq request)
+        {
+            return await PutAsync<object, UpdateAccessPointReq>($"{ApiSettings.BaseUrl}/api/accesspoints/{request.Id}", request);
+        }
+        
+        public async Task<ApiResponse<object>> DeleteAccessPointAsync(int id)
+        {
+            return await DeleteAsync<object>($"{ApiSettings.BaseUrl}/api/accesspoints/{id}");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<AccessPointTypeDto>>> GetAccessPointTypesAsync()
+        {
+            return await GetAsync<IEnumerable<AccessPointTypeDto>>($"{ApiSettings.BaseUrl}/api/accesspointtypes");
+        }
+        
+        public async Task<ApiResponse<object>> SendHeartbeatAsync(HeartbeatReq request)
+        {
+            return await PostAsync<object, HeartbeatReq>($"{ApiSettings.BaseUrl}/api/accesspoints/heartbeat", request);
+        }
+        
+        #endregion
+        
+        #region Правила доступа
+        
+        public async Task<ApiResponse<IEnumerable<AccessRuleDto>>> GetAccessRulesAsync()
+        {
+            return await GetAsync<IEnumerable<AccessRuleDto>>($"{ApiSettings.BaseUrl}/api/accessrules");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<AccessRuleDto>>> GetAccessRulesByGroupAsync(int accessGroupId)
+        {
+            return await GetAsync<IEnumerable<AccessRuleDto>>($"{ApiSettings.BaseUrl}/api/accessrules/group/{accessGroupId}");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<AccessRuleDto>>> GetAccessRulesByPointAsync(int accessPointId)
+        {
+            return await GetAsync<IEnumerable<AccessRuleDto>>($"{ApiSettings.BaseUrl}/api/accessrules/point/{accessPointId}");
+        }
+        
+        public async Task<ApiResponse<AccessRuleDto>> GetAccessRuleByIdAsync(int accessRuleId)
+        {
+            return await GetAsync<AccessRuleDto>($"{ApiSettings.BaseUrl}/api/accessrules/{accessRuleId}");
+        }
+        
+        public async Task<ApiResponse<AccessRuleDto>> CreateAccessRuleAsync(CreateAccessRuleReq request)
+        {
+            return await PostAsync<AccessRuleDto, CreateAccessRuleReq>($"{ApiSettings.BaseUrl}/api/accessrules", request);
+        }
+        
+        public async Task<ApiResponse<AccessRuleDto>> UpdateAccessRuleAsync(UpdateAccessRuleReq request)
+        {
+            return await PutAsync<AccessRuleDto, UpdateAccessRuleReq>($"{ApiSettings.BaseUrl}/api/accessrules/{request.Id}", request);
+        }
+        
+        public async Task<ApiResponse<bool>> DeleteAccessRuleAsync(int accessRuleId)
+        {
+            return await DeleteAsync<bool>($"{ApiSettings.BaseUrl}/api/accessrules/{accessRuleId}");
+        }
+        
+        #endregion
+        
+        #region Логи доступа
+        
+        public async Task<ApiResponse<IEnumerable<AccessLogDto>>> GetAccessLogsAsync(DateTime startDate, DateTime endDate, int employeeId = 0, int accessPointId = 0)
+        {
+            // Создаем объект фильтра
+            var filter = new AccessLogFilter
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                EmployeeId = employeeId > 0 ? employeeId : null,
+                AccessPointId = accessPointId > 0 ? accessPointId : null
+            };
+            
+            // Выполняем запрос к API
+            return await PostAsync<IEnumerable<AccessLogDto>, AccessLogFilter>($"{ApiSettings.BaseUrl}/api/accesslogs/filter", filter);
         }
         
         #endregion
@@ -261,11 +385,12 @@ namespace APB.AccessControl.ManageApp.Services
                     try
                     {
                         var resultWrapper = JsonSerializer.Deserialize<Result>(content, _jsonOptions);
-                        if (resultWrapper != null && resultWrapper.Error != null)
+                        if (resultWrapper != null && resultWrapper.Errors != null)
                         {
-                            LogService.LogError($"Ошибка API: {response.RequestMessage?.RequestUri}, {resultWrapper.Error.Message}", "ApiService");
+                            var errorString = string.Join("\r\n", resultWrapper.Errors.Select(x => x.Message));
+                            LogService.LogError($"Ошибка API: {response.RequestMessage?.RequestUri}, {errorString}", "ApiService");
                             return ApiResponse<T>.Failure(new ApiError { 
-                                Message = resultWrapper.Error.Message
+                                Message = errorString
                             });
                         }
                     }

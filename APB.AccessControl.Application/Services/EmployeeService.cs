@@ -12,6 +12,7 @@ using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -38,6 +39,11 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
+                var existingEmployee = await _employeeRepository.GetByPassportNumberAsync(request.PassportNumber, cancellationToken);
+                
+                if (existingEmployee != null)
+                    throw new AlreadyExistsException(nameof(Employee), nameof(Employee.PassportNumber), request.PassportNumber);
+
                 var repReq = _mapper.Map<Employee>(request);
                 var repResponse = await _employeeRepository.AddAsync(repReq, cancellationToken);
                 return _mapper.Map<EmployeeDto>(repResponse);
@@ -48,10 +54,10 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _employeeRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(Employee));
+                var repReq = await _employeeRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Employee));
 
-                var repReq = _mapper.Map<Employee>(request);
+                _mapper.Map(request, repReq);
                 await _employeeRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
         }
@@ -92,11 +98,13 @@ namespace APB.AccessControl.Application.Services
             }, nameof(GetEmployeeByIdAsync));
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployeesByFilterAsync(EmployeeFilter employeeFilter = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesByFilterAsync(EmployeeFilterDto filterDto = default, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var repResponse = await _employeeRepository.GetByFilterAsync(employeeFilter, cancellationToken);
+                var filter = filterDto != null ? _mapper.Map<EmployeeFilter>(filterDto) : default;
+
+                var repResponse = await _employeeRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<EmployeeDto>>(repResponse);
             }, nameof(GetEmployeesByFilterAsync));
         }

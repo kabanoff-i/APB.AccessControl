@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace APB.AccessControl.Application.Common
+namespace APB.AccessControl.Shared.Utils
 {
-    internal static class ValidationMessage
+    public static class ValidationMessage
     {
         public static Func<string, string> NotNull { get; set; } =
             (propertyName) => $"Свойство {propertyName} не может быть NULL";

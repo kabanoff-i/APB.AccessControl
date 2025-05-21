@@ -10,5 +10,7 @@ namespace APB.AccessControl.Application.Services.Interfaces
     /// Сервис для работы с проходными точками
     /// </summary>
     public interface IAccessPointService: IService<CreateAccessPointReq, UpdateAccessPointReq, int, AccessPointDto>
-    { }
+    {
+        Task<bool> UpdateHeartbeatAsync(HeartbeatReq request, CancellationToken cancellationToken = default);
+    }
 }

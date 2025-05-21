@@ -13,6 +13,7 @@ using System.Threading;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
 using APB.AccessControl.Domain.Exceptions;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -48,10 +49,13 @@ namespace APB.AccessControl.Application.Services
             }, nameof(LogAccessAttemptAsync));
         }
 
-        public async Task<IEnumerable<AccessLogDto>> GetLogsByFilterAsync(AccessLogFilter filter = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AccessLogDto>> GetLogsByFilterAsync(AccessLogFilterDto filterDto = default, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
+
+                var filter = filterDto != null ? _mapper.Map<AccessLogFilter>(filterDto) : default; 
+
                 var logs = await _accessLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessLogDto>>(logs);
             }, nameof(GetLogsByFilterAsync));

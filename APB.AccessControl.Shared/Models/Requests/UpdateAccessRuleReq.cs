@@ -10,7 +10,7 @@ namespace APB.AccessControl.Shared.Models.Requests
         public int AccessPointId { get; set; }
         public TimeSpan AllowedTimeStart { get; set; }
         public TimeSpan AllowedTimeEnd { get; set; }
-        public byte[] DaysOfWeek { get; set; }
+        public bool[] DaysOfWeek { get; set; }
         public string SpecificDates { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

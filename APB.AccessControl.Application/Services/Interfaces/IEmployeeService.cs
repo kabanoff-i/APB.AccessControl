@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.DTOs;
-using APB.AccessControl.Application.Filters;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.Application.Services.Interfaces
 {
@@ -13,7 +13,7 @@ namespace APB.AccessControl.Application.Services.Interfaces
     public interface IEmployeeService: IService<CreateEmployeeReq, UpdateEmployeeReq, int, EmployeeDto>
     {
         Task<EmployeeDto> GetEmployeeByIdAsync(int employeeId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<EmployeeDto>> GetEmployeesByFilterAsync(EmployeeFilter employeeFilter = default, CancellationToken cancellationToken = default);
+        Task<IEnumerable<EmployeeDto>> GetEmployeesByFilterAsync(EmployeeFilterDto employeeFilter = default, CancellationToken cancellationToken = default);
         Task<EmployeeDto> GetEmployeeByCardIdAsync(int cardId, CancellationToken cancellationToken = default);
     }
 }

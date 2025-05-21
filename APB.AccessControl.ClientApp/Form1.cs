@@ -351,7 +351,7 @@ namespace APB.AccessControl.ClientApp
                 txtDetails.BackColor = Color.White;
                 
                 StringBuilder detailsText = new StringBuilder();
-                detailsText.AppendLine($"Сообщение: {response.Error.Message ?? "OK"}");
+                detailsText.AppendLine($"Сообщение: {string.Join("\r\n", response.Errors.Select(x => x.Message)) ?? "OK"}");
                 detailsText.AppendLine($"Точка доступа: {cmbAccessPoints.Text}");
                 
                 if (response.Data != null && response.Data.IsSuccess)

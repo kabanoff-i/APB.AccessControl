@@ -143,6 +143,9 @@ namespace APB.AccessControl.DataAccess.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("LastHeartbeatAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Location")
                         .HasColumnType("text");
 
@@ -237,9 +240,6 @@ namespace APB.AccessControl.DataAccess.Migrations
                     b.Property<Guid>("AccessLogId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AccessLogId1")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ErrorMessage")
                         .HasColumnType("text");
 
@@ -255,8 +255,6 @@ namespace APB.AccessControl.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccessLogId");
-
-                    b.HasIndex("AccessLogId1");
 
                     b.HasIndex("TriggerId");
 
@@ -419,6 +417,10 @@ namespace APB.AccessControl.DataAccess.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -703,14 +705,10 @@ namespace APB.AccessControl.DataAccess.Migrations
             modelBuilder.Entity("APB.AccessControl.Domain.Entities.AccessTriggerLog", b =>
                 {
                     b.HasOne("APB.AccessControl.Domain.Entities.AccessLog", "AccessLog")
-                        .WithMany()
+                        .WithMany("AccessLogTriggers")
                         .HasForeignKey("AccessLogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("APB.AccessControl.Domain.Entities.AccessLog", null)
-                        .WithMany("AccessLogTriggers")
-                        .HasForeignKey("AccessLogId1");
 
                     b.HasOne("APB.AccessControl.Domain.Entities.Trigger", "Trigger")
                         .WithMany("AccessTriggerLogs")

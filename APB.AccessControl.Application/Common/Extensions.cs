@@ -55,6 +55,11 @@ namespace APB.AccessControl.Application.Common
                 logger.LogWarning(ex, $"Не найдена сущность при выполнении операции {operationName}: {ex.Message}");
                 throw;
             }
+            catch (AlreadyExistsException ex)
+            {
+                logger.LogWarning(ex, $"Объект уже существует при выполнении операции {operationName}: {ex.Message}");
+                throw;
+            }
             catch (FluentValidation.ValidationException ex)
             {
                 logger.LogWarning(ex, $"Ошибка валидации при выполнении операции {operationName}: {string.Join(", ", ex.Errors)}");

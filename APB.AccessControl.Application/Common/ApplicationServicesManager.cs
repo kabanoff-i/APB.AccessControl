@@ -19,6 +19,7 @@ namespace APB.AccessControl.Application.Common
             services.AddScoped<IAccessCheckService, AccessCheckService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IAccessPointService, AccessPointService>();
+            services.AddScoped<IAccessPointTypeService, AccessPointTypeService>();
             services.AddScoped<IAccessGroupService, AccessGroupService>();
             services.AddScoped<IAccessRuleService, AccessRuleService>();
             services.AddScoped<INotificationService, NotificationService>();

@@ -35,7 +35,7 @@ namespace APB.AccessControl.ManageApp.Controls
             
             btnLogin.Enabled = false;
             lblStatus.Text = "Выполняется вход...";
-            Application.DoEvents();
+            System.Windows.Forms.Application.DoEvents();
             
             try
             {

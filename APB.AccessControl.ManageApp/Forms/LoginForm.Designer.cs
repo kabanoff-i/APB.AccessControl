@@ -42,45 +42,45 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             // lblUsername
             // 
-            lblUsername.Location = new System.Drawing.Point(76, 124);
-            lblUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            lblUsername.Location = new System.Drawing.Point(76, 137);
+            lblUsername.Margin = new System.Windows.Forms.Padding(4);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new System.Drawing.Size(140, 19);
+            lblUsername.Size = new System.Drawing.Size(135, 21);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Имя пользователя:";
             // 
             // lblPassword
             // 
-            lblPassword.Location = new System.Drawing.Point(76, 197);
-            lblPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            lblPassword.Location = new System.Drawing.Point(76, 218);
+            lblPassword.Margin = new System.Windows.Forms.Padding(4);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new System.Drawing.Size(60, 19);
+            lblPassword.Size = new System.Drawing.Size(56, 21);
             lblPassword.TabIndex = 1;
             lblPassword.Text = "Пароль:";
             // 
             // txtUsername
             // 
-            txtUsername.Location = new System.Drawing.Point(76, 153);
-            txtUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            txtUsername.Location = new System.Drawing.Point(76, 169);
+            txtUsername.Margin = new System.Windows.Forms.Padding(4);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new System.Drawing.Size(447, 26);
+            txtUsername.Size = new System.Drawing.Size(447, 42);
             txtUsername.TabIndex = 1;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new System.Drawing.Point(76, 227);
-            txtPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            txtPassword.Location = new System.Drawing.Point(76, 251);
+            txtPassword.Margin = new System.Windows.Forms.Padding(4);
             txtPassword.Name = "txtPassword";
             txtPassword.Properties.PasswordChar = '*';
-            txtPassword.Size = new System.Drawing.Size(447, 26);
+            txtPassword.Size = new System.Drawing.Size(447, 42);
             txtPassword.TabIndex = 2;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new System.Drawing.Point(76, 292);
-            btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            btnLogin.Location = new System.Drawing.Point(76, 323);
+            btnLogin.Margin = new System.Windows.Forms.Padding(4);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new System.Drawing.Size(214, 44);
+            btnLogin.Size = new System.Drawing.Size(214, 49);
             btnLogin.TabIndex = 3;
             btnLogin.Text = "Войти";
             btnLogin.Click += btnLogin_Click;
@@ -88,10 +88,10 @@ namespace APB.AccessControl.ManageApp.Controls
             // btnCancel
             // 
             btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            btnCancel.Location = new System.Drawing.Point(298, 292);
-            btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            btnCancel.Location = new System.Drawing.Point(298, 323);
+            btnCancel.Margin = new System.Windows.Forms.Padding(4);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new System.Drawing.Size(225, 44);
+            btnCancel.Size = new System.Drawing.Size(225, 49);
             btnCancel.TabIndex = 4;
             btnCancel.Text = "Отмена";
             btnCancel.Click += btnCancel_Click;
@@ -100,8 +100,8 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblTitle.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
             lblTitle.Appearance.Options.UseFont = true;
-            lblTitle.Location = new System.Drawing.Point(207, 44);
-            lblTitle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            lblTitle.Location = new System.Drawing.Point(207, 49);
+            lblTitle.Margin = new System.Windows.Forms.Padding(4);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new System.Drawing.Size(189, 34);
             lblTitle.TabIndex = 6;
@@ -111,19 +111,19 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblStatus.Appearance.ForeColor = System.Drawing.Color.Red;
             lblStatus.Appearance.Options.UseForeColor = true;
-            lblStatus.Location = new System.Drawing.Point(76, 358);
-            lblStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            lblStatus.Location = new System.Drawing.Point(76, 396);
+            lblStatus.Margin = new System.Windows.Forms.Padding(4);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new System.Drawing.Size(0, 19);
+            lblStatus.Size = new System.Drawing.Size(0, 21);
             lblStatus.TabIndex = 7;
             // 
             // LoginForm
             // 
             AcceptButton = btnLogin;
-            AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new System.Drawing.Size(576, 411);
+            ClientSize = new System.Drawing.Size(576, 451);
             Controls.Add(lblStatus);
             Controls.Add(lblTitle);
             Controls.Add(btnCancel);
@@ -133,7 +133,7 @@ namespace APB.AccessControl.ManageApp.Controls
             Controls.Add(lblPassword);
             Controls.Add(lblUsername);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            Margin = new System.Windows.Forms.Padding(4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "LoginForm";

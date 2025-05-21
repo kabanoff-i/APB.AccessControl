@@ -33,6 +33,15 @@ namespace APB.AccessControl.DataAccess.Repositories
             }, nameof(GetByCardIdAsync), cardId);
         }
 
+        public async Task<Employee?> GetByPassportNumberAsync(string passportNumber, CancellationToken cancellationToken = default)
+        {
+            return await _logger.HandleRepositoryOperationAsync(async () =>
+            {
+                return await _context.Employees
+                    .FirstOrDefaultAsync(e => e.PassportNumber.ToLower().Trim() == passportNumber.ToLower().Trim(), cancellationToken);
+            }, nameof(GetByPassportNumberAsync), passportNumber);
+        }
+
         public async Task<IEnumerable<Employee>> GetByFilterAsync(IFilter<Employee> filter, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleRepositoryOperationAsync(async () => 

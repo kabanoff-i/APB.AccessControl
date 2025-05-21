@@ -6,21 +6,21 @@ namespace APB.AccessControl.Shared.Models.Common
 {
     public class Result
     {
-        public Result(bool isSuccess, Error error)
+        public Result(bool isSuccess, List<Error> errors)
         {
             IsSuccess = isSuccess;
-            Error = error;
+            Errors = errors;
         }
 
         public bool IsSuccess { get; }
-        public Error Error { get; }
+        public List<Error> Errors { get; }
 
-        public static Result Success() => new Result(true, Error.None);
+        public static Result Success() => new Result(true, default);
 
-        public static Result Failure(Error error) => new Result(false, error);
+        public static Result Failure(List<Error> errors) => new Result(false, errors);
 
-        public static Result<T> Success<T>(T data) => new Result<T>(true, Error.None, data);
+        public static Result<T> Success<T>(T data) => new Result<T>(true, default, data);
 
-        public static Result<T> Failure<T>(Error error) => new Result<T>(false, error, default);
+        public static Result<T> Failure<T>(List<Error> errors) => new Result<T>(false, errors, default);
     }
 }

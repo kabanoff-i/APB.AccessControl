@@ -23,50 +23,55 @@ namespace APB.AccessControl.ManageApp
         private readonly AuthService _authService;
         private System.Windows.Forms.Timer _tokenCheckTimer;
         private BarStaticItem _tokenStatusItem;
-        
+
         public MainForm()
         {
             InitializeComponent();
             _authService = new AuthService();
             InitializeModules();
-            
-            // Добавляем кнопку выхода из системы
-            AddLogoutButton();
-            
+
+            InitilizeAccordion(accordionControl.Elements);
+
             // Добавляем отображение статуса токена
             AddTokenStatusIndicator();
-            
+
             // Запускаем таймер для проверки состояния токена
             InitializeTokenExpiryCheck();
         }
-        
+
+        /// <summary>
+        /// Инициализация модулей приложения
+        /// </summary>
         private void InitializeModules()
         {
             _modules =
             [
-                // Добавляем модуль управления сотрудниками
                 new ModuleInfo("EmployeeManagement", "APB.AccessControl.ManageApp.Controls.EmployeeManagementControl", "Управление сотрудниками"),
+                new ModuleInfo("AccessGroupManagement", "APB.AccessControl.ManageApp.Controls.AccessGroupManagementControl", "Управление группами доступа"),
+                new ModuleInfo("AccessPointManagement", "APB.AccessControl.ManageApp.Controls.AccessPointManagementControl", "Управление точками доступа"),
+                new ModuleInfo("AccessRuleManagement", "APB.AccessControl.ManageApp.Controls.AccessRuleManagementControl", "Правила доступа"),
+                new ModuleInfo("AccessLogView", "APB.AccessControl.ManageApp.Controls.AccessLogControl", "Логи доступа"),
             ];
-            
+        }
+
+        private void InitilizeAccordion(AccordionControlElementCollection elements)
+        {
+            itemNav.ItemAppearance.Normal.ForeColor = Color.White;
+
             // Создаем пункты меню для каждого модуля
-            foreach (var module in _modules)
+            foreach (var element in elements)
             {
-                var item = new AccordionControlElement
-                {
-                    Text = module.Name,
-                    Tag = module,
-                    Style = ElementStyle.Item
-                };
-                
-                // Добавляем в аккордион главной формы
-                accordionControl.Elements.Add(item);
-                
+                if (element.Style == ElementStyle.Group)
+                    InitilizeAccordion(element.Elements);
+
+                element.Tag = _modules.FirstOrDefault(m => m.Name == element.Name);
+
                 // Обработчик клика на пункт меню
-                item.Click += async (s, e) =>
+                element.Click += async (s, e) =>
                 {
                     if (s is AccordionControlElement element && element.Tag is ModuleInfo moduleInfo)
                     {
-                        this.itemNav.Caption = $"{element.Name}";
+                        this.itemNav.Caption = $"{element.Text}";
                         // Загружаем соответствующий модуль
                         await LoadModuleAsync(moduleInfo);
                     }
@@ -78,55 +83,42 @@ namespace APB.AccessControl.ManageApp
         {
             await Task.Factory.StartNew(() =>
             {
-                if (!MainFormContainer.Controls.ContainsKey(module.Name))
+                MainFormContainer.Invoke(new MethodInvoker(() =>
                 {
-                    // Создаем экземпляр контрола модуля
-                    TutorialControlBase control = module.TModule as TutorialControlBase;
-                    if (control != null)
+                    // Закрываем все открытые модули
+                    foreach (Control control in MainFormContainer.Controls)
                     {
-                        control.Dock = DockStyle.Fill;
-                        control.CreateWaitDialog();
-                        MainFormContainer.Invoke(new MethodInvoker(() => 
+                        if (control is TutorialControlBase && control.Name != module.Name)
                         {
+                            // Вызываем Dispose для освобождения ресурсов
+                            control.Dispose();
+                            MainFormContainer.Controls.Remove(control);
+                            module.ResetModule();
+                        }
+                    }
+
+                    // Проверяем, существует ли уже модуль с таким именем
+                    if (!MainFormContainer.Controls.ContainsKey(module.Name))
+                    {
+                        // Создаем экземпляр контрола модуля
+                        var control = module.TModule as TutorialControlBase;
+                        if (control != null)
+                        {
+                            control.Dock = DockStyle.Fill;
                             MainFormContainer.Controls.Add(control);
                             control.BringToFront();
-                        }));
+                        }
                     }
-                }
-                else
-                {
-                    var control = MainFormContainer.Controls.Find(module.Name, true);
-                    if (control.Length == 1)
-                        MainFormContainer.Invoke(new MethodInvoker(() => { control[0].BringToFront(); }));
-                }
+                    else
+                    {
+                        var control = MainFormContainer.Controls.Find(module.Name, true);
+                        if (control.Length == 1)
+                            control[0].BringToFront();
+                    }
+                }));
             });
         }
 
-        /// <summary>
-        /// Добавляет кнопку выхода из системы в меню
-        /// </summary>
-        private void AddLogoutButton()
-        {
-            var logoutElement = new AccordionControlElement
-            {
-                Text = "Выход из системы",
-                Style = ElementStyle.Item
-            };
-            
-            accordionControl.Elements.Add(logoutElement);
-            
-            logoutElement.Click += (s, e) =>
-            {
-                if (XtraMessageBox.Show("Вы действительно хотите выйти из системы?", 
-                    "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    // Выходим из системы
-                    _authService.Logout();
-                    Application.Restart();
-                }
-            };
-        }
-        
         /// <summary>
         /// Добавляет индикатор статуса токена в строку состояния
         /// </summary>
@@ -138,12 +130,12 @@ namespace APB.AccessControl.ManageApp
                 _tokenStatusItem = new BarStaticItem();
                 _tokenStatusItem.Caption = "Загрузка информации о токене...";
                 MainFormControl.Items.Add(_tokenStatusItem);
-                
+
                 // Обновляем информацию о токене
                 UpdateTokenStatusInfo();
             }
         }
-        
+
         /// <summary>
         /// Инициализирует таймер для проверки срока действия токена
         /// </summary>
@@ -154,29 +146,29 @@ namespace APB.AccessControl.ManageApp
             _tokenCheckTimer.Tick += TokenCheckTimer_Tick;
             _tokenCheckTimer.Start();
         }
-        
+
         /// <summary>
         /// Обработчик события таймера проверки токена
         /// </summary>
         private async void TokenCheckTimer_Tick(object sender, EventArgs e)
         {
             UpdateTokenStatusInfo();
-            
+
             // Проверяем, не истекает ли скоро токен
             var timeLeft = _authService.GetTokenExpiryTimeLeft();
-            
+
             // Если токен не активен или истекает менее чем через 5 минут, показываем предупреждение
             if (!_authService.IsAuthenticated() || (timeLeft.TotalMinutes < 5))
             {
                 _tokenCheckTimer.Stop();
-                
-                var message = !_authService.IsAuthenticated() 
+
+                var message = !_authService.IsAuthenticated()
                     ? "Ваша сессия истекла. Необходимо повторно войти в систему."
                     : $"Ваша сессия истекает через {timeLeft.Minutes} мин. {timeLeft.Seconds} сек. Желаете продлить сессию?";
-                    
+
                 var result = XtraMessageBox.Show(message, "Предупреждение о сессии",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    
+
                 if (result == DialogResult.Yes)
                 {
                     // Показываем форму входа для обновления токена
@@ -185,22 +177,22 @@ namespace APB.AccessControl.ManageApp
                         if (loginForm.ShowDialog() == DialogResult.OK)
                         {
                             // Токен был обновлен успешно
-                            XtraMessageBox.Show("Сессия успешно продлена.", "Информация", 
+                            XtraMessageBox.Show("Сессия успешно продлена.", "Информация",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
                             // Пользователь отменил вход, продолжаем с текущим токеном
-                            XtraMessageBox.Show("Продление сессии отменено пользователем.", "Внимание", 
+                            XtraMessageBox.Show("Продление сессии отменено пользователем.", "Внимание",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }
-                
+
                 _tokenCheckTimer.Start();
             }
         }
-        
+
         /// <summary>
         /// Обновляет информацию о статусе токена
         /// </summary>
@@ -212,7 +204,7 @@ namespace APB.AccessControl.ManageApp
                 {
                     var timeLeft = _authService.GetTokenExpiryTimeLeft();
                     _tokenStatusItem.Caption = $"Токен активен. Осталось: {timeLeft.Hours:00}:{timeLeft.Minutes:00}:{timeLeft.Seconds:00}";
-                    
+
                     // Устанавливаем цвет в зависимости от оставшегося времени
                     if (timeLeft.TotalMinutes < 5)
                     {
@@ -232,6 +224,17 @@ namespace APB.AccessControl.ManageApp
                     _tokenStatusItem.Caption = "Токен неактивен! Требуется авторизация";
                     _tokenStatusItem.ItemAppearance.Normal.ForeColor = Color.Red;
                 }
+            }
+        }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+            if (XtraMessageBox.Show("Вы действительно хотите выйти из системы?",
+                    "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                // Выходим из системы
+                _authService.Logout();
+                System.Windows.Forms.Application.Restart();
             }
         }
     }

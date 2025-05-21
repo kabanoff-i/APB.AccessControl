@@ -9,6 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using APB.AccessControl.WebApi.Common;
+using FluentValidation;
+using APB.AccessControl.Application.Validators;
+using APB.AccessControl.WebApi.Validators;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +30,8 @@ builder.Services.AddDbContext<AccessControlDbContext>(options =>
 builder.Services.AddApplicationServices();
 
 builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(APB.AccessControl.Application.MappingProfiles.EmployeeProfile)));
+builder.Services.AddValidatorsFromAssemblyContaining<EmployeeValidator>(ServiceLifetime.Transient);
+builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeReqValidator>(ServiceLifetime.Transient);
 
 //repositories
 builder.Services.AddRepositories();
@@ -97,6 +103,9 @@ builder.Services.AddSwaggerGen( opt =>
 );
 
 var app = builder.Build();
+
+var mapperConfig = app.Services.GetRequiredService<AutoMapper.IConfigurationProvider>();
+mapperConfig.AssertConfigurationIsValid();
 
 // Получаем логгер из DI-контейнера
 var appLogger = app.Services.GetRequiredService<ILogger<Program>>();

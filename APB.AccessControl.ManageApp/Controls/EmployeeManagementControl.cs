@@ -35,6 +35,8 @@ namespace APB.AccessControl.ManageApp.Controls
         public event EventHandler<int> DeleteEmployee;
         public event EventHandler<int> AssignCardToEmployee;
         public event EventHandler<int> DeleteCardFromEmployee;
+        public event EventHandler<int> ActivateCard;
+        public event EventHandler<int> DeactivateCard;
         public event EventHandler<CardReadEventArgs> CardInfoReceived;
 
         #endregion
@@ -60,10 +62,15 @@ namespace APB.AccessControl.ManageApp.Controls
             {
                 gridViewEmployees.Columns["Photo"].Visible = false;
             }
+            if (gridViewEmployees.Columns["Id"] != null)
+            {
+                gridViewEmployees.Columns["Id"].Visible = false;
+            }
+
 
             // Настраиваем автоматическую подгонку ширины колонок по содержимому
             gridViewEmployees.OptionsBehavior.AutoExpandAllGroups = true;
-            gridViewEmployees.OptionsView.ColumnAutoWidth = false;
+            gridViewEmployees.OptionsView.ColumnAutoWidth = true;
             gridViewEmployees.BestFitColumns();
         }
 
@@ -78,9 +85,14 @@ namespace APB.AccessControl.ManageApp.Controls
             barBtnDeleteEmployee.ItemClick += BarBtnDeleteEmployee_ItemClick;
             barBtnAssignCard.ItemClick += BarBtnAssignCard_ItemClick;
             barBtnDeleteCard.ItemClick += BarBtnDeleteCard_ItemClick;
+            barBtnActivateCard.ItemClick += BarBtnActivateCard_ItemClick;
+            barBtnDeactivateCard.ItemClick += BarBtnDeactivateCard_ItemClick;
 
             // Добавляем обработчик активации контрола
             this.ParentChanged += EmployeeManagementControl_ParentChanged;
+            
+            // Добавляем обработчик выбора карты
+            gridViewCards.FocusedRowChanged += GridViewCards_FocusedRowChanged;
         }
 
         private void EmployeeManagementControl_ParentChanged(object sender, EventArgs e)
@@ -116,7 +128,7 @@ namespace APB.AccessControl.ManageApp.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+            
             // Загружаем данные при открытии контрола
             LoadData();
         }
@@ -305,6 +317,77 @@ namespace APB.AccessControl.ManageApp.Controls
             }
         }
 
+        private void GridViewCards_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            UpdateCardButtonsState();
+        }
+
+        private void UpdateCardButtonsState()
+        {
+            // Проверяем, выбрана ли карта
+            if (gridViewCards.FocusedRowHandle >= 0)
+            {
+                var card = gridViewCards.GetRow(gridViewCards.FocusedRowHandle) as CardDto;
+                if (card != null)
+                {
+                    // Активируем/деактивируем кнопки в зависимости от статуса карты
+                    barBtnActivateCard.Enabled = !card.IsActive;
+                    barBtnDeactivateCard.Enabled = card.IsActive;
+                    barBtnDeleteCard.Enabled = true;
+                    return;
+                }
+            }
+            
+            // Если карта не выбрана, деактивируем все кнопки
+            barBtnActivateCard.Enabled = false;
+            barBtnDeactivateCard.Enabled = false;
+            barBtnDeleteCard.Enabled = false;
+        }
+
+        private void BarBtnActivateCard_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (gridViewCards.FocusedRowHandle >= 0)
+            {
+                var card = gridViewCards.GetRow(gridViewCards.FocusedRowHandle) as CardDto;
+                if (card != null)
+                {
+                    if (XtraMessageBox.Show("Вы действительно хотите активировать эту карту?",
+                        "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        // Вызываем событие активации карты
+                        ActivateCard?.Invoke(this, card.Id);
+                    }
+                }
+            }
+            else
+            {
+                XtraMessageBox.Show("Выберите карту для активации", "Внимание",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void BarBtnDeactivateCard_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (gridViewCards.FocusedRowHandle >= 0)
+            {
+                var card = gridViewCards.GetRow(gridViewCards.FocusedRowHandle) as CardDto;
+                if (card != null)
+                {
+                    if (XtraMessageBox.Show("Вы действительно хотите деактивировать эту карту?",
+                        "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        // Вызываем событие деактивации карты
+                        DeactivateCard?.Invoke(this, card.Id);
+                    }
+                }
+            }
+            else
+            {
+                XtraMessageBox.Show("Выберите карту для деактивации", "Внимание",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         #endregion
 
         #region Методы интерфейса IEmployeeView
@@ -352,7 +435,21 @@ namespace APB.AccessControl.ManageApp.Controls
         {
             _employeeCards = cards.ToList();
             gridControlCards.DataSource = _employeeCards;
+            
+            // Скрываем колонку EmployeeId
+            if (gridViewCards.Columns["EmployeeId"] != null)
+            {
+                gridViewCards.Columns["EmployeeId"].Visible = false;
+            }
+            
             gridViewCards.BestFitColumns();
+            if (gridViewCards.Columns["Id"] != null)
+            {
+                gridViewCards.Columns["Id"].Visible = false;
+            }
+
+            // Обновляем состояние кнопок управления картами
+            UpdateCardButtonsState();
         }
 
         public void ShowError(string message)
@@ -400,11 +497,14 @@ namespace APB.AccessControl.ManageApp.Controls
 
             // Отписываемся от событий
             gridViewEmployees.FocusedRowChanged -= GridViewEmployees_FocusedRowChanged;
+            gridViewCards.FocusedRowChanged -= GridViewCards_FocusedRowChanged;
             barBtnAddEmployee.ItemClick -= BarBtnAddEmployee_ItemClick;
             barBtnEditEmployee.ItemClick -= BarBtnEditEmployee_ItemClick;
             barBtnDeleteEmployee.ItemClick -= BarBtnDeleteEmployee_ItemClick;
             barBtnAssignCard.ItemClick -= BarBtnAssignCard_ItemClick;
             barBtnDeleteCard.ItemClick -= BarBtnDeleteCard_ItemClick;
+            barBtnActivateCard.ItemClick -= BarBtnActivateCard_ItemClick;
+            barBtnDeactivateCard.ItemClick -= BarBtnDeactivateCard_ItemClick;
 
             // Отписываемся от события родительского изменения
             this.ParentChanged -= EmployeeManagementControl_ParentChanged;

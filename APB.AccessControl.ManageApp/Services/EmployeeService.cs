@@ -123,5 +123,37 @@ namespace APB.AccessControl.ManageApp.Services
                 throw new Exception(response.Error?.Message ?? "Ошибка удаления карты");
             }
         }
+
+        /// <summary>
+        /// Обновить данные карты
+        /// </summary>
+        public async Task<CardDto> UpdateCardAsync(int cardId, UpdateCardReq request)
+        {
+            var response = await _apiService.UpdateCardAsync(cardId, request);
+            if (response.IsSuccess)
+            {
+                return response.Data;
+            }
+            
+            throw new Exception(response.Error?.Message ?? "Ошибка обновления данных карты");
+        }
+
+        /// <summary>
+        /// Активировать карту
+        /// </summary>
+        public async Task ActivateCardAsync(int cardId)
+        {
+            var request = new UpdateCardReq { Id = cardId, IsActive = true };
+            await UpdateCardAsync(cardId, request);
+        }
+
+        /// <summary>
+        /// Деактивировать карту
+        /// </summary>
+        public async Task DeactivateCardAsync(int cardId)
+        {
+            var request = new UpdateCardReq {Id = cardId, IsActive = false };
+            await UpdateCardAsync(cardId, request);
+        }
     }
 }

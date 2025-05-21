@@ -13,6 +13,8 @@ using APB.AccessControl.Domain.Exceptions;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
+using FluentValidation;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -21,11 +23,13 @@ namespace APB.AccessControl.Application.Services
         private readonly ICardRepository _cardRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CardService> _logger;
+        private readonly CardValidator _cardValidator;
 
         public CardService(
             ICardRepository cardRepository,
             IMapper mapper,
-            ILogger<CardService> logger)
+            ILogger<CardService> logger,
+            CardValidator cardValidator)
         {
             _cardRepository = cardRepository
                 ?? throw new ArgumentNullException(nameof(cardRepository));
@@ -33,13 +37,22 @@ namespace APB.AccessControl.Application.Services
                 ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger
                 ?? throw new ArgumentNullException(nameof(logger));
+            _cardValidator = cardValidator
+                ?? throw new ArgumentNullException(nameof(cardValidator));
         }
 
         public async Task<CardDto> CreateAsync(CreateCardReq request, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
+                var existingCard = await _cardRepository.GetByHashAsync(request.Hash, cancellationToken);
+
+                if (existingCard != null)
+                    throw new AlreadyExistsException(nameof(Card), nameof(Card.Hash), request.Hash);
+
                 var repReq = _mapper.Map<Card>(request);
+                await _cardValidator.ValidateAndThrowAsync(repReq);
+
                 var repResponse = await _cardRepository.AddAsync(repReq, cancellationToken);
                 return _mapper.Map<CardDto>(repResponse);
             }, nameof(CreateAsync));
@@ -80,10 +93,12 @@ namespace APB.AccessControl.Application.Services
         {
             await _logger.HandleOperationAsync(async () =>
             {
-                if (!await _cardRepository.ExistsAsync(request.Id, cancellationToken))
-                    throw new NotFoundException(nameof(Card));
+                var repReq = await _cardRepository.GetByIdAsync(request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(Card));
 
-                var repReq = _mapper.Map<Card>(request);
+                _mapper.Map(request, repReq);
+                await _cardValidator.ValidateAndThrowAsync(repReq);
+
                 await _cardRepository.UpdateAsync(repReq, cancellationToken);
             }, nameof(UpdateAsync));
         }

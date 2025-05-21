@@ -7,6 +7,7 @@ namespace APB.AccessControl.Domain.Entities
     public class Trigger: AuditedEntity
     {
         public int Id { get; set; }
+        public string Name { get; set; }    
         public int AccessPointId { get; set; }
         public AccessResult AccessResult { get; set; }
         public ActionType ActionType { get; set; }

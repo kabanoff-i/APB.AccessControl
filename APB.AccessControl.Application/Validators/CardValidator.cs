@@ -1,11 +1,11 @@
 ﻿using APB.AccessControl.Domain.Entities;
 using FluentValidation;
 using System.Reflection;
-using static APB.AccessControl.Application.Common.ValidationMessage;
+using static APB.AccessControl.Shared.Utils.ValidationMessage;
 
 namespace APB.AccessControl.Application.Validators
 {
-    internal class CardValidator : AbstractValidator<Card>
+    public class CardValidator : AbstractValidator<Card>
     {
         public CardValidator()
         {

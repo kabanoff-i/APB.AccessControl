@@ -16,6 +16,7 @@ using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Application.Filters;
 using static APB.AccessControl.Shared.Extensions;
 using APB.AccessControl.Application.Interfaces;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -38,7 +39,8 @@ namespace APB.AccessControl.Application.Services
             IAccessLogService accessLogService,
             IEmployeeRepository employeeRepository,
             IMapper mapper,
-            ILogger<AccessCheckService> logger)
+            ILogger<AccessCheckService> logger
+            )
         {
             _accessRuleRepository = accessRuleRepository
                 ?? throw new ArgumentNullException(nameof(accessRuleRepository));

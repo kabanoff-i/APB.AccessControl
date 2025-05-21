@@ -49,12 +49,12 @@ namespace APB.AccessControl.ManageApp.Controls
             Root = new DevExpress.XtraLayout.LayoutControlGroup();
             layoutControlPosition = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlDepartment = new DevExpress.XtraLayout.LayoutControlItem();
-            layoutControlPassportNumber = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlIsActive = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlImage = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlEmployeeTitle = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlCards = new DevExpress.XtraLayout.LayoutControlItem();
             emptySpaceItem3 = new DevExpress.XtraLayout.EmptySpaceItem();
+            layoutControlPassportNumber = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlGroup = new DevExpress.XtraLayout.LayoutControlGroup();
             layoutItemSplitContainer = new DevExpress.XtraLayout.LayoutControlItem();
             ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -63,6 +63,8 @@ namespace APB.AccessControl.ManageApp.Controls
             barBtnDeleteEmployee = new DevExpress.XtraBars.BarButtonItem();
             barBtnAssignCard = new DevExpress.XtraBars.BarButtonItem();
             barBtnDeleteCard = new DevExpress.XtraBars.BarButtonItem();
+            barBtnActivateCard = new DevExpress.XtraBars.BarButtonItem();
+            barBtnDeactivateCard = new DevExpress.XtraBars.BarButtonItem();
             ribbonPageEmployee = new DevExpress.XtraBars.Ribbon.RibbonPage();
             ribbonPageGroupEmployee = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ribbonPageGroupCards = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -92,12 +94,12 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)Root).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPosition).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployeeTitle).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlCards).BeginInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).BeginInit();
@@ -120,17 +122,20 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             layoutControl.Controls.Add(splitContainerMain);
             layoutControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            layoutControl.Location = new System.Drawing.Point(2, 221);
+            layoutControl.Location = new System.Drawing.Point(2, 189);
             layoutControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             layoutControl.Name = "layoutControl";
             layoutControl.Root = layoutControlGroup;
-            layoutControl.Size = new System.Drawing.Size(2202, 1377);
+            layoutControl.Size = new System.Drawing.Size(2202, 1409);
             layoutControl.TabIndex = 0;
             layoutControl.Text = "layoutControl";
             // 
             // splitContainerMain
             // 
-            splitContainerMain.Location = new System.Drawing.Point(2, 2);
+            splitContainerMain.Cursor = System.Windows.Forms.Cursors.No;
+            splitContainerMain.FixedPanel = DevExpress.XtraEditors.SplitFixedPanel.Panel2;
+            splitContainerMain.IsSplitterFixed = true;
+            splitContainerMain.Location = new System.Drawing.Point(12, 12);
             splitContainerMain.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             splitContainerMain.Name = "splitContainerMain";
             // 
@@ -143,8 +148,8 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             splitContainerMain.Panel2.Controls.Add(panelEmployeeDetails);
             splitContainerMain.Panel2.Text = "Информация о сотруднике";
-            splitContainerMain.Size = new System.Drawing.Size(2198, 1373);
-            splitContainerMain.SplitterPosition = 1298;
+            splitContainerMain.Size = new System.Drawing.Size(2178, 1385);
+            splitContainerMain.SplitterPosition = 723;
             splitContainerMain.TabIndex = 1;
             // 
             // gridControlEmployees
@@ -155,7 +160,7 @@ namespace APB.AccessControl.ManageApp.Controls
             gridControlEmployees.MainView = gridViewEmployees;
             gridControlEmployees.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             gridControlEmployees.Name = "gridControlEmployees";
-            gridControlEmployees.Size = new System.Drawing.Size(1298, 1373);
+            gridControlEmployees.Size = new System.Drawing.Size(1440, 1385);
             gridControlEmployees.TabIndex = 0;
             gridControlEmployees.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewEmployees });
             // 
@@ -175,7 +180,7 @@ namespace APB.AccessControl.ManageApp.Controls
             panelEmployeeDetails.Location = new System.Drawing.Point(0, 0);
             panelEmployeeDetails.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             panelEmployeeDetails.Name = "panelEmployeeDetails";
-            panelEmployeeDetails.Size = new System.Drawing.Size(885, 1373);
+            panelEmployeeDetails.Size = new System.Drawing.Size(723, 1385);
             panelEmployeeDetails.TabIndex = 1;
             // 
             // layoutControlEmployeeDetails
@@ -193,7 +198,7 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlEmployeeDetails.Name = "layoutControlEmployeeDetails";
             layoutControlEmployeeDetails.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1248, 418, 975, 600);
             layoutControlEmployeeDetails.Root = Root;
-            layoutControlEmployeeDetails.Size = new System.Drawing.Size(881, 1369);
+            layoutControlEmployeeDetails.Size = new System.Drawing.Size(719, 1381);
             layoutControlEmployeeDetails.TabIndex = 8;
             layoutControlEmployeeDetails.Text = "layoutControl1";
             // 
@@ -201,7 +206,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblEmployeeTitle.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             lblEmployeeTitle.Appearance.Options.UseFont = true;
-            lblEmployeeTitle.Location = new System.Drawing.Point(2, 2);
+            lblEmployeeTitle.Location = new System.Drawing.Point(12, 12);
             lblEmployeeTitle.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblEmployeeTitle.Name = "lblEmployeeTitle";
             lblEmployeeTitle.Padding = new System.Windows.Forms.Padding(12);
@@ -213,11 +218,11 @@ namespace APB.AccessControl.ManageApp.Controls
             // gridControlCards
             // 
             gridControlCards.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            gridControlCards.Location = new System.Drawing.Point(2, 502);
+            gridControlCards.Location = new System.Drawing.Point(12, 511);
             gridControlCards.MainView = gridViewCards;
             gridControlCards.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             gridControlCards.Name = "gridControlCards";
-            gridControlCards.Size = new System.Drawing.Size(877, 865);
+            gridControlCards.Size = new System.Drawing.Size(695, 858);
             gridControlCards.TabIndex = 2;
             gridControlCards.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewCards, gridView1 });
             // 
@@ -239,24 +244,24 @@ namespace APB.AccessControl.ManageApp.Controls
             // pictureEditPhoto
             // 
             pictureEditPhoto.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            pictureEditPhoto.Location = new System.Drawing.Point(2, 62);
+            pictureEditPhoto.Location = new System.Drawing.Point(12, 72);
             pictureEditPhoto.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             pictureEditPhoto.Name = "pictureEditPhoto";
             pictureEditPhoto.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             pictureEditPhoto.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            pictureEditPhoto.Size = new System.Drawing.Size(301, 371);
+            pictureEditPhoto.Size = new System.Drawing.Size(236, 333);
             pictureEditPhoto.StyleController = layoutControlEmployeeDetails;
             pictureEditPhoto.TabIndex = 1;
             // 
             // chkIsActive
             // 
             chkIsActive.AutoSizeInLayoutControl = true;
-            chkIsActive.Location = new System.Drawing.Point(325, 170);
+            chkIsActive.Location = new System.Drawing.Point(252, 267);
             chkIsActive.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             chkIsActive.Name = "chkIsActive";
             chkIsActive.Properties.Caption = "Активен";
             chkIsActive.Properties.ReadOnly = true;
-            chkIsActive.Size = new System.Drawing.Size(554, 27);
+            chkIsActive.Size = new System.Drawing.Size(455, 27);
             chkIsActive.StyleController = layoutControlEmployeeDetails;
             chkIsActive.TabIndex = 0;
             // 
@@ -264,10 +269,10 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblPassportNumber.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblPassportNumber.Appearance.Options.UseFont = true;
-            lblPassportNumber.Location = new System.Drawing.Point(472, 134);
+            lblPassportNumber.Location = new System.Drawing.Point(252, 96);
             lblPassportNumber.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblPassportNumber.Name = "lblPassportNumber";
-            lblPassportNumber.Size = new System.Drawing.Size(407, 32);
+            lblPassportNumber.Size = new System.Drawing.Size(455, 37);
             lblPassportNumber.StyleController = layoutControlEmployeeDetails;
             lblPassportNumber.TabIndex = 1;
             // 
@@ -276,10 +281,10 @@ namespace APB.AccessControl.ManageApp.Controls
             lblDepartment.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblDepartment.Appearance.Options.UseFont = true;
             lblDepartment.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            lblDepartment.Location = new System.Drawing.Point(472, 98);
+            lblDepartment.Location = new System.Drawing.Point(252, 202);
             lblDepartment.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblDepartment.Name = "lblDepartment";
-            lblDepartment.Size = new System.Drawing.Size(407, 32);
+            lblDepartment.Size = new System.Drawing.Size(455, 61);
             lblDepartment.StyleController = layoutControlEmployeeDetails;
             lblDepartment.TabIndex = 1;
             // 
@@ -288,10 +293,10 @@ namespace APB.AccessControl.ManageApp.Controls
             lblPosition.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblPosition.Appearance.Options.UseFont = true;
             lblPosition.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            lblPosition.Location = new System.Drawing.Point(472, 62);
+            lblPosition.Location = new System.Drawing.Point(252, 137);
             lblPosition.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblPosition.Name = "lblPosition";
-            lblPosition.Size = new System.Drawing.Size(407, 32);
+            lblPosition.Size = new System.Drawing.Size(455, 61);
             lblPosition.StyleController = layoutControlEmployeeDetails;
             lblPosition.TabIndex = 1;
             // 
@@ -299,50 +304,42 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             Root.GroupBordersVisible = false;
-            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlPosition, layoutControlDepartment, layoutControlPassportNumber, layoutControlIsActive, layoutControlImage, layoutControlEmployeeTitle, layoutControlCards, emptySpaceItem3 });
+            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlPosition, layoutControlDepartment, layoutControlIsActive, layoutControlImage, layoutControlEmployeeTitle, layoutControlCards, emptySpaceItem3, layoutControlPassportNumber });
             Root.Name = "Root";
-            Root.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            Root.Size = new System.Drawing.Size(881, 1369);
+            Root.Size = new System.Drawing.Size(719, 1381);
             Root.TextVisible = false;
             // 
             // layoutControlPosition
             // 
             layoutControlPosition.Control = lblPosition;
-            layoutControlPosition.Location = new System.Drawing.Point(305, 60);
+            layoutControlPosition.Location = new System.Drawing.Point(240, 125);
+            layoutControlPosition.MinSize = new System.Drawing.Size(137, 65);
             layoutControlPosition.Name = "layoutControlPosition";
-            layoutControlPosition.Padding = new DevExpress.XtraLayout.Utils.Padding(20, 2, 2, 2);
-            layoutControlPosition.Size = new System.Drawing.Size(576, 36);
+            layoutControlPosition.Size = new System.Drawing.Size(459, 65);
+            layoutControlPosition.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlPosition.Text = "Позиция";
-            layoutControlPosition.TextSize = new System.Drawing.Size(135, 19);
+            layoutControlPosition.TextLocation = DevExpress.Utils.Locations.Top;
+            layoutControlPosition.TextVisible = false;
             // 
             // layoutControlDepartment
             // 
             layoutControlDepartment.Control = lblDepartment;
-            layoutControlDepartment.Location = new System.Drawing.Point(305, 96);
+            layoutControlDepartment.Location = new System.Drawing.Point(240, 190);
+            layoutControlDepartment.MinSize = new System.Drawing.Size(137, 65);
             layoutControlDepartment.Name = "layoutControlDepartment";
-            layoutControlDepartment.Padding = new DevExpress.XtraLayout.Utils.Padding(20, 2, 2, 2);
-            layoutControlDepartment.Size = new System.Drawing.Size(576, 36);
+            layoutControlDepartment.Size = new System.Drawing.Size(459, 65);
+            layoutControlDepartment.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlDepartment.Text = "Отдел";
-            layoutControlDepartment.TextSize = new System.Drawing.Size(135, 19);
-            // 
-            // layoutControlPassportNumber
-            // 
-            layoutControlPassportNumber.Control = lblPassportNumber;
-            layoutControlPassportNumber.Location = new System.Drawing.Point(305, 132);
-            layoutControlPassportNumber.Name = "layoutControlPassportNumber";
-            layoutControlPassportNumber.Padding = new DevExpress.XtraLayout.Utils.Padding(20, 2, 2, 2);
-            layoutControlPassportNumber.Size = new System.Drawing.Size(576, 36);
-            layoutControlPassportNumber.Text = "Номер паспорта";
-            layoutControlPassportNumber.TextSize = new System.Drawing.Size(135, 19);
+            layoutControlDepartment.TextLocation = DevExpress.Utils.Locations.Top;
+            layoutControlDepartment.TextVisible = false;
             // 
             // layoutControlIsActive
             // 
             layoutControlIsActive.Control = chkIsActive;
-            layoutControlIsActive.Location = new System.Drawing.Point(305, 168);
-            layoutControlIsActive.MinSize = new System.Drawing.Size(114, 31);
+            layoutControlIsActive.Location = new System.Drawing.Point(240, 255);
+            layoutControlIsActive.MinSize = new System.Drawing.Size(105, 37);
             layoutControlIsActive.Name = "layoutControlIsActive";
-            layoutControlIsActive.Padding = new DevExpress.XtraLayout.Utils.Padding(20, 2, 2, 2);
-            layoutControlIsActive.Size = new System.Drawing.Size(576, 267);
+            layoutControlIsActive.Size = new System.Drawing.Size(459, 142);
             layoutControlIsActive.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlIsActive.TextVisible = false;
             // 
@@ -350,8 +347,11 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             layoutControlImage.Control = pictureEditPhoto;
             layoutControlImage.Location = new System.Drawing.Point(0, 60);
+            layoutControlImage.MaxSize = new System.Drawing.Size(240, 337);
+            layoutControlImage.MinSize = new System.Drawing.Size(240, 337);
             layoutControlImage.Name = "layoutControlImage";
-            layoutControlImage.Size = new System.Drawing.Size(305, 375);
+            layoutControlImage.Size = new System.Drawing.Size(240, 337);
+            layoutControlImage.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlImage.TextVisible = false;
             // 
             // layoutControlEmployeeTitle
@@ -359,24 +359,41 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlEmployeeTitle.Control = lblEmployeeTitle;
             layoutControlEmployeeTitle.Location = new System.Drawing.Point(0, 0);
             layoutControlEmployeeTitle.Name = "layoutControlEmployeeTitle";
-            layoutControlEmployeeTitle.Size = new System.Drawing.Size(881, 60);
+            layoutControlEmployeeTitle.Size = new System.Drawing.Size(699, 60);
             layoutControlEmployeeTitle.TextVisible = false;
             // 
             // layoutControlCards
             // 
             layoutControlCards.Control = gridControlCards;
-            layoutControlCards.Location = new System.Drawing.Point(0, 478);
+            layoutControlCards.Location = new System.Drawing.Point(0, 475);
+            layoutControlCards.MinSize = new System.Drawing.Size(137, 53);
             layoutControlCards.Name = "layoutControlCards";
-            layoutControlCards.Size = new System.Drawing.Size(881, 891);
+            layoutControlCards.Size = new System.Drawing.Size(699, 886);
+            layoutControlCards.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlCards.Text = "Карты сотрудника";
             layoutControlCards.TextLocation = DevExpress.Utils.Locations.Top;
-            layoutControlCards.TextSize = new System.Drawing.Size(135, 19);
+            layoutControlCards.TextSize = new System.Drawing.Size(131, 21);
             // 
             // emptySpaceItem3
             // 
-            emptySpaceItem3.Location = new System.Drawing.Point(0, 435);
+            emptySpaceItem3.Location = new System.Drawing.Point(0, 397);
+            emptySpaceItem3.MinSize = new System.Drawing.Size(106, 26);
             emptySpaceItem3.Name = "emptySpaceItem3";
-            emptySpaceItem3.Size = new System.Drawing.Size(881, 43);
+            emptySpaceItem3.Size = new System.Drawing.Size(699, 78);
+            emptySpaceItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            // 
+            // layoutControlPassportNumber
+            // 
+            layoutControlPassportNumber.Control = lblPassportNumber;
+            layoutControlPassportNumber.Location = new System.Drawing.Point(240, 60);
+            layoutControlPassportNumber.MinSize = new System.Drawing.Size(6, 65);
+            layoutControlPassportNumber.Name = "layoutControlPassportNumber";
+            layoutControlPassportNumber.Size = new System.Drawing.Size(459, 65);
+            layoutControlPassportNumber.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            layoutControlPassportNumber.Text = "Номер паспорта";
+            layoutControlPassportNumber.TextLocation = DevExpress.Utils.Locations.Top;
+            layoutControlPassportNumber.TextSize = new System.Drawing.Size(131, 21);
+            layoutControlPassportNumber.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
             // 
             // layoutControlGroup
             // 
@@ -384,8 +401,7 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlGroup.GroupBordersVisible = false;
             layoutControlGroup.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutItemSplitContainer });
             layoutControlGroup.Name = "layoutControlGroup";
-            layoutControlGroup.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            layoutControlGroup.Size = new System.Drawing.Size(2202, 1377);
+            layoutControlGroup.Size = new System.Drawing.Size(2202, 1409);
             layoutControlGroup.TextVisible = false;
             // 
             // layoutItemSplitContainer
@@ -393,22 +409,30 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutItemSplitContainer.Control = splitContainerMain;
             layoutItemSplitContainer.Location = new System.Drawing.Point(0, 0);
             layoutItemSplitContainer.Name = "layoutItemSplitContainer";
-            layoutItemSplitContainer.Size = new System.Drawing.Size(2202, 1377);
+            layoutItemSplitContainer.Size = new System.Drawing.Size(2182, 1389);
             layoutItemSplitContainer.TextVisible = false;
             // 
             // ribbonControl
             // 
             ribbonControl.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(65, 73, 65, 73);
             ribbonControl.ExpandCollapseItem.Id = 0;
-            ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] { ribbonControl.ExpandCollapseItem, barBtnAddEmployee, barBtnEditEmployee, barBtnDeleteEmployee, barBtnAssignCard, barBtnDeleteCard });
+            ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] { ribbonControl.ExpandCollapseItem, barBtnAddEmployee, barBtnEditEmployee, barBtnDeleteEmployee, barBtnAssignCard, barBtnDeleteCard, barBtnActivateCard, barBtnDeactivateCard });
             ribbonControl.Location = new System.Drawing.Point(2, 2);
-            ribbonControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            ribbonControl.MaxItemId = 6;
+            ribbonControl.Margin = new System.Windows.Forms.Padding(0);
+            ribbonControl.MaxItemId = 8;
             ribbonControl.Name = "ribbonControl";
             ribbonControl.OptionsMenuMinWidth = 715;
             ribbonControl.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] { ribbonPageEmployee });
-            ribbonControl.Size = new System.Drawing.Size(2202, 219);
-            ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
+            ribbonControl.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
+            ribbonControl.ShowDisplayOptionsMenuButton = DevExpress.Utils.DefaultBoolean.False;
+            ribbonControl.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
+            ribbonControl.ShowMoreCommandsButton = DevExpress.Utils.DefaultBoolean.False;
+            ribbonControl.ShowPageHeadersInFormCaption = DevExpress.Utils.DefaultBoolean.False;
+            ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.ShowOnMultiplePages;
+            ribbonControl.ShowToolbarCustomizeItem = false;
+            ribbonControl.Size = new System.Drawing.Size(2202, 187);
+            ribbonControl.Toolbar.ShowCustomizeItem = false;
+            ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
             // 
             // barBtnAddEmployee
             // 
@@ -445,6 +469,20 @@ namespace APB.AccessControl.ManageApp.Controls
             barBtnDeleteCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeleteCard.ImageOptions.SvgImage");
             barBtnDeleteCard.Name = "barBtnDeleteCard";
             // 
+            // barBtnActivateCard
+            // 
+            barBtnActivateCard.Caption = "Активировать карту";
+            barBtnActivateCard.Id = 6;
+            barBtnActivateCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnActivateCard.ImageOptions.SvgImage");
+            barBtnActivateCard.Name = "barBtnActivateCard";
+            // 
+            // barBtnDeactivateCard
+            // 
+            barBtnDeactivateCard.Caption = "Деактивировать карту";
+            barBtnDeactivateCard.Id = 7;
+            barBtnDeactivateCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeactivateCard.ImageOptions.SvgImage");
+            barBtnDeactivateCard.Name = "barBtnDeactivateCard";
+            // 
             // ribbonPageEmployee
             // 
             ribbonPageEmployee.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] { ribbonPageGroupEmployee, ribbonPageGroupCards });
@@ -463,6 +501,8 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             ribbonPageGroupCards.ItemLinks.Add(barBtnAssignCard);
             ribbonPageGroupCards.ItemLinks.Add(barBtnDeleteCard);
+            ribbonPageGroupCards.ItemLinks.Add(barBtnActivateCard);
+            ribbonPageGroupCards.ItemLinks.Add(barBtnDeactivateCard);
             ribbonPageGroupCards.Name = "ribbonPageGroupCards";
             ribbonPageGroupCards.Text = "Карты доступа";
             // 
@@ -507,12 +547,12 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)Root).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPosition).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).EndInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployeeTitle).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlCards).EndInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).EndInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).EndInit();
@@ -545,6 +585,8 @@ namespace APB.AccessControl.ManageApp.Controls
         private DevExpress.XtraBars.BarButtonItem barBtnDeleteEmployee;
         private DevExpress.XtraBars.BarButtonItem barBtnAssignCard;
         private DevExpress.XtraBars.BarButtonItem barBtnDeleteCard;
+        private DevExpress.XtraBars.BarButtonItem barBtnActivateCard;
+        private DevExpress.XtraBars.BarButtonItem barBtnDeactivateCard;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageEmployee;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupEmployee;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupCards;

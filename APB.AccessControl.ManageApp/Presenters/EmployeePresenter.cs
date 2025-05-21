@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using APB.AccessControl.ManageApp.Controls;
+using APB.AccessControl.ManageApp.Forms;
 using APB.AccessControl.ManageApp.Services;
 using APB.AccessControl.ManageApp.Views;
 using APB.AccessControl.Shared.Models.DTOs;
@@ -33,6 +34,8 @@ namespace APB.AccessControl.ManageApp.Presenters
             _view.DeleteEmployee += OnDeleteEmployee;
             _view.AssignCardToEmployee += OnAssignCardToEmployee;
             _view.DeleteCardFromEmployee += OnDeleteCardFromEmployee;
+            _view.ActivateCard += OnActivateCard;
+            _view.DeactivateCard += OnDeactivateCard;
             _view.CardInfoReceived += OnCardInfoReceived;
         }
 
@@ -144,7 +147,6 @@ namespace APB.AccessControl.ManageApp.Presenters
                     FirstName = employee.FirstName,
                     LastName = employee.LastName,
                     PatronymicName = employee.PatronymicName,
-                    PassportNumber = employee.PassportNumber,
                     Department = employee.Department,
                     Position = employee.Position,
                     Photo = employee.Photo,
@@ -250,7 +252,7 @@ namespace APB.AccessControl.ManageApp.Presenters
                 {
                     EmployeeId = _currentEmployee.Id,
                     Hash = e.CardHash,
-                    MaskPan = e.CardData?.Pan
+                    MaskPan = e.MaskPan
                 };
 
                 var createdCard = await _employeeService.CreateCardAsync(request);
@@ -263,6 +265,62 @@ namespace APB.AccessControl.ManageApp.Presenters
             catch (Exception ex)
             {
                 _view.ShowError($"Ошибка привязки карты: {ex.Message}");
+            }
+            finally
+            {
+                _view.SetBusy(false);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события активации карты
+        /// </summary>
+        private async void OnActivateCard(object sender, int cardId)
+        {
+            try
+            {
+                _view.SetBusy(true);
+                await _employeeService.ActivateCardAsync(cardId);
+                _view.ShowInfo("Карта успешно активирована");
+
+                // Обновляем список карт сотрудника
+                if (_currentEmployee != null)
+                {
+                    _currentCards = new List<CardDto>(await _employeeService.GetEmployeeCardsAsync(_currentEmployee.Id));
+                    _view.ShowEmployeeCards(_currentCards);
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.ShowError($"Ошибка активации карты: {ex.Message}");
+            }
+            finally
+            {
+                _view.SetBusy(false);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события деактивации карты
+        /// </summary>
+        private async void OnDeactivateCard(object sender, int cardId)
+        {
+            try
+            {
+                _view.SetBusy(true);
+                await _employeeService.DeactivateCardAsync(cardId);
+                _view.ShowInfo("Карта успешно деактивирована");
+
+                // Обновляем список карт сотрудника
+                if (_currentEmployee != null)
+                {
+                    _currentCards = new List<CardDto>(await _employeeService.GetEmployeeCardsAsync(_currentEmployee.Id));
+                    _view.ShowEmployeeCards(_currentCards);
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.ShowError($"Ошибка деактивации карты: {ex.Message}");
             }
             finally
             {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using APB.AccessControl.Domain.Entities;
-using static APB.AccessControl.Application.Common.ValidationMessage;
+using static APB.AccessControl.Shared.Utils.ValidationMessage;
 using System;
 
 

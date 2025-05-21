@@ -10,7 +10,8 @@ using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-
+using APB.AccessControl.WebApi.Validators;
+using FluentValidation.Results;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
@@ -21,11 +22,19 @@ namespace APB.AccessControl.WebApi.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly ILogger<EmployeeController> _logger;
+        private readonly CreateEmployeeReqValidator _createValidator;
+        private readonly UpdateEmployeeReqValidator _updateValidator;
 
-        public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger)
+        public EmployeeController(
+            IEmployeeService employeeService, 
+            ILogger<EmployeeController> logger,
+            CreateEmployeeReqValidator createValidator,
+            UpdateEmployeeReqValidator updateValidator)
         {
             _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
         }
 
         [HttpGet]
@@ -45,6 +54,13 @@ namespace APB.AccessControl.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Result<EmployeeDto>>> CreateEmployee([FromBody] CreateEmployeeReq request, CancellationToken cancellationToken = default)
         {
+            ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
+
             var createdEmployee = await _employeeService.CreateAsync(request, cancellationToken);
             return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.Id }, Result.Success(createdEmployee));
         }
@@ -55,7 +71,14 @@ namespace APB.AccessControl.WebApi.Controllers
             if (id != request.Id)
             {
                 var error = new Error("Идентификатор в URL не соответствует идентификатору в теле запроса");
-                return BadRequest(Result.Failure(error));
+                return BadRequest(Result.Failure([error]));
+            }
+
+            ValidationResult validationResult = await _updateValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
             }
 
             await _employeeService.UpdateAsync(request, cancellationToken);

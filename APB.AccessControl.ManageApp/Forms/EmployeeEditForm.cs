@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using APB.AccessControl.Shared.Models.DTOs;
+using DevExpress.XtraEditors.DXErrorProvider;
+using System.Text.RegularExpressions;
 
 namespace APB.AccessControl.ManageApp.Forms
 {
@@ -22,13 +24,14 @@ namespace APB.AccessControl.ManageApp.Forms
         {
             InitializeComponent();
             Text = "Добавление сотрудника";
-            
+
             // Настройка формы для создания нового сотрудника
             chkIsActive.Checked = true;
-            
+
             // Скрываем поле "Активен" при создании нового сотрудника
             chkIsActive.Visible = false;
-            labelActive.Visible = false;
+            chkIsActive.Enabled = false;
+            layoutControlItem7.Control.Visible = false;
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace APB.AccessControl.ManageApp.Forms
         {
             InitializeComponent();
             Text = "Редактирование сотрудника";
-            
+
             // Заполняем поля данными сотрудника
             txtLastName.Text = employee.LastName;
             txtFirstName.Text = employee.FirstName;
@@ -47,7 +50,7 @@ namespace APB.AccessControl.ManageApp.Forms
             txtDepartment.Text = employee.Department;
             txtPosition.Text = employee.Position;
             chkIsActive.Checked = employee.IsActive;
-            
+
             // Устанавливаем фото сотрудника если есть
             if (!string.IsNullOrEmpty(employee.Photo))
             {
@@ -65,27 +68,26 @@ namespace APB.AccessControl.ManageApp.Forms
                     pictureEditPhoto.Image = null;
                 }
             }
-            
+
             // Сохраняем ID сотрудника
             Employee = new EmployeeDto { Id = employee.Id };
+
+            txtPassportNumber.Enabled = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Валидация данных
-            if (string.IsNullOrWhiteSpace(txtLastName.Text) || string.IsNullOrWhiteSpace(txtFirstName.Text))
+            if (!dxValidationProvider.Validate())
             {
-                XtraMessageBox.Show("Необходимо заполнить Фамилию и Имя", "Ошибка", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             // Создаем/обновляем объект сотрудника
             if (Employee == null)
             {
                 Employee = new EmployeeDto();
             }
-            
+
             Employee.LastName = txtLastName.Text;
             Employee.FirstName = txtFirstName.Text;
             Employee.PatronymicName = txtPatronymicName.Text;
@@ -94,13 +96,13 @@ namespace APB.AccessControl.ManageApp.Forms
             Employee.Position = txtPosition.Text;
             Employee.IsActive = chkIsActive.Checked;
             Employee.Photo = _photoBase64;
-            
+
             DialogResult = DialogResult.OK;
             Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
-        {
+        { 
             DialogResult = DialogResult.Cancel;
             Close();
         }
@@ -111,7 +113,7 @@ namespace APB.AccessControl.ManageApp.Forms
             {
                 openFileDialog.Filter = "Изображения|*.jpg;*.jpeg;*.png;*.bmp";
                 openFileDialog.Title = "Выберите фотографию";
-                
+
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     try
@@ -120,7 +122,7 @@ namespace APB.AccessControl.ManageApp.Forms
                         {
                             // Устанавливаем изображение в PictureEdit
                             pictureEditPhoto.Image = new Bitmap(image);
-                            
+
                             // Конвертируем изображение в Base64
                             using (var ms = new MemoryStream())
                             {
@@ -132,17 +134,37 @@ namespace APB.AccessControl.ManageApp.Forms
                     }
                     catch (Exception ex)
                     {
-                        XtraMessageBox.Show($"Ошибка загрузки изображения: {ex.Message}", "Ошибка", 
+                        XtraMessageBox.Show($"Ошибка загрузки изображения: {ex.Message}", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
 
-        private void btnClearPhoto_Click(object sender, EventArgs e)
+        private void EmployeeEditForm_Load(object sender, EventArgs e)
         {
-            pictureEditPhoto.Image = null;
-            _photoBase64 = null;
+
+            var rule = new PasspostNumberValidationRule();
+
+            //остальные в дизайнере
+
+            dxValidationProvider.SetValidationRule(btnCancel, null);
+
+            dxValidationProvider.SetValidationRule(txtPassportNumber, rule);
+            btnCancel.CausesValidation = false;
+        }
+
+        private class PasspostNumberValidationRule : ValidationRule
+        {
+            public override bool Validate(Control control, object value)
+            {
+                if (value is string passportNumber)
+                {
+                    // Проверяем, что номер паспорта состоит из 7 цифр
+                    return Regex.IsMatch(passportNumber, "^[0-9]{7}$");
+                }
+                return false;
+            }
         }
     }
 } 

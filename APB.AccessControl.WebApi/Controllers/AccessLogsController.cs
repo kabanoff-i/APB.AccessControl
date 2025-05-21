@@ -1,13 +1,12 @@
-using APB.AccessControl.Application.Filters;
 using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.DTOs;
+using APB.AccessControl.Shared.Models.Filters;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.WebApi.Validators;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
@@ -18,11 +17,16 @@ namespace APB.AccessControl.WebApi.Controllers
     {
         private readonly IAccessLogService _accessLogService;
         private readonly ILogger<AccessLogsController> _logger;
+        private readonly CreateAccessLogReqValidator _createValidator;
 
-        public AccessLogsController(IAccessLogService accessLogService, ILogger<AccessLogsController> logger)
+        public AccessLogsController(
+            IAccessLogService accessLogService, 
+            ILogger<AccessLogsController> logger,
+            CreateAccessLogReqValidator createValidator)
         {
-            _accessLogService = accessLogService;
-            _logger = logger;
+            _accessLogService = accessLogService ?? throw new ArgumentNullException(nameof(accessLogService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
         }
 
         [HttpGet("{id}")]
@@ -33,7 +37,7 @@ namespace APB.AccessControl.WebApi.Controllers
         }
 
         [HttpPost("filter")]
-        public async Task<ActionResult<Result<IEnumerable<AccessLogDto>>>> GetByFilter([FromBody] AccessLogFilter filter, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<Result<IEnumerable<AccessLogDto>>>> GetByFilter([FromBody] AccessLogFilterDto filter, CancellationToken cancellationToken = default)
         {
             var logs = await _accessLogService.GetLogsByFilterAsync(filter, cancellationToken);
             return Ok(Result.Success(logs));
@@ -42,6 +46,13 @@ namespace APB.AccessControl.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Result<AccessLogDto>>> Create([FromBody] CreateAccessLogReq request, CancellationToken cancellationToken = default)
         {
+            ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
+
             var log = await _accessLogService.LogAccessAttemptAsync(request, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = log.Id }, Result.Success(log));
         }

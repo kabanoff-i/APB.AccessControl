@@ -2,11 +2,10 @@ using APB.AccessControl.Application.Services.Interfaces;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.WebApi.Validators;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
@@ -17,11 +16,22 @@ namespace APB.AccessControl.WebApi.Controllers
     {
         private readonly IAccessRuleService _accessRuleService;
         private readonly ILogger<AccessRulesController> _logger;
+        private readonly CreateAccessRuleReqValidator _createValidator;
+        private readonly UpdateAccessRuleReqValidator _updateValidator;
+        private readonly HeartbeatReqValidator _heartbeatValidator;
 
-        public AccessRulesController(IAccessRuleService accessRuleService, ILogger<AccessRulesController> logger)
+        public AccessRulesController(
+            IAccessRuleService accessRuleService, 
+            ILogger<AccessRulesController> logger,
+            CreateAccessRuleReqValidator createValidator,
+            UpdateAccessRuleReqValidator updateValidator,
+            HeartbeatReqValidator heartbeatValidator)
         {
-            _accessRuleService = accessRuleService;
-            _logger = logger;
+            _accessRuleService = accessRuleService ?? throw new ArgumentNullException(nameof(accessRuleService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
+            _heartbeatValidator = heartbeatValidator ?? throw new ArgumentNullException(nameof(heartbeatValidator));
         }
 
         [HttpGet]
@@ -41,6 +51,13 @@ namespace APB.AccessControl.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Result<AccessRuleDto>>> Create([FromBody] CreateAccessRuleReq request, CancellationToken cancellationToken = default)
         {
+            ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
+            }
+
             var accessRule = await _accessRuleService.CreateAsync(request, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = accessRule.Id }, Result.Success(accessRule));
         }
@@ -51,7 +68,14 @@ namespace APB.AccessControl.WebApi.Controllers
             if (id != request.Id)
             {
                 var error = new Error("ID в URL не соответствует ID в теле запроса");
-                return BadRequest(Result.Failure(error));
+                return BadRequest(Result.Failure([error]));
+            }
+
+            ValidationResult validationResult = await _updateValidator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+                return BadRequest(Result.Failure(errors));
             }
 
             await _accessRuleService.UpdateAsync(request, cancellationToken);

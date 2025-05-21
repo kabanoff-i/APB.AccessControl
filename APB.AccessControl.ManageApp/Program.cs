@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using APB.AccessControl.ManageApp.Controls;
 using APB.AccessControl.ManageApp.Services;
 using DevExpress.LookAndFeel;
+using DevExpress.Skins.Info;
+using DevExpress.Skins;
 using DevExpress.Utils;
+using DevExpress.XtraBars.FluentDesignSystem;
 using DevExpress.XtraEditors;
+using System.Windows.Controls;
 
 namespace APB.AccessControl.ManageApp
 {
@@ -16,29 +21,43 @@ namespace APB.AccessControl.ManageApp
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+
 
             // Настройка темы приложения
-            UserLookAndFeel.Default.SetSkinStyle("Office 2019 Colorful");
+            //UserLookAndFeel.Default.SetSkinStyle("Office 2019 Colorful");
 
             // Настройка шрифта по умолчанию для всего приложения
-            WindowsFormsSettings.DefaultFont = new System.Drawing.Font("Segoe UI", 11F);
-            WindowsFormsSettings.DefaultMenuFont = new System.Drawing.Font("Segoe UI", 11F);
-            DefaultBoolean.True.ToString();
-            AppearanceObject.DefaultFont = new System.Drawing.Font("Segoe UI", 11F);
+            //WindowsFormsSettings.DefaultFont = new System.Drawing.Font("Segoe UI", 10F);
+            //WindowsFormsSettings.DefaultMenuFont = new System.Drawing.Font("Segoe UI", 10F);
+            //DefaultBoolean.True.ToString();
+            //AppearanceObject.DefaultFont = new System.Drawing.Font("Segoe UI", 10F);
 
             // Регистрируем обработчик необработанных исключений
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ThreadException += Application_ThreadException;
+            System.Windows.Forms.Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            System.Windows.Forms.Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             
             try
             {
                 LogService.LogInfo("Запуск приложения APB.AccessControl.ManageApp", "Program");
-                
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+
+                RegisterSkin();
+                SetSkinPalette();
+
+                WindowsFormsSettings.DefaultFont = new System.Drawing.Font("Segoe UI", 10F);
+                WindowsFormsSettings.DefaultMenuFont = new System.Drawing.Font("Segoe UI", 10F);
+                DefaultBoolean.True.ToString();
+                AppearanceObject.DefaultFont = new System.Drawing.Font("Segoe UI", 10F);
+
+                WindowsFormsSettings.ForceDirectXPaint();
+                WindowsFormsSettings.ScrollUIMode = ScrollUIMode.Fluent;
+                WindowsFormsSettings.CustomizationFormSnapMode = DevExpress.Utils.Controls.SnapMode.OwnerControl;
+
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 
                 // Показываем форму логина перед запуском основной формы
                 using (var loginForm = new LoginForm())
@@ -50,7 +69,7 @@ namespace APB.AccessControl.ManageApp
                     {
                         // Если авторизация успешна, запускаем основное приложение
                         LogService.LogInfo("Авторизация успешна. Запуск основной формы", "Program");
-                        Application.Run(new MainForm());
+                        System.Windows.Forms.Application.Run(new MainForm());
                     }
                     else
                     {
@@ -69,7 +88,25 @@ namespace APB.AccessControl.ManageApp
                     "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
+        static void SetSkinPalette()
+        {
+            UserLookAndFeel.Default.SetSkinStyle("fluentmailclient");
+            var skin = CommonSkins.GetSkin(WindowsFormsSettings.DefaultLookAndFeel);
+            DevExpress.Utils.Svg.SvgPalette palette = skin.CustomSvgPalettes["Default"];
+            skin.SvgPalettes[Skin.DefaultSkinPaletteName].SetCustomPalette(palette);
+            LookAndFeelHelper.ForceDefaultLookAndFeelChanged();
+        }
+        static void RegisterSkin()
+        {
+            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            string fluentMailClientSkinDataPath = string.Format("{0}.SkinData.fluentmailclient.fluentmailclient.SkinData.", assemblyName);
+            SkinBlobXmlCreator skinCreator = new SkinBlobXmlCreator("fluentmailclient", fluentMailClientSkinDataPath, typeof(Program).Assembly, null);
+            SkinManager.Default.RegisterSkin(skinCreator);
+            DevExpress.XtraSplashScreen.SplashScreenManager.RegisterUserSkin(skinCreator);
+            FluentDesignFormCompatibleSkins.Skins.Add("fluentmailclient");
+        }
+
         /// <summary>
         /// Обработчик необработанных исключений в UI потоке
         /// </summary>
