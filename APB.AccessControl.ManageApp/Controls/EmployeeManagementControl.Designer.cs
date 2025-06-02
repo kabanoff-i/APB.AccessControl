@@ -29,7 +29,6 @@ namespace APB.AccessControl.ManageApp.Controls
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeManagementControl));
             panelMain = new DevExpress.XtraEditors.PanelControl();
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             splitContainerMain = new DevExpress.XtraEditors.SplitContainerControl();
@@ -48,13 +47,13 @@ namespace APB.AccessControl.ManageApp.Controls
             lblPosition = new DevExpress.XtraEditors.LabelControl();
             Root = new DevExpress.XtraLayout.LayoutControlGroup();
             layoutControlPosition = new DevExpress.XtraLayout.LayoutControlItem();
-            layoutControlDepartment = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlIsActive = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlImage = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlEmployeeTitle = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlCards = new DevExpress.XtraLayout.LayoutControlItem();
             emptySpaceItem3 = new DevExpress.XtraLayout.EmptySpaceItem();
             layoutControlPassportNumber = new DevExpress.XtraLayout.LayoutControlItem();
+            layoutControlDepartment = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlGroup = new DevExpress.XtraLayout.LayoutControlGroup();
             layoutItemSplitContainer = new DevExpress.XtraLayout.LayoutControlItem();
             ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -93,13 +92,13 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)chkIsActive.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Root).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPosition).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployeeTitle).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlCards).BeginInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).BeginInit();
@@ -320,18 +319,6 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlPosition.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlPosition.TextSize = new System.Drawing.Size(131, 21);
             // 
-            // layoutControlDepartment
-            // 
-            layoutControlDepartment.Control = lblDepartment;
-            layoutControlDepartment.Location = new System.Drawing.Point(240, 121);
-            layoutControlDepartment.MinSize = new System.Drawing.Size(137, 65);
-            layoutControlDepartment.Name = "layoutControlDepartment";
-            layoutControlDepartment.Size = new System.Drawing.Size(459, 65);
-            layoutControlDepartment.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            layoutControlDepartment.Text = "Отдел";
-            layoutControlDepartment.TextLocation = DevExpress.Utils.Locations.Top;
-            layoutControlDepartment.TextSize = new System.Drawing.Size(131, 21);
-            // 
             // layoutControlIsActive
             // 
             layoutControlIsActive.Control = chkIsActive;
@@ -393,6 +380,18 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlPassportNumber.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlPassportNumber.TextSize = new System.Drawing.Size(131, 21);
             // 
+            // layoutControlDepartment
+            // 
+            layoutControlDepartment.Control = lblDepartment;
+            layoutControlDepartment.Location = new System.Drawing.Point(240, 121);
+            layoutControlDepartment.MinSize = new System.Drawing.Size(137, 65);
+            layoutControlDepartment.Name = "layoutControlDepartment";
+            layoutControlDepartment.Size = new System.Drawing.Size(459, 65);
+            layoutControlDepartment.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            layoutControlDepartment.Text = "Отдел";
+            layoutControlDepartment.TextLocation = DevExpress.Utils.Locations.Top;
+            layoutControlDepartment.TextSize = new System.Drawing.Size(131, 21);
+            // 
             // layoutControlGroup
             // 
             layoutControlGroup.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -436,49 +435,49 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             barBtnAddEmployee.Caption = "Добавить";
             barBtnAddEmployee.Id = 1;
-            barBtnAddEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            barBtnAddEmployee.ImageOptions.SvgImage = Properties.Resources.actions_add3;
             barBtnAddEmployee.Name = "barBtnAddEmployee";
             // 
             // barBtnEditEmployee
             // 
             barBtnEditEmployee.Caption = "Изменить";
             barBtnEditEmployee.Id = 2;
-            barBtnEditEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
+            barBtnEditEmployee.ImageOptions.SvgImage = Properties.Resources.editnames3;
             barBtnEditEmployee.Name = "barBtnEditEmployee";
             // 
             // barBtnDeleteEmployee
             // 
             barBtnDeleteEmployee.Caption = "Удалить";
             barBtnDeleteEmployee.Id = 3;
-            barBtnDeleteEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            barBtnDeleteEmployee.ImageOptions.SvgImage = Properties.Resources.actions_trash3;
             barBtnDeleteEmployee.Name = "barBtnDeleteEmployee";
             // 
             // barBtnAssignCard
             // 
             barBtnAssignCard.Caption = "Привязать карту";
             barBtnAssignCard.Id = 4;
-            barBtnAssignCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/assign");
+            barBtnAssignCard.ImageOptions.SvgImage = Properties.Resources.insertgroupfooter1;
             barBtnAssignCard.Name = "barBtnAssignCard";
             // 
             // barBtnDeleteCard
             // 
             barBtnDeleteCard.Caption = "Отвязать карту";
             barBtnDeleteCard.Id = 5;
-            barBtnDeleteCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            barBtnDeleteCard.ImageOptions.SvgImage = Properties.Resources.removegroupfooter1;
             barBtnDeleteCard.Name = "barBtnDeleteCard";
             // 
             // barBtnActivateCard
             // 
             barBtnActivateCard.Caption = "Активировать карту";
             barBtnActivateCard.Id = 6;
-            barBtnActivateCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/activate");
+            barBtnActivateCard.ImageOptions.SvgImage = Properties.Resources.check;
             barBtnActivateCard.Name = "barBtnActivateCard";
             // 
             // barBtnDeactivateCard
             // 
             barBtnDeactivateCard.Caption = "Деактивировать карту";
             barBtnDeactivateCard.Id = 7;
-            barBtnDeactivateCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/deactivate");
+            barBtnDeactivateCard.ImageOptions.SvgImage = Properties.Resources.del;
             barBtnDeactivateCard.Name = "barBtnDeactivateCard";
             // 
             // ribbonPageEmployee
@@ -544,13 +543,13 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)chkIsActive.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)Root).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPosition).EndInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployeeTitle).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlCards).EndInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem3).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlPassportNumber).EndInit();
+            ((System.ComponentModel.ISupportInitialize)layoutControlDepartment).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).EndInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).EndInit();

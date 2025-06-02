@@ -28,7 +28,6 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccessPointManagementControl));
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             gridControlAccessPoints = new DevExpress.XtraGrid.GridControl();
             gridViewAccessPoints = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -196,7 +195,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnAdd.Caption = "Добавить";
             btnAdd.Id = 1;
-            btnAdd.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            btnAdd.ImageOptions.SvgImage = Properties.Resources.actions_add1;
             btnAdd.Name = "btnAdd";
             btnAdd.ItemClick += btnAdd_Click;
             // 
@@ -205,7 +204,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnEdit.Caption = "Изменить";
             btnEdit.Enabled = false;
             btnEdit.Id = 2;
-            btnEdit.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
+            btnEdit.ImageOptions.SvgImage = Properties.Resources.editnames1;
             btnEdit.Name = "btnEdit";
             btnEdit.ItemClick += btnEdit_Click;
             // 
@@ -214,7 +213,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnDelete.Caption = "Удалить";
             btnDelete.Enabled = false;
             btnDelete.Id = 3;
-            btnDelete.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            btnDelete.ImageOptions.SvgImage = Properties.Resources.actions_trash1;
             btnDelete.Name = "btnDelete";
             btnDelete.ItemClick += btnDelete_Click;
             // 
@@ -223,7 +222,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnSendNotification.Caption = "Отправить\r\nуведомление";
             btnSendNotification.Enabled = false;
             btnSendNotification.Id = 5;
-            btnSendNotification.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/notification");
+            btnSendNotification.ImageOptions.SvgImage = Properties.Resources.bo_notifications;
             btnSendNotification.Name = "btnSendNotification";
             btnSendNotification.ItemClick += btnSendNotification_Click;
             // 
@@ -231,7 +230,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 6;
-            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
+            btnRefresh.ImageOptions.SvgImage = Properties.Resources.actions_refresh1;
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_Click;
             // 

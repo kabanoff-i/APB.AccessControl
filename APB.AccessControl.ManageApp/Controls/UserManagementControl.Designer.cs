@@ -30,7 +30,6 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserManagementControl));
             gridControlUsers = new DevExpress.XtraGrid.GridControl();
             gridViewUsers = new DevExpress.XtraGrid.Views.Grid.GridView();
             ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -95,7 +94,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 1;
-            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
+            btnRefresh.ImageOptions.SvgImage = Properties.Resources.actions_refresh4;
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_ItemClick;
             // 
@@ -103,7 +102,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnCreate.Caption = "Создать";
             btnCreate.Id = 2;
-            btnCreate.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            btnCreate.ImageOptions.SvgImage = Properties.Resources.actions_add5;
             btnCreate.Name = "btnCreate";
             btnCreate.ItemClick += btnCreate_ItemClick;
             // 
@@ -111,7 +110,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnEdit.Caption = "Редактировать";
             btnEdit.Id = 3;
-            btnEdit.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
+            btnEdit.ImageOptions.SvgImage = Properties.Resources.editnames5;
             btnEdit.Name = "btnEdit";
             btnEdit.ItemClick += btnEdit_ItemClick;
             // 
@@ -119,7 +118,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnDelete.Caption = "Удалить";
             btnDelete.Id = 4;
-            btnDelete.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            btnDelete.ImageOptions.SvgImage = Properties.Resources.actions_trash5;
             btnDelete.Name = "btnDelete";
             btnDelete.ItemClick += btnDelete_ItemClick;
             // 
@@ -127,7 +126,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnChangePassword.Caption = "Изменить пароль";
             btnChangePassword.Id = 5;
-            btnChangePassword.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("security/password");
+            btnChangePassword.ImageOptions.SvgImage = Properties.Resources.security_key;
             btnChangePassword.Name = "btnChangePassword";
             btnChangePassword.ItemClick += btnChangePassword_ItemClick;
             // 

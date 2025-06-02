@@ -28,7 +28,6 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccessGroupManagementControl));
             panelMain = new DevExpress.XtraEditors.PanelControl();
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             splitContainerMain = new DevExpress.XtraEditors.SplitContainerControl();
@@ -309,35 +308,35 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             barBtnAddAccessGroup.Caption = "Добавить";
             barBtnAddAccessGroup.Id = 1;
-            barBtnAddAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            barBtnAddAccessGroup.ImageOptions.SvgImage = Properties.Resources.actions_add;
             barBtnAddAccessGroup.Name = "barBtnAddAccessGroup";
             // 
             // barBtnEditAccessGroup
             // 
             barBtnEditAccessGroup.Caption = "Изменить";
             barBtnEditAccessGroup.Id = 2;
-            barBtnEditAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
+            barBtnEditAccessGroup.ImageOptions.SvgImage = Properties.Resources.editnames;
             barBtnEditAccessGroup.Name = "barBtnEditAccessGroup";
             // 
             // barBtnDeleteAccessGroup
             // 
             barBtnDeleteAccessGroup.Caption = "Удалить";
             barBtnDeleteAccessGroup.Id = 3;
-            barBtnDeleteAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            barBtnDeleteAccessGroup.ImageOptions.SvgImage = Properties.Resources.actions_trash;
             barBtnDeleteAccessGroup.Name = "barBtnDeleteAccessGroup";
             // 
             // barBtnAddEmployeeToGroup
             // 
             barBtnAddEmployeeToGroup.Caption = "Добавить сотрудника";
             barBtnAddEmployeeToGroup.Id = 4;
-            barBtnAddEmployeeToGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            barBtnAddEmployeeToGroup.ImageOptions.SvgImage = Properties.Resources.insertgroupfooter;
             barBtnAddEmployeeToGroup.Name = "barBtnAddEmployeeToGroup";
             // 
             // barBtnRemoveEmployeeFromGroup
             // 
             barBtnRemoveEmployeeFromGroup.Caption = "Удалить сотрудника";
             barBtnRemoveEmployeeFromGroup.Id = 5;
-            barBtnRemoveEmployeeFromGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/remove");
+            barBtnRemoveEmployeeFromGroup.ImageOptions.SvgImage = Properties.Resources.removegroupfooter;
             barBtnRemoveEmployeeFromGroup.Name = "barBtnRemoveEmployeeFromGroup";
             // 
             // ribbonPageAccessGroups

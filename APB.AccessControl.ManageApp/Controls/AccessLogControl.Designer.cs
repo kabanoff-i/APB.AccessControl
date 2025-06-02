@@ -29,7 +29,6 @@ namespace APB.AccessControl.ManageApp.Controls
         private void InitializeComponent()
         {
             DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccessLogControl));
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             gridControlLogs = new DevExpress.XtraGrid.GridControl();
             gridViewLogs = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -109,7 +108,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 1;
-            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
+            btnRefresh.ImageOptions.SvgImage = Properties.Resources.actions_refresh;
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_Click;
             // 
@@ -117,7 +116,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnFilter.Caption = "Фильтр";
             btnFilter.Id = 2;
-            btnFilter.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/filter");
+            btnFilter.ImageOptions.SvgImage = Properties.Resources.filterquery;
             btnFilter.Name = "btnFilter";
             btnFilter.ItemClick += btnFilter_Click;
             // 
@@ -125,7 +124,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnExport.Caption = "Экспорт";
             btnExport.Id = 3;
-            btnExport.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/export");
+            btnExport.ImageOptions.SvgImage = Properties.Resources.exportfile;
             btnExport.Name = "btnExport";
             // 
             // ribPageLogs

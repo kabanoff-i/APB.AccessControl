@@ -28,7 +28,6 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationControl));
             gridControlNotifications = new DevExpress.XtraGrid.GridControl();
             gridViewNotifications = new DevExpress.XtraGrid.Views.Grid.GridView();
             ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -90,7 +89,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnAdd.Caption = "Добавить";
             btnAdd.Id = 1;
-            btnAdd.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
+            btnAdd.ImageOptions.SvgImage = Properties.Resources.actions_add4;
             btnAdd.Name = "btnAdd";
             btnAdd.ItemClick += btnAdd_Click;
             // 
@@ -98,7 +97,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnEdit.Caption = "Редактировать";
             btnEdit.Id = 2;
-            btnEdit.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
+            btnEdit.ImageOptions.SvgImage = Properties.Resources.editnames4;
             btnEdit.Name = "btnEdit";
             btnEdit.ItemClick += btnEdit_Click;
             // 
@@ -106,7 +105,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnDelete.Caption = "Удалить";
             btnDelete.Id = 3;
-            btnDelete.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
+            btnDelete.ImageOptions.SvgImage = Properties.Resources.actions_trash4;
             btnDelete.Name = "btnDelete";
             btnDelete.ItemClick += btnDelete_Click;
             // 
@@ -114,7 +113,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 4;
-            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
+            btnRefresh.ImageOptions.SvgImage = Properties.Resources.actions_refresh3;
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_Click;
             // 

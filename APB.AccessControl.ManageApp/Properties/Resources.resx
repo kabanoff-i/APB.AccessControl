@@ -117,4 +117,107 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="actions_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="insertgroupfooter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\insertgroupfooter.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="removegroupfooter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\removegroupfooter.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="filterquery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\filterquery.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_refresh.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="exportfile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exportfile.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_add1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_refresh1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_refresh1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="bo_notifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bo_notifications.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_add2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add2.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames2.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash2.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_refresh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_refresh2.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_add3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add3.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames3.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash3.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="insertgroupfooter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\insertgroupfooter1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="removegroupfooter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\removegroupfooter1.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\check.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="del" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\del.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_add4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add4.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames4.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash4.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_refresh3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_refresh3.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_refresh4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_refresh4.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_add5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_add5.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="editnames5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editnames5.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="actions_trash5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_trash5.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="security_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\security_key.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
 </root>
