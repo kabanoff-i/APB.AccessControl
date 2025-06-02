@@ -93,7 +93,12 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var filter = filterDto != null ? _mapper.Map<AccessRuleFilter>(filterDto) : default;
+                var filter = filterDto != null ? new AccessRuleFilter()
+                {
+                    AccessPointId = filterDto.AccessPointId,
+                    AccessGroupId = filterDto.AccessGroupId
+                } 
+                : default;
 
                 var repRes = await _accessRuleRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessRuleDto>>(repRes);

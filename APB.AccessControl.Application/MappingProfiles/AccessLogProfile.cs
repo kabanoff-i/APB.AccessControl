@@ -18,7 +18,8 @@ namespace APB.AccessControl.Application.MappingProfiles
                 .ForMember(dest => dest.AccessResult, opt => opt.MapFrom(src => (int)src.AccessResult))
                 .ForMember(dest => dest.MaskPan, opt => opt.MapFrom(src => src.Card.MaskPan))
                 .ForMember(dest => dest.EmployeeFullName, opt => opt.MapFrom(src => string.Join(" ", src.Employee.LastName, src.Employee.FirstName, src.Employee.PatronymicName)))
-                .ForMember(dest => dest.AccessPointName, opt => opt.MapFrom(src => src.AccessPoint.Name));
+                .ForMember(dest => dest.AccessPointName, opt => opt.MapFrom(src => src.AccessPoint.Name))
+                .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
 
 
             // Request to Entity

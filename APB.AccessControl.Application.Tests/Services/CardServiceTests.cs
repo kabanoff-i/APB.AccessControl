@@ -10,6 +10,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -18,6 +19,7 @@ namespace APB.AccessControl.Application.Tests.Services
         private readonly Mock<ICardRepository> _mockRepository;
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<ILogger<CardService>> _mockLogger;
+        private readonly CardValidator _validator;
         private readonly CardService _service;
 
         public CardServiceTests()
@@ -25,11 +27,13 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockRepository = new Mock<ICardRepository>();
             _mockMapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<CardService>>();
+            _validator = new CardValidator();
             
             _service = new CardService(
                 _mockRepository.Object,
                 _mockMapper.Object,
-                _mockLogger.Object);
+                _mockLogger.Object,
+                _validator);
         }
 
         [Fact]
@@ -39,14 +43,16 @@ namespace APB.AccessControl.Application.Tests.Services
             var createRequest = new CreateCardReq 
             { 
                 EmployeeId = 1,
-                Hash = "TestHash"
+                Hash = "1234567890123456789012345678901234567890",
+                MaskPan = "1234"
             };
             
             var card = new Card
             { 
                 EmployeeId = 1,
-                Hash = "TestHash",
+                Hash = "1234567890123456789012345678901234567890",
                 Id = 1,
+                MaskPan = "1234",
                 IsActive = true
             };
             
@@ -54,6 +60,7 @@ namespace APB.AccessControl.Application.Tests.Services
             {
                 Id = 1,
                 EmployeeId = 1,
+                MaskPan = "1234",
                 IsActive = true
             };
 
@@ -81,12 +88,13 @@ namespace APB.AccessControl.Application.Tests.Services
             
             var card = new Card 
             { 
-                Id = 1, 
+                Id = 1,
+                Hash = "1234567890123456789012345678901234567890",
                 EmployeeId = 2,
                 IsActive = false
             };
 
-            _mockRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _mockRepository.Setup(r => r.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(card);
             _mockMapper.Setup(m => m.Map<Card>(updateRequest)).Returns(card);
 
             // Act

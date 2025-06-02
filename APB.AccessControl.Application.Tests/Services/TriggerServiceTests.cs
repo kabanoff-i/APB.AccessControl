@@ -9,7 +9,7 @@ using APB.AccessControl.Shared.Models.Requests;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
-
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -18,7 +18,6 @@ namespace APB.AccessControl.Application.Tests.Services
         private readonly Mock<ITriggerRepository> _mockTriggerRepository;
         private readonly Mock<IAccessLogRepository> _mockAccessLogRepository;
         private readonly Mock<IAccessTriggerLogService> _mockAccessTriggerLogService;
-        private readonly Mock<ITriggerExecuter> _mockTriggerExecuter;
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<ILogger<TriggerService>> _mockLogger;
         private readonly TriggerService _service;

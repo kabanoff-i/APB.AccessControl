@@ -13,7 +13,7 @@ namespace APB.AccessControl.ManageApp.Presenters
     public class AccessLogPresenter : IDisposable
     {
         private readonly IAccessLogView _view;
-        private readonly IAccessLogService _accessLogService;
+        private readonly AccessLogService _accessLogService;
         private readonly EmployeeService _employeeService;
         private readonly AccessPointService _accessPointService;
         
@@ -24,7 +24,7 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// </summary>
         public AccessLogPresenter(
             IAccessLogView view,
-            IAccessLogService accessLogService,
+            AccessLogService accessLogService,
             EmployeeService employeeService,
             AccessPointService accessPointService)
         {
@@ -46,7 +46,7 @@ namespace APB.AccessControl.ManageApp.Presenters
             try
             {
                 // Загружаем справочники
-                await LoadReferencesAsync();
+                await LoadReferenceDataAsync();
                 
                 // Загружаем логи за последние 7 дней по умолчанию
                 var defaultStartDate = DateTime.Now.AddDays(-7);
@@ -63,7 +63,7 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// <summary>
         /// Загрузка справочников для фильтрации
         /// </summary>
-        private async Task LoadReferencesAsync()
+        public async Task LoadReferenceDataAsync()
         {
             try
             {
@@ -99,12 +99,12 @@ namespace APB.AccessControl.ManageApp.Presenters
                 else
                 {
                     _view.SetAccessLogs(Enumerable.Empty<AccessLogDto>());
-                    _view.ShowMessage("Логи не найдены");
+                    _view.ShowMessage("Записи не найдены");
                 }
             }
             catch (Exception ex)
             {
-                _view.ShowError($"Ошибка при загрузке логов: {ex.Message}");
+                _view.ShowError($"Ошибка при загрузке записей: {ex.Message}");
             }
         }
         
@@ -113,7 +113,7 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// </summary>
         private async void HandleRefreshData(object sender, EventArgs e)
         {
-            await LoadReferencesAsync();
+            await LoadReferenceDataAsync();
         }
         
         /// <summary>

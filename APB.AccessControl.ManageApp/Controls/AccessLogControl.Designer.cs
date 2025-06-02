@@ -33,12 +33,6 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             gridControlLogs = new DevExpress.XtraGrid.GridControl();
             gridViewLogs = new DevExpress.XtraGrid.Views.Grid.GridView();
-            colId = new DevExpress.XtraGrid.Columns.GridColumn();
-            colTimestamp = new DevExpress.XtraGrid.Columns.GridColumn();
-            colEmployeeName = new DevExpress.XtraGrid.Columns.GridColumn();
-            colAccessPointName = new DevExpress.XtraGrid.Columns.GridColumn();
-            colStatus = new DevExpress.XtraGrid.Columns.GridColumn();
-            colDescription = new DevExpress.XtraGrid.Columns.GridColumn();
             ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
             btnRefresh = new DevExpress.XtraBars.BarButtonItem();
             btnFilter = new DevExpress.XtraBars.BarButtonItem();
@@ -86,7 +80,6 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             // gridViewLogs
             // 
-            gridViewLogs.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, colTimestamp, colEmployeeName, colAccessPointName, colStatus, colDescription });
             gridViewLogs.DetailHeight = 367;
             gridViewLogs.GridControl = gridControlLogs;
             gridViewLogs.Name = "gridViewLogs";
@@ -94,64 +87,6 @@ namespace APB.AccessControl.ManageApp.Controls
             gridViewLogs.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             gridViewLogs.OptionsBehavior.Editable = false;
             gridViewLogs.OptionsBehavior.ReadOnly = true;
-            // 
-            // colId
-            // 
-            colId.Caption = "ID";
-            colId.FieldName = "Id";
-            colId.MinWidth = 25;
-            colId.Name = "colId";
-            colId.Width = 94;
-            // 
-            // colTimestamp
-            // 
-            colTimestamp.Caption = "Дата и время";
-            colTimestamp.FieldName = "DateAccess";
-            colTimestamp.MinWidth = 25;
-            colTimestamp.Name = "colTimestamp";
-            colTimestamp.Visible = true;
-            colTimestamp.VisibleIndex = 0;
-            colTimestamp.Width = 170;
-            // 
-            // colEmployeeName
-            // 
-            colEmployeeName.Caption = "Сотрудник";
-            colEmployeeName.FieldName = "EmployeeFullName";
-            colEmployeeName.MinWidth = 25;
-            colEmployeeName.Name = "colEmployeeName";
-            colEmployeeName.Visible = true;
-            colEmployeeName.VisibleIndex = 1;
-            colEmployeeName.Width = 250;
-            // 
-            // colAccessPointName
-            // 
-            colAccessPointName.Caption = "Точка доступа";
-            colAccessPointName.FieldName = "AccessPointName";
-            colAccessPointName.MinWidth = 25;
-            colAccessPointName.Name = "colAccessPointName";
-            colAccessPointName.Visible = true;
-            colAccessPointName.VisibleIndex = 2;
-            colAccessPointName.Width = 200;
-            // 
-            // colStatus
-            // 
-            colStatus.Caption = "Статус";
-            colStatus.FieldName = "AccessResult";
-            colStatus.MinWidth = 25;
-            colStatus.Name = "colStatus";
-            colStatus.Visible = true;
-            colStatus.VisibleIndex = 3;
-            colStatus.Width = 120;
-            // 
-            // colDescription
-            // 
-            colDescription.Caption = "Описание";
-            colDescription.FieldName = "Message";
-            colDescription.MinWidth = 25;
-            colDescription.Name = "colDescription";
-            colDescription.Visible = true;
-            colDescription.VisibleIndex = 4;
-            colDescription.Width = 300;
             // 
             // ribbonControl
             // 
@@ -174,7 +109,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 1;
-            btnRefresh.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnRefresh.ImageOptions.SvgImage");
+            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_Click;
             // 
@@ -182,7 +117,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnFilter.Caption = "Фильтр";
             btnFilter.Id = 2;
-            btnFilter.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnFilter.ImageOptions.SvgImage");
+            btnFilter.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/filter");
             btnFilter.Name = "btnFilter";
             btnFilter.ItemClick += btnFilter_Click;
             // 
@@ -190,7 +125,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnExport.Caption = "Экспорт";
             btnExport.Id = 3;
-            btnExport.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnExport.ImageOptions.SvgImage");
+            btnExport.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/export");
             btnExport.Name = "btnExport";
             // 
             // ribPageLogs
@@ -201,8 +136,8 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             // ribGroupActions
             // 
-            ribGroupActions.ItemLinks.Add(btnRefresh);
             ribGroupActions.ItemLinks.Add(btnFilter);
+            ribGroupActions.ItemLinks.Add(btnRefresh);
             ribGroupActions.ItemLinks.Add(btnExport);
             ribGroupActions.Name = "ribGroupActions";
             ribGroupActions.Text = "Действия";
@@ -273,12 +208,6 @@ namespace APB.AccessControl.ManageApp.Controls
         private DevExpress.XtraLayout.LayoutControl layoutControl;
         private DevExpress.XtraGrid.GridControl gridControlLogs;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewLogs;
-        private DevExpress.XtraGrid.Columns.GridColumn colId;
-        private DevExpress.XtraGrid.Columns.GridColumn colTimestamp;
-        private DevExpress.XtraGrid.Columns.GridColumn colEmployeeName;
-        private DevExpress.XtraGrid.Columns.GridColumn colAccessPointName;
-        private DevExpress.XtraGrid.Columns.GridColumn colStatus;
-        private DevExpress.XtraGrid.Columns.GridColumn colDescription;
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl;
         private DevExpress.XtraBars.BarButtonItem btnRefresh;
         private DevExpress.XtraBars.BarButtonItem btnFilter;

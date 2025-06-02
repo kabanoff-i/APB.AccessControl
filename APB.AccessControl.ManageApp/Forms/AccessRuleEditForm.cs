@@ -100,7 +100,7 @@ namespace APB.AccessControl.ManageApp.Forms
                 }
             }
             
-            Text = $"Редактирование правила доступа [{rule.Id}]";
+            Text = $"Редактирование правила доступа {rule.AccessPointName} - {rule.AccessGroupName}";
         }
       
         /// <summary>
@@ -344,7 +344,7 @@ namespace APB.AccessControl.ManageApp.Forms
             // Обновляем скрытое поле с JSON строкой специальных дат
             memoEditSpecialDates.Text = _specificDates.Count > 0 
                 ? JsonSerializer.Serialize(_specificDates) 
-                : "";
+                : "[]";
         }
         
         /// <summary>

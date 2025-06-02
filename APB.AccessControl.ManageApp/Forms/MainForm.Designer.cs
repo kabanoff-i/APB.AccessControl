@@ -37,11 +37,12 @@
             AccessGroupManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             AccessPointManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             AccessRuleManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            AccessLogView = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            NotificationsManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             logout = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             MainFormControl = new DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl();
             itemNav = new DevExpress.XtraBars.BarStaticItem();
             MainFormDefaultManager = new DevExpress.XtraBars.FluentDesignSystem.FluentFormDefaultManager(components);
-            AccessLogView = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             ((System.ComponentModel.ISupportInitialize)accordionControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MainFormControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MainFormDefaultManager).BeginInit();
@@ -78,7 +79,7 @@
             // 
             // group
             // 
-            group.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { EmployeeManagement, AccessGroupManagement, AccessPointManagement, AccessRuleManagement, AccessLogView });
+            group.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { EmployeeManagement, AccessGroupManagement, AccessPointManagement, AccessRuleManagement, AccessLogView, NotificationsManagement });
             group.Expanded = true;
             group.HeaderVisible = false;
             group.Height = -1;
@@ -89,36 +90,50 @@
             // EmployeeManagement
             // 
             EmployeeManagement.Height = -1;
-            EmployeeManagement.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("EmployeeManagement.ImageOptions.SvgImage");
+            EmployeeManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/employee");
             EmployeeManagement.Name = "EmployeeManagement";
             EmployeeManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             EmployeeManagement.Text = "Сотрудники и карты";
             // 
             // AccessGroupManagement
             // 
-            AccessGroupManagement.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("AccessGroupManagement.ImageOptions.SvgImage");
+            AccessGroupManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/group");
             AccessGroupManagement.Name = "AccessGroupManagement";
             AccessGroupManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessGroupManagement.Text = "Группы доступа";
             // 
             // AccessPointManagement
             // 
-            AccessPointManagement.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("AccessPointManagement.ImageOptions.SvgImage");
+            AccessPointManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/access point");
             AccessPointManagement.Name = "AccessPointManagement";
             AccessPointManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessPointManagement.Text = "Точки доступа";
             // 
             // AccessRuleManagement
             // 
-            AccessRuleManagement.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("AccessRuleManagement.ImageOptions.SvgImage");
+            AccessRuleManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/access rule");
             AccessRuleManagement.Name = "AccessRuleManagement";
             AccessRuleManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessRuleManagement.Text = "Правила доступа";
             // 
+            // AccessLogView
+            // 
+            AccessLogView.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/log");
+            AccessLogView.Name = "AccessLogView";
+            AccessLogView.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            AccessLogView.Text = "История проходов";
+            // 
+            // NotificationsManagement
+            // 
+            NotificationsManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/notification");
+            NotificationsManagement.Name = "NotificationsManagement";
+            NotificationsManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            NotificationsManagement.Text = "Уведомления";
+            // 
             // logout
             // 
             logout.ControlFooterAlignment = DevExpress.XtraBars.Navigation.AccordionItemFooterAlignment.Far;
-            logout.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("logout.ImageOptions.SvgImage");
+            logout.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/logout");
             logout.Name = "logout";
             logout.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             logout.Click += logout_Click;
@@ -145,13 +160,6 @@
             MainFormDefaultManager.Form = this;
             MainFormDefaultManager.Items.AddRange(new DevExpress.XtraBars.BarItem[] { itemNav });
             MainFormDefaultManager.MaxItemId = 2;
-            // 
-            // AccessLogView
-            // 
-            AccessLogView.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("accordionControlElement1.ImageOptions.SvgImage");
-            AccessLogView.Name = "AccessLogView";
-            AccessLogView.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            AccessLogView.Text = "История проходов";
             // 
             // MainForm
             // 
@@ -186,5 +194,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement AccessPointManagement;
         private DevExpress.XtraBars.Navigation.AccordionControlElement AccessRuleManagement;
         private DevExpress.XtraBars.Navigation.AccordionControlElement AccessLogView;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement NotificationsManagement;
     }
 }

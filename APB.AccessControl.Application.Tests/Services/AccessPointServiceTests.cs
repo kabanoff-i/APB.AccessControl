@@ -10,6 +10,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -18,6 +19,7 @@ namespace APB.AccessControl.Application.Tests.Services
         private readonly Mock<IAccessPointRepository> _mockRepository;
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<ILogger<AccessPointService>> _mockLogger;
+        private readonly AccessPointValidator _validator;
         private readonly AccessPointService _service;
 
         public AccessPointServiceTests()
@@ -25,6 +27,7 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockRepository = new Mock<IAccessPointRepository>();
             _mockMapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<AccessPointService>>();
+            _validator = new AccessPointValidator();
             
             _service = new AccessPointService(
                 _mockRepository.Object,

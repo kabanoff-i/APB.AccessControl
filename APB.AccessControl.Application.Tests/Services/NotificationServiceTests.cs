@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {

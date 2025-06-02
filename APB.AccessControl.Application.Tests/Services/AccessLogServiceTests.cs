@@ -5,6 +5,7 @@ using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Domain.Primitives;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.Shared.Models.Filters;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -94,6 +96,7 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task GetLogsByFilterAsync_ShouldReturnMappedAccessLogs_WhenLogsExist()
         {
             // Arrange
+            var filterDto = new AccessLogFilterDto { EmployeeId = 1 };
             var filter = new AccessLogFilter { EmployeeId = 1 };
             
             var accessLogs = new List<AccessLog>
@@ -136,11 +139,12 @@ namespace APB.AccessControl.Application.Tests.Services
                 }
             };
 
+            _mockMapper.Setup(m => m.Map<AccessLogFilter>(filterDto)).Returns(filter);
             _mockRepository.Setup(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(accessLogs);
             _mockMapper.Setup(m => m.Map<IEnumerable<AccessLogDto>>(accessLogs)).Returns(accessLogDtos);
 
             // Act
-            var result = await _service.GetLogsByFilterAsync(filter);
+            var result = await _service.GetLogsByFilterAsync(filterDto);
 
             // Assert
             Assert.Equal(accessLogDtos, result);
@@ -151,15 +155,17 @@ namespace APB.AccessControl.Application.Tests.Services
         public async Task GetLogsByFilterAsync_ShouldReturnEmptyList_WhenNoLogsMatch()
         {
             // Arrange
+            var filterDto = new AccessLogFilterDto { EmployeeId = 999 };
             var filter = new AccessLogFilter { EmployeeId = 999 };
             var emptyList = new List<AccessLog>();
             var emptyDtoList = new List<AccessLogDto>();
 
+            _mockMapper.Setup(m => m.Map<AccessLogFilter>(filterDto)).Returns(filter);
             _mockRepository.Setup(r => r.GetByFilterAsync(filter, It.IsAny<CancellationToken>())).ReturnsAsync(emptyList);
             _mockMapper.Setup(m => m.Map<IEnumerable<AccessLogDto>>(emptyList)).Returns(emptyDtoList);
 
             // Act
-            var result = await _service.GetLogsByFilterAsync(filter);
+            var result = await _service.GetLogsByFilterAsync(filterDto);
 
             // Assert
             Assert.Empty(result);

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
 using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Shared.Models.Filters;
+using APB.AccessControl.Domain.Primitives;
 
 namespace APB.AccessControl.Application.Services
 {
@@ -53,8 +54,18 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-
-                var filter = filterDto != null ? _mapper.Map<AccessLogFilter>(filterDto) : default; 
+                var filter = filterDto != null ? new AccessLogFilter()
+                {
+                    CardId = filterDto.CardId,
+                    EmployeeId = filterDto.EmployeeId,
+                    AccessPointId = filterDto.AccessPointId,
+                    AccessTimeStart = filterDto.AccessTimeStart?.ToUniversalTime(),
+                    AccessTimeEnd = filterDto.AccessTimeEnd?.ToUniversalTime(),
+                    AccessResult = filterDto.AccessResult.HasValue && Enum.IsDefined(typeof(AccessResult), filterDto.AccessResult.Value)
+                    ? (AccessResult?)filterDto.AccessResult.Value
+                    : null
+                }
+                : default; 
 
                 var logs = await _accessLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessLogDto>>(logs);

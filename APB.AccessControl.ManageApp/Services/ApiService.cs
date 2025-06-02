@@ -215,25 +215,69 @@ namespace APB.AccessControl.ManageApp.Services
         
         #region Логи доступа
         
-        public async Task<ApiResponse<IEnumerable<AccessLogDto>>> GetAccessLogsAsync(DateTime startDate, DateTime endDate, int employeeId = 0, int accessPointId = 0)
+        public async Task<ApiResponse<IEnumerable<AccessLogDto>>> GetAccessLogsAsync(AccessLogFilterDto filter)
         {
-            // Создаем объект фильтра
-            var filter = new AccessLogFilter
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                EmployeeId = employeeId > 0 ? employeeId : null,
-                AccessPointId = accessPointId > 0 ? accessPointId : null
-            };
-            
             // Выполняем запрос к API
-            return await PostAsync<IEnumerable<AccessLogDto>, AccessLogFilter>($"{ApiSettings.BaseUrl}/api/accesslogs/filter", filter);
+            return await PostAsync<IEnumerable<AccessLogDto>, AccessLogFilterDto>($"{ApiSettings.BaseUrl}/api/accesslogs/filter", filter);
         }
         
         #endregion
         
-        #region Базовые методы HTTP
+        #region Уведомления
         
+        public async Task<ApiResponse<IEnumerable<NotificationDto>>> GetNotificationsAsync()
+        {
+            return await GetAsync<IEnumerable<NotificationDto>>($"{ApiSettings.BaseUrl}/api/notifications");
+        }
+        
+        public async Task<ApiResponse<NotificationDto>> GetNotificationByIdAsync(int id)
+        {
+            return await GetAsync<NotificationDto>($"{ApiSettings.BaseUrl}/api/notifications/{id}");
+        }
+        
+        public async Task<ApiResponse<NotificationDto>> CreateNotificationAsync(CreateNotificationReq request)
+        {
+            return await PostAsync<NotificationDto, CreateNotificationReq>($"{ApiSettings.BaseUrl}/api/notifications", request);
+        }
+        
+        public async Task<ApiResponse<object>> UpdateNotificationAsync(UpdateNotificationReq request)
+        {
+            return await PutAsync<object, UpdateNotificationReq>($"{ApiSettings.BaseUrl}/api/notifications/{request.Id}", request);
+        }
+        
+        public async Task<ApiResponse<object>> DeleteNotificationAsync(int id)
+        {
+            return await DeleteAsync<object>($"{ApiSettings.BaseUrl}/api/notifications/{id}");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<NotificationDto>>> GetNotificationsByAccessPointAsync(int accessPointId)
+        {
+            return await GetAsync<IEnumerable<NotificationDto>>($"{ApiSettings.BaseUrl}/api/notifications/accesspoint/{accessPointId}");
+        }
+        
+        public async Task<ApiResponse<IEnumerable<NotificationDto>>> GetNotificationsByEmployeeAsync(int employeeId)
+        {
+            return await GetAsync<IEnumerable<NotificationDto>>($"{ApiSettings.BaseUrl}/api/notifications/employee/{employeeId}");
+        }
+
+        #endregion
+
+        #region Управление пользователями
+
+        public async Task<ApiResponse<IEnumerable<UserDto>>> GetAllUsersAsync()
+        {
+            return await GetAsync<IEnumerable<UserDto>>($"{ApiSettings.BaseUrl}/api/users");
+        }
+
+        public async Task<ApiResponse<UserDto>> GetUserByIdAsync(int userId)
+        {
+            return await GetAsync<UserDto>($"{ApiSettings.BaseUrl}/api/users/{userId}");
+        }
+
+        #endregion
+
+        #region Базовые методы HTTP
+
         /// <summary>
         /// Применяет актуальный токен авторизации перед каждым запросом
         /// </summary>

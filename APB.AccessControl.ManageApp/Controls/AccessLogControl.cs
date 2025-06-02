@@ -51,20 +51,29 @@ namespace APB.AccessControl.ManageApp.Controls
                 accessLogService,
                 employeeService,
                 accessPointService);
+            
+            btnExport.ItemClick += btnExport_Click;
         }
         
         /// <summary>
         /// Инициализация представления после загрузки
         /// </summary>
-        protected override void OnLoad(EventArgs e)
+        protected override async void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             
-            // Запрос параметров фильтрации перед загрузкой данных
-            ShowFilterDialog();
-            
-            // Асинхронная инициализация презентера
-            _ = _presenter.InitializeAsync();
+            try 
+            {
+                // Загружаем только справочники
+                await _presenter.LoadReferenceDataAsync();
+                
+                // Запрос параметров фильтрации
+                ShowFilterDialog();
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка при загрузке справочников: {ex.Message}");
+            }
         }
         
         /// <summary>
@@ -81,16 +90,61 @@ namespace APB.AccessControl.ManageApp.Controls
             gridViewLogs.OptionsView.ColumnAutoWidth = false;
             gridViewLogs.OptionsView.RowAutoHeight = true;
 
-            gridViewLogs.OptionsView.ColumnAutoWidth = true;
-            gridViewLogs.BestFitColumns();
+            // Устанавливаем начальный DataSource
+            gridControlLogs.DataSource = new List<AccessLogDto>();
 
             // Настройка цветов строк таблицы
             gridViewLogs.Appearance.Row.BackColor = Color.White;
-            gridViewLogs.Appearance.Row.BackColor2 = Color.FromArgb(245, 245, 245);
             gridViewLogs.Appearance.Row.Options.UseBackColor = true;
             
             // Настройка обработчиков форматирования данных
             gridViewLogs.CustomColumnDisplayText += GridViewLogs_CustomColumnDisplayText;
+            gridControlLogs.DataSourceChanged += GridControlLogs_DataSourceChanged;
+            gridViewLogs.RowStyle += GridViewLogs_RowStyle;
+        }
+        
+        private void GridControlLogs_DataSourceChanged(object sender, EventArgs e)
+        {
+            // Скрываем ненужные колонки
+            var columnsToHide = new[] { "Id", "EmployeeId", "AccessPointId", "CardId" };
+            foreach (var columnName in columnsToHide)
+            {
+                if (gridViewLogs.Columns[columnName] != null)
+                {
+                    gridViewLogs.Columns[columnName].Visible = false;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Обработчик стиля строки
+        /// </summary>
+        private void GridViewLogs_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
+        {
+            if (e.RowHandle >= 0)
+            {
+                GridView view = sender as GridView;
+                
+                try
+                {
+                    int accessResult = Convert.ToInt32(view.GetRowCellValue(e.RowHandle, "AccessResult"));
+                    
+                    if (accessResult == 1)
+                    {
+                        // Для успешных проходов окрашиваем строку в светло-зеленый
+                        e.Appearance.BackColor = Color.LightGreen;
+                    }
+                    else
+                    {
+                        // Для отказов окрашиваем строку в светло-красный
+                        e.Appearance.BackColor = Color.FromArgb(255, 153, 153);
+                    }
+                }
+                catch
+                {
+                    // Игнорируем ошибки при получении значения
+                }
+            }
         }
         
         /// <summary>
@@ -99,17 +153,24 @@ namespace APB.AccessControl.ManageApp.Controls
         private void GridViewLogs_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
             if (e.Value == null)
+            {
+                // Для колонок с сотрудником и картой показываем "Не определено"
+                if (e.Column.FieldName == "EmployeeFullName" || e.Column.FieldName == "MaskPan")
+                {
+                    e.DisplayText = "Не определено";
+                }
                 return;
+            }
                 
             // Форматирование отображения времени
-            if (e.Column == colTimestamp && e.Value is DateTime timeValue)
+            if (e.Column.FieldName == "DateAccess" && e.Value is DateTime timeValue)
             {
                 e.DisplayText = timeValue.ToString("dd.MM.yyyy HH:mm:ss");
                 return;
             }
             
             // Форматирование статуса прохода
-            if (e.Column == colStatus)
+            if (e.Column.FieldName == "AccessResult")
             {
                 if (e.Value is int accessResult)
                 {
@@ -210,6 +271,41 @@ namespace APB.AccessControl.ManageApp.Controls
             };
             
             FilterLogs?.Invoke(this, filterOptions);
+        }
+        
+        /// <summary>
+        /// Обработчик кнопки экспорта в Excel
+        /// </summary>
+        private void btnExport_Click(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                // Проверяем наличие данных для экспорта
+                if (_currentLogs == null || !_currentLogs.Any())
+                {
+                    ShowMessage("Нет данных для экспорта");
+                    return;
+                }
+
+                // Создаем диалог сохранения файла
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "Excel файлы (*.xlsx)|*.xlsx";
+                    saveDialog.Title = "Экспорт в Excel";
+                    saveDialog.FileName = $"Логи доступа {DateTime.Now:yyyy-MM-dd}";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Экспортируем данные в Excel
+                        gridControlLogs.ExportToXlsx(saveDialog.FileName);
+                        ShowMessage("Экспорт успешно завершен");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка при экспорте в Excel: {ex.Message}");
+            }
         }
         
         #region IAccessLogView

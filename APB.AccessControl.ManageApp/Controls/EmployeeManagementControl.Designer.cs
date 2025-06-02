@@ -206,7 +206,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblEmployeeTitle.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             lblEmployeeTitle.Appearance.Options.UseFont = true;
-            lblEmployeeTitle.Location = new System.Drawing.Point(12, 12);
+            lblEmployeeTitle.Location = new System.Drawing.Point(10, 10);
             lblEmployeeTitle.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblEmployeeTitle.Name = "lblEmployeeTitle";
             lblEmployeeTitle.Padding = new System.Windows.Forms.Padding(12);
@@ -218,11 +218,11 @@ namespace APB.AccessControl.ManageApp.Controls
             // gridControlCards
             // 
             gridControlCards.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            gridControlCards.Location = new System.Drawing.Point(12, 511);
+            gridControlCards.Location = new System.Drawing.Point(12, 508);
             gridControlCards.MainView = gridViewCards;
             gridControlCards.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             gridControlCards.Name = "gridControlCards";
-            gridControlCards.Size = new System.Drawing.Size(695, 858);
+            gridControlCards.Size = new System.Drawing.Size(695, 861);
             gridControlCards.TabIndex = 2;
             gridControlCards.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewCards, gridView1 });
             // 
@@ -244,19 +244,18 @@ namespace APB.AccessControl.ManageApp.Controls
             // pictureEditPhoto
             // 
             pictureEditPhoto.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            pictureEditPhoto.Location = new System.Drawing.Point(12, 72);
+            pictureEditPhoto.Location = new System.Drawing.Point(12, 68);
             pictureEditPhoto.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             pictureEditPhoto.Name = "pictureEditPhoto";
             pictureEditPhoto.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            pictureEditPhoto.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            pictureEditPhoto.Size = new System.Drawing.Size(236, 333);
+            pictureEditPhoto.Size = new System.Drawing.Size(236, 334);
             pictureEditPhoto.StyleController = layoutControlEmployeeDetails;
             pictureEditPhoto.TabIndex = 1;
             // 
             // chkIsActive
             // 
             chkIsActive.AutoSizeInLayoutControl = true;
-            chkIsActive.Location = new System.Drawing.Point(252, 267);
+            chkIsActive.Location = new System.Drawing.Point(252, 264);
             chkIsActive.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             chkIsActive.Name = "chkIsActive";
             chkIsActive.Properties.Caption = "Активен";
@@ -269,7 +268,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             lblPassportNumber.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblPassportNumber.Appearance.Options.UseFont = true;
-            lblPassportNumber.Location = new System.Drawing.Point(252, 96);
+            lblPassportNumber.Location = new System.Drawing.Point(252, 92);
             lblPassportNumber.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblPassportNumber.Name = "lblPassportNumber";
             lblPassportNumber.Size = new System.Drawing.Size(455, 37);
@@ -281,10 +280,10 @@ namespace APB.AccessControl.ManageApp.Controls
             lblDepartment.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblDepartment.Appearance.Options.UseFont = true;
             lblDepartment.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            lblDepartment.Location = new System.Drawing.Point(252, 202);
+            lblDepartment.Location = new System.Drawing.Point(252, 157);
             lblDepartment.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblDepartment.Name = "lblDepartment";
-            lblDepartment.Size = new System.Drawing.Size(455, 61);
+            lblDepartment.Size = new System.Drawing.Size(455, 37);
             lblDepartment.StyleController = layoutControlEmployeeDetails;
             lblDepartment.TabIndex = 1;
             // 
@@ -293,10 +292,10 @@ namespace APB.AccessControl.ManageApp.Controls
             lblPosition.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
             lblPosition.Appearance.Options.UseFont = true;
             lblPosition.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            lblPosition.Location = new System.Drawing.Point(252, 137);
+            lblPosition.Location = new System.Drawing.Point(252, 222);
             lblPosition.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             lblPosition.Name = "lblPosition";
-            lblPosition.Size = new System.Drawing.Size(455, 61);
+            lblPosition.Size = new System.Drawing.Size(455, 38);
             lblPosition.StyleController = layoutControlEmployeeDetails;
             lblPosition.TabIndex = 1;
             // 
@@ -304,7 +303,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             Root.GroupBordersVisible = false;
-            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlPosition, layoutControlDepartment, layoutControlIsActive, layoutControlImage, layoutControlEmployeeTitle, layoutControlCards, emptySpaceItem3, layoutControlPassportNumber });
+            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlPosition, layoutControlIsActive, layoutControlImage, layoutControlEmployeeTitle, layoutControlCards, emptySpaceItem3, layoutControlPassportNumber, layoutControlDepartment });
             Root.Name = "Root";
             Root.Size = new System.Drawing.Size(719, 1381);
             Root.TextVisible = false;
@@ -312,31 +311,31 @@ namespace APB.AccessControl.ManageApp.Controls
             // layoutControlPosition
             // 
             layoutControlPosition.Control = lblPosition;
-            layoutControlPosition.Location = new System.Drawing.Point(240, 125);
+            layoutControlPosition.Location = new System.Drawing.Point(240, 186);
             layoutControlPosition.MinSize = new System.Drawing.Size(137, 65);
             layoutControlPosition.Name = "layoutControlPosition";
-            layoutControlPosition.Size = new System.Drawing.Size(459, 65);
+            layoutControlPosition.Size = new System.Drawing.Size(459, 66);
             layoutControlPosition.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlPosition.Text = "Позиция";
             layoutControlPosition.TextLocation = DevExpress.Utils.Locations.Top;
-            layoutControlPosition.TextVisible = false;
+            layoutControlPosition.TextSize = new System.Drawing.Size(131, 21);
             // 
             // layoutControlDepartment
             // 
             layoutControlDepartment.Control = lblDepartment;
-            layoutControlDepartment.Location = new System.Drawing.Point(240, 190);
+            layoutControlDepartment.Location = new System.Drawing.Point(240, 121);
             layoutControlDepartment.MinSize = new System.Drawing.Size(137, 65);
             layoutControlDepartment.Name = "layoutControlDepartment";
             layoutControlDepartment.Size = new System.Drawing.Size(459, 65);
             layoutControlDepartment.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlDepartment.Text = "Отдел";
             layoutControlDepartment.TextLocation = DevExpress.Utils.Locations.Top;
-            layoutControlDepartment.TextVisible = false;
+            layoutControlDepartment.TextSize = new System.Drawing.Size(131, 21);
             // 
             // layoutControlIsActive
             // 
             layoutControlIsActive.Control = chkIsActive;
-            layoutControlIsActive.Location = new System.Drawing.Point(240, 255);
+            layoutControlIsActive.Location = new System.Drawing.Point(240, 252);
             layoutControlIsActive.MinSize = new System.Drawing.Size(105, 37);
             layoutControlIsActive.Name = "layoutControlIsActive";
             layoutControlIsActive.Size = new System.Drawing.Size(459, 142);
@@ -346,11 +345,10 @@ namespace APB.AccessControl.ManageApp.Controls
             // layoutControlImage
             // 
             layoutControlImage.Control = pictureEditPhoto;
-            layoutControlImage.Location = new System.Drawing.Point(0, 60);
-            layoutControlImage.MaxSize = new System.Drawing.Size(240, 337);
-            layoutControlImage.MinSize = new System.Drawing.Size(240, 337);
+            layoutControlImage.Location = new System.Drawing.Point(0, 56);
+            layoutControlImage.MinSize = new System.Drawing.Size(24, 24);
             layoutControlImage.Name = "layoutControlImage";
-            layoutControlImage.Size = new System.Drawing.Size(240, 337);
+            layoutControlImage.Size = new System.Drawing.Size(240, 338);
             layoutControlImage.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlImage.TextVisible = false;
             // 
@@ -359,16 +357,17 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlEmployeeTitle.Control = lblEmployeeTitle;
             layoutControlEmployeeTitle.Location = new System.Drawing.Point(0, 0);
             layoutControlEmployeeTitle.Name = "layoutControlEmployeeTitle";
-            layoutControlEmployeeTitle.Size = new System.Drawing.Size(699, 60);
+            layoutControlEmployeeTitle.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
+            layoutControlEmployeeTitle.Size = new System.Drawing.Size(699, 56);
             layoutControlEmployeeTitle.TextVisible = false;
             // 
             // layoutControlCards
             // 
             layoutControlCards.Control = gridControlCards;
-            layoutControlCards.Location = new System.Drawing.Point(0, 475);
+            layoutControlCards.Location = new System.Drawing.Point(0, 472);
             layoutControlCards.MinSize = new System.Drawing.Size(137, 53);
             layoutControlCards.Name = "layoutControlCards";
-            layoutControlCards.Size = new System.Drawing.Size(699, 886);
+            layoutControlCards.Size = new System.Drawing.Size(699, 889);
             layoutControlCards.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlCards.Text = "Карты сотрудника";
             layoutControlCards.TextLocation = DevExpress.Utils.Locations.Top;
@@ -376,7 +375,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             // emptySpaceItem3
             // 
-            emptySpaceItem3.Location = new System.Drawing.Point(0, 397);
+            emptySpaceItem3.Location = new System.Drawing.Point(0, 394);
             emptySpaceItem3.MinSize = new System.Drawing.Size(106, 26);
             emptySpaceItem3.Name = "emptySpaceItem3";
             emptySpaceItem3.Size = new System.Drawing.Size(699, 78);
@@ -385,7 +384,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // layoutControlPassportNumber
             // 
             layoutControlPassportNumber.Control = lblPassportNumber;
-            layoutControlPassportNumber.Location = new System.Drawing.Point(240, 60);
+            layoutControlPassportNumber.Location = new System.Drawing.Point(240, 56);
             layoutControlPassportNumber.MinSize = new System.Drawing.Size(6, 65);
             layoutControlPassportNumber.Name = "layoutControlPassportNumber";
             layoutControlPassportNumber.Size = new System.Drawing.Size(459, 65);
@@ -393,7 +392,6 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlPassportNumber.Text = "Номер паспорта";
             layoutControlPassportNumber.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlPassportNumber.TextSize = new System.Drawing.Size(131, 21);
-            layoutControlPassportNumber.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
             // 
             // layoutControlGroup
             // 
@@ -438,49 +436,49 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             barBtnAddEmployee.Caption = "Добавить";
             barBtnAddEmployee.Id = 1;
-            barBtnAddEmployee.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnAddEmployee.ImageOptions.SvgImage");
+            barBtnAddEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
             barBtnAddEmployee.Name = "barBtnAddEmployee";
             // 
             // barBtnEditEmployee
             // 
             barBtnEditEmployee.Caption = "Изменить";
             barBtnEditEmployee.Id = 2;
-            barBtnEditEmployee.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnEditEmployee.ImageOptions.SvgImage");
+            barBtnEditEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
             barBtnEditEmployee.Name = "barBtnEditEmployee";
             // 
             // barBtnDeleteEmployee
             // 
             barBtnDeleteEmployee.Caption = "Удалить";
             barBtnDeleteEmployee.Id = 3;
-            barBtnDeleteEmployee.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeleteEmployee.ImageOptions.SvgImage");
+            barBtnDeleteEmployee.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
             barBtnDeleteEmployee.Name = "barBtnDeleteEmployee";
             // 
             // barBtnAssignCard
             // 
             barBtnAssignCard.Caption = "Привязать карту";
             barBtnAssignCard.Id = 4;
-            barBtnAssignCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnAssignCard.ImageOptions.SvgImage");
+            barBtnAssignCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/assign");
             barBtnAssignCard.Name = "barBtnAssignCard";
             // 
             // barBtnDeleteCard
             // 
             barBtnDeleteCard.Caption = "Отвязать карту";
             barBtnDeleteCard.Id = 5;
-            barBtnDeleteCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeleteCard.ImageOptions.SvgImage");
+            barBtnDeleteCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
             barBtnDeleteCard.Name = "barBtnDeleteCard";
             // 
             // barBtnActivateCard
             // 
             barBtnActivateCard.Caption = "Активировать карту";
             barBtnActivateCard.Id = 6;
-            barBtnActivateCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnActivateCard.ImageOptions.SvgImage");
+            barBtnActivateCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/activate");
             barBtnActivateCard.Name = "barBtnActivateCard";
             // 
             // barBtnDeactivateCard
             // 
             barBtnDeactivateCard.Caption = "Деактивировать карту";
             barBtnDeactivateCard.Id = 7;
-            barBtnDeactivateCard.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeactivateCard.ImageOptions.SvgImage");
+            barBtnDeactivateCard.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/deactivate");
             barBtnDeactivateCard.Name = "barBtnDeactivateCard";
             // 
             // ribbonPageEmployee

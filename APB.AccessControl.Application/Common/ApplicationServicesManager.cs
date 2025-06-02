@@ -30,5 +30,29 @@ namespace APB.AccessControl.Application.Common
 
             return services;
         }
+
+        public static IServiceCollection AddApplicationMappings(this IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+           
+            // Регистрация AutoMapper
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AccessPointProfile>();
+                cfg.AddProfile<AccessGridProfile>();
+                cfg.AddProfile<AccessPointTypeProfile>();
+                cfg.AddProfile<AccessGroupProfile>();
+                cfg.AddProfile<AccessRuleProfile>();
+                cfg.AddProfile<AccessLogProfile>();
+                cfg.AddProfile<EmployeeProfile>();
+                cfg.AddProfile<CardProfile>();
+                cfg.AddProfile<NotificationProfile>();
+                cfg.AddProfile<TriggerProfile>();
+                cfg.AddProfile<AccessTriggerLogProfile>();
+
+            });
+            return services;
+        }
     }
 }

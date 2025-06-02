@@ -71,7 +71,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { AccessPointId = accessPointId}, cancellationToken);
+                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { AccessPointId = accessPointId, IsRead = false, Expired = false}, cancellationToken);
                 return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
             }, nameof(GetNotificationsByAccessPointAsync));
         }
@@ -80,7 +80,7 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { EmployeeId = employeeId}, cancellationToken);
+                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter() { EmployeeId = employeeId, IsRead = false, Expired = false}, cancellationToken);
                 return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
             }, nameof(GetNotificationsByEmployeeAsync));
         }

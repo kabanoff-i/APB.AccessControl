@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace APB.AccessControl.Application.Filters
 {
-    public class EmployeeFilter: BaseFilter<Employee>
+    public class EmployeeFilter: IFilter<Employee>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,7 +15,7 @@ namespace APB.AccessControl.Application.Filters
         public string PassportNumber { get; set; }
         public bool IsActive { get; set; }
 
-        public override Expression<Func<Employee, bool>> GetExpression()
+        public Expression<Func<Employee, bool>> GetExpression()
         {
             return p =>
                 ((string.IsNullOrEmpty(FirstName) || p.FirstName.Contains(FirstName)) &&

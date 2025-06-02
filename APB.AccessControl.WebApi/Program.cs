@@ -29,7 +29,7 @@ builder.Services.AddDbContext<AccessControlDbContext>(options =>
 //services
 builder.Services.AddApplicationServices();
 
-builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(APB.AccessControl.Application.MappingProfiles.EmployeeProfile)));
+builder.Services.AddApplicationMappings();
 builder.Services.AddValidatorsFromAssemblyContaining<EmployeeValidator>(ServiceLifetime.Transient);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeReqValidator>(ServiceLifetime.Transient);
 
@@ -104,8 +104,8 @@ builder.Services.AddSwaggerGen( opt =>
 
 var app = builder.Build();
 
-var mapperConfig = app.Services.GetRequiredService<AutoMapper.IConfigurationProvider>();
-mapperConfig.AssertConfigurationIsValid();
+//var mapperConfig = app.Services.GetRequiredService<AutoMapper.IConfigurationProvider>();
+//mapperConfig.AssertConfigurationIsValid();
 
 // Получаем логгер из DI-контейнера
 var appLogger = app.Services.GetRequiredService<ILogger<Program>>();

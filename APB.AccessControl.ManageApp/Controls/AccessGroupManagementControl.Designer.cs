@@ -44,7 +44,6 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlIsActive = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlGroupName = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlEmployees = new DevExpress.XtraLayout.LayoutControlItem();
-            emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             layoutControlGroup = new DevExpress.XtraLayout.LayoutControlGroup();
             layoutItemSplitContainer = new DevExpress.XtraLayout.LayoutControlItem();
             ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -80,7 +79,6 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroupName).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployees).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)emptySpaceItem1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).BeginInit();
@@ -102,11 +100,11 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             layoutControl.Controls.Add(splitContainerMain);
             layoutControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            layoutControl.Location = new System.Drawing.Point(2, 225);
+            layoutControl.Location = new System.Drawing.Point(2, 189);
             layoutControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             layoutControl.Name = "layoutControl";
             layoutControl.Root = layoutControlGroup;
-            layoutControl.Size = new System.Drawing.Size(2202, 1373);
+            layoutControl.Size = new System.Drawing.Size(2202, 1409);
             layoutControl.TabIndex = 0;
             layoutControl.Text = "layoutControl";
             // 
@@ -128,7 +126,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             splitContainerMain.Panel2.Controls.Add(panelGroupDetails);
             splitContainerMain.Panel2.Text = "Информация о группе";
-            splitContainerMain.Size = new System.Drawing.Size(2178, 1349);
+            splitContainerMain.Size = new System.Drawing.Size(2178, 1385);
             splitContainerMain.SplitterPosition = 1400;
             splitContainerMain.TabIndex = 1;
             // 
@@ -140,7 +138,7 @@ namespace APB.AccessControl.ManageApp.Controls
             gridControlAccessGroups.MainView = gridViewAccessGroups;
             gridControlAccessGroups.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             gridControlAccessGroups.Name = "gridControlAccessGroups";
-            gridControlAccessGroups.Size = new System.Drawing.Size(763, 1349);
+            gridControlAccessGroups.Size = new System.Drawing.Size(763, 1385);
             gridControlAccessGroups.TabIndex = 0;
             gridControlAccessGroups.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewAccessGroups });
             // 
@@ -152,6 +150,7 @@ namespace APB.AccessControl.ManageApp.Controls
             gridViewAccessGroups.OptionsBehavior.Editable = false;
             gridViewAccessGroups.OptionsEditForm.PopupEditFormWidth = 1733;
             gridViewAccessGroups.OptionsSelection.EnableAppearanceFocusedCell = false;
+            gridViewAccessGroups.OptionsView.ShowGroupPanel = false;
             // 
             // panelGroupDetails
             // 
@@ -160,7 +159,7 @@ namespace APB.AccessControl.ManageApp.Controls
             panelGroupDetails.Location = new System.Drawing.Point(0, 0);
             panelGroupDetails.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             panelGroupDetails.Name = "panelGroupDetails";
-            panelGroupDetails.Size = new System.Drawing.Size(1400, 1349);
+            panelGroupDetails.Size = new System.Drawing.Size(1400, 1385);
             panelGroupDetails.TabIndex = 1;
             // 
             // layoutControlGroupDetails
@@ -174,7 +173,7 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlGroupDetails.Name = "layoutControlGroupDetails";
             layoutControlGroupDetails.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1248, 418, 975, 600);
             layoutControlGroupDetails.Root = Root;
-            layoutControlGroupDetails.Size = new System.Drawing.Size(1396, 1345);
+            layoutControlGroupDetails.Size = new System.Drawing.Size(1396, 1381);
             layoutControlGroupDetails.TabIndex = 8;
             layoutControlGroupDetails.Text = "layoutControl1";
             // 
@@ -194,11 +193,11 @@ namespace APB.AccessControl.ManageApp.Controls
             // gridControlEmployeesInGroup
             // 
             gridControlEmployeesInGroup.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            gridControlEmployeesInGroup.Location = new System.Drawing.Point(2, 170);
+            gridControlEmployeesInGroup.Location = new System.Drawing.Point(2, 172);
             gridControlEmployeesInGroup.MainView = gridViewEmployeesInGroup;
             gridControlEmployeesInGroup.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             gridControlEmployeesInGroup.Name = "gridControlEmployeesInGroup";
-            gridControlEmployeesInGroup.Size = new System.Drawing.Size(1392, 1162);
+            gridControlEmployeesInGroup.Size = new System.Drawing.Size(1392, 1207);
             gridControlEmployeesInGroup.TabIndex = 2;
             gridControlEmployeesInGroup.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewEmployeesInGroup });
             // 
@@ -215,12 +214,12 @@ namespace APB.AccessControl.ManageApp.Controls
             // chkIsActive
             // 
             chkIsActive.AutoSizeInLayoutControl = true;
-            chkIsActive.Location = new System.Drawing.Point(2, 62);
+            chkIsActive.Location = new System.Drawing.Point(12, 72);
             chkIsActive.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             chkIsActive.Name = "chkIsActive";
             chkIsActive.Properties.Caption = "Активна";
             chkIsActive.Properties.ReadOnly = true;
-            chkIsActive.Size = new System.Drawing.Size(1392, 27);
+            chkIsActive.Size = new System.Drawing.Size(1372, 27);
             chkIsActive.StyleController = layoutControlGroupDetails;
             chkIsActive.TabIndex = 0;
             // 
@@ -228,10 +227,10 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             Root.GroupBordersVisible = false;
-            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlIsActive, layoutControlGroupName, layoutControlEmployees, emptySpaceItem1 });
+            Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlIsActive, layoutControlGroupName, layoutControlEmployees });
             Root.Name = "Root";
             Root.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            Root.Size = new System.Drawing.Size(1396, 1345);
+            Root.Size = new System.Drawing.Size(1396, 1381);
             Root.TextVisible = false;
             // 
             // layoutControlIsActive
@@ -240,7 +239,8 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlIsActive.Location = new System.Drawing.Point(0, 60);
             layoutControlIsActive.MinSize = new System.Drawing.Size(105, 37);
             layoutControlIsActive.Name = "layoutControlIsActive";
-            layoutControlIsActive.Size = new System.Drawing.Size(1396, 84);
+            layoutControlIsActive.Padding = new DevExpress.XtraLayout.Utils.Padding(12, 12, 12, 12);
+            layoutControlIsActive.Size = new System.Drawing.Size(1396, 86);
             layoutControlIsActive.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlIsActive.TextVisible = false;
             // 
@@ -255,20 +255,14 @@ namespace APB.AccessControl.ManageApp.Controls
             // layoutControlEmployees
             // 
             layoutControlEmployees.Control = gridControlEmployeesInGroup;
-            layoutControlEmployees.Location = new System.Drawing.Point(0, 144);
+            layoutControlEmployees.Location = new System.Drawing.Point(0, 146);
             layoutControlEmployees.MinSize = new System.Drawing.Size(137, 53);
             layoutControlEmployees.Name = "layoutControlEmployees";
-            layoutControlEmployees.Size = new System.Drawing.Size(1396, 1190);
+            layoutControlEmployees.Size = new System.Drawing.Size(1396, 1235);
             layoutControlEmployees.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             layoutControlEmployees.Text = "Сотрудники в группе";
             layoutControlEmployees.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlEmployees.TextSize = new System.Drawing.Size(152, 21);
-            // 
-            // emptySpaceItem1
-            // 
-            emptySpaceItem1.Location = new System.Drawing.Point(0, 1334);
-            emptySpaceItem1.Name = "emptySpaceItem1";
-            emptySpaceItem1.Size = new System.Drawing.Size(1396, 11);
             // 
             // layoutControlGroup
             // 
@@ -276,7 +270,7 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutControlGroup.GroupBordersVisible = false;
             layoutControlGroup.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutItemSplitContainer });
             layoutControlGroup.Name = "layoutControlGroup";
-            layoutControlGroup.Size = new System.Drawing.Size(2202, 1373);
+            layoutControlGroup.Size = new System.Drawing.Size(2202, 1409);
             layoutControlGroup.TextVisible = false;
             // 
             // layoutItemSplitContainer
@@ -284,7 +278,7 @@ namespace APB.AccessControl.ManageApp.Controls
             layoutItemSplitContainer.Control = splitContainerMain;
             layoutItemSplitContainer.Location = new System.Drawing.Point(0, 0);
             layoutItemSplitContainer.Name = "layoutItemSplitContainer";
-            layoutItemSplitContainer.Size = new System.Drawing.Size(2182, 1353);
+            layoutItemSplitContainer.Size = new System.Drawing.Size(2182, 1389);
             layoutItemSplitContainer.TextVisible = false;
             // 
             // ribbonControl
@@ -305,42 +299,45 @@ namespace APB.AccessControl.ManageApp.Controls
             ribbonControl.ShowPageHeadersInFormCaption = DevExpress.Utils.DefaultBoolean.False;
             ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
             ribbonControl.ShowPageKeyTipsMode = DevExpress.XtraBars.Ribbon.ShowPageKeyTipsMode.Hide;
-            ribbonControl.Size = new System.Drawing.Size(2202, 223);
-            ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
+            ribbonControl.ShowQatLocationSelector = false;
+            ribbonControl.ShowToolbarCustomizeItem = false;
+            ribbonControl.Size = new System.Drawing.Size(2202, 187);
+            ribbonControl.Toolbar.ShowCustomizeItem = false;
+            ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
             // 
             // barBtnAddAccessGroup
             // 
             barBtnAddAccessGroup.Caption = "Добавить";
             barBtnAddAccessGroup.Id = 1;
-            barBtnAddAccessGroup.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnAddAccessGroup.ImageOptions.SvgImage");
+            barBtnAddAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
             barBtnAddAccessGroup.Name = "barBtnAddAccessGroup";
             // 
             // barBtnEditAccessGroup
             // 
             barBtnEditAccessGroup.Caption = "Изменить";
             barBtnEditAccessGroup.Id = 2;
-            barBtnEditAccessGroup.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnEditAccessGroup.ImageOptions.SvgImage");
+            barBtnEditAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
             barBtnEditAccessGroup.Name = "barBtnEditAccessGroup";
             // 
             // barBtnDeleteAccessGroup
             // 
             barBtnDeleteAccessGroup.Caption = "Удалить";
             barBtnDeleteAccessGroup.Id = 3;
-            barBtnDeleteAccessGroup.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnDeleteAccessGroup.ImageOptions.SvgImage");
+            barBtnDeleteAccessGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
             barBtnDeleteAccessGroup.Name = "barBtnDeleteAccessGroup";
             // 
             // barBtnAddEmployeeToGroup
             // 
             barBtnAddEmployeeToGroup.Caption = "Добавить сотрудника";
             barBtnAddEmployeeToGroup.Id = 4;
-            barBtnAddEmployeeToGroup.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnAddEmployeeToGroup.ImageOptions.SvgImage");
+            barBtnAddEmployeeToGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
             barBtnAddEmployeeToGroup.Name = "barBtnAddEmployeeToGroup";
             // 
             // barBtnRemoveEmployeeFromGroup
             // 
             barBtnRemoveEmployeeFromGroup.Caption = "Удалить сотрудника";
             barBtnRemoveEmployeeFromGroup.Id = 5;
-            barBtnRemoveEmployeeFromGroup.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("barBtnRemoveEmployeeFromGroup.ImageOptions.SvgImage");
+            barBtnRemoveEmployeeFromGroup.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/remove");
             barBtnRemoveEmployeeFromGroup.Name = "barBtnRemoveEmployeeFromGroup";
             // 
             // ribbonPageAccessGroups
@@ -404,7 +401,6 @@ namespace APB.AccessControl.ManageApp.Controls
             ((System.ComponentModel.ISupportInitialize)layoutControlIsActive).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroupName).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlEmployees).EndInit();
-            ((System.ComponentModel.ISupportInitialize)emptySpaceItem1).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutItemSplitContainer).EndInit();
             ((System.ComponentModel.ISupportInitialize)ribbonControl).EndInit();
@@ -429,7 +425,6 @@ namespace APB.AccessControl.ManageApp.Controls
         private DevExpress.XtraLayout.LayoutControlItem layoutControlIsActive;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlGroupName;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlEmployees;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup;
         private DevExpress.XtraLayout.LayoutControlItem layoutItemSplitContainer;
         

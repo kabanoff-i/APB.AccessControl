@@ -4,6 +4,7 @@ using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Requests;
+using APB.AccessControl.Shared.Models.Responses;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using APB.AccessControl.Application.Common;
@@ -11,22 +12,27 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace APB.AccessControl.Application.Services
 {
     public class AccessPointService : IAccessPointService
     {
         private readonly IAccessPointRepository _accessPointRepository;
+        private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
         private readonly ILogger<AccessPointService> _logger;
 
         public AccessPointService(
             IAccessPointRepository accessPointRepository,
+            INotificationService notificationService,
             IMapper mapper,
             ILogger<AccessPointService> logger)
         {
             _accessPointRepository = accessPointRepository
                 ?? throw new ArgumentNullException(nameof(accessPointRepository));
+            _notificationService = notificationService
+                ?? throw new ArgumentNullException(nameof(notificationService));
             _mapper = mapper
                 ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger
@@ -86,7 +92,7 @@ namespace APB.AccessControl.Application.Services
             }, nameof(UpdateAsync));
         }
 
-        public async Task<bool> UpdateHeartbeatAsync(HeartbeatReq request, CancellationToken cancellationToken = default)
+        public async Task<HeartbeatResponse> UpdateHeartbeatAsync(HeartbeatReq request, CancellationToken cancellationToken = default)
         {
             return await _logger.HandleOperationAsync(async () =>
             {
@@ -95,7 +101,7 @@ namespace APB.AccessControl.Application.Services
                 if (accessPoint == null)
                 {
                     _logger.LogWarning("Heartbeat получен для несуществующей точки доступа с ID: {AccessPointId}", request.AccessPointId);
-                    return false;
+                    return new HeartbeatResponse { Success = false };
                 }
 
                 // Обновляем время последнего heartbeat
@@ -104,8 +110,22 @@ namespace APB.AccessControl.Application.Services
                 
                 _logger.LogInformation("Обновлен heartbeat для точки доступа {AccessPointId} ({Name}) на {TimeStamp}", 
                     accessPoint.Id, accessPoint.Name, request.TimeStamp);
+
+                // Получаем активные уведомления для точки доступа
+                var notifications = await _notificationService.GetNotificationsByAccessPointAsync(
+                    request.AccessPointId, 
+                    cancellationToken);
+
+                // Фильтруем уведомления, которые не должны показываться при проходе
+                var notificationsToShow = notifications
+                    .Where(n => !n.ShowOnPass)
+                    .ToList();
                 
-                return true;
+                return new HeartbeatResponse 
+                { 
+                    Success = true,
+                    Notifications = notificationsToShow
+                };
             }, nameof(UpdateHeartbeatAsync));
         }
     }

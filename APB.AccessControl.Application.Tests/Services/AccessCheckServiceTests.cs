@@ -8,6 +8,7 @@ using APB.AccessControl.Shared.Models.Requests;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
+using APB.AccessControl.Application.Validators;
 
 namespace APB.AccessControl.Application.Tests.Services
 {
@@ -162,7 +163,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             var accessGrid = new AccessGrid
             {
-                EmployeeId = employee.Id,
+                EmployeeId = employee.Id.Value,
                 AccessGroupId = accessGroup.Id,
                 IsActive = true
             };
@@ -179,17 +180,17 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(employee);
 
-            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id.Value, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessGrid> { accessGrid });
 
             _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(accessGroup);
             
-            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
-            {
-                AccessGroupId = accessGroup.Id,
-                AccessPointId = 1
-            }, It.IsAny<CancellationToken>()))
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(
+                It.Is<AccessRuleFilter>(f => 
+                    f.AccessGroupId == accessGroup.Id && 
+                    f.AccessPointId == 1),
+                It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessRule> { rule });
 
             // Act
@@ -217,7 +218,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             var accessGrid = new AccessGrid
             {
-                EmployeeId = employee.Id,
+                EmployeeId = (int)employee.Id,
                 AccessGroupId = accessGroup.Id,
                 IsActive = true
             };
@@ -238,17 +239,17 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(employee);
             
-            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync((int)employee.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessGrid> { accessGrid });
 
             _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(accessGroup);
 
-            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
-            {
-                AccessGroupId = accessGroup.Id,
-                AccessPointId = 1
-            }, It.IsAny<CancellationToken>()))
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(
+                It.Is<AccessRuleFilter>(f => 
+                    f.AccessGroupId == accessGroup.Id && 
+                    f.AccessPointId == 1),
+                It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessRule>());
 
             // Act
@@ -277,7 +278,7 @@ namespace APB.AccessControl.Application.Tests.Services
 
             var accessGrid = new AccessGrid
             {
-                EmployeeId = employee.Id,
+                EmployeeId = (int)employee.Id,
                 AccessGroupId = accessGroup.Id,
                 IsActive = true
             };
@@ -298,17 +299,17 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(repo => repo.GetByIdAsync(card.EmployeeId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(employee);
             
-            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync(employee.Id, It.IsAny<CancellationToken>()))
+            _mockAccessGridRepository.Setup(repo => repo.GetByEmployeeIdAsync((int)employee.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessGrid> { accessGrid });
 
             _mockAccessGroupRepository.Setup(repo => repo.GetByIdAsync(accessGrid.AccessGroupId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(accessGroup);
 
-            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(new AccessRuleFilter
-            {
-                AccessGroupId = accessGroup.Id,
-                AccessPointId = request.AcсessPointId
-            }, It.IsAny<CancellationToken>()))
+            _mockAccessRuleRepository.Setup(repo => repo.GetByFilterAsync(
+                It.Is<AccessRuleFilter>(f => 
+                    f.AccessGroupId == accessGroup.Id && 
+                    f.AccessPointId == request.AcсessPointId),
+                It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<AccessRule> { rule });
 
             // Act

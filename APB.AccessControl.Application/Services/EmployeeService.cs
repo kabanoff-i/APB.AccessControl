@@ -102,7 +102,16 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var filter = filterDto != null ? _mapper.Map<EmployeeFilter>(filterDto) : default;
+                var filter = filterDto != null ? new EmployeeFilter() 
+                {
+                    FirstName = filterDto.FirstName,
+                    LastName = filterDto.LastName,
+                    PatronymicName = filterDto.PatronymicName,
+                    Department = filterDto.Department,
+                    Position = filterDto.Position,
+                    PassportNumber = filterDto.PassportNumber,
+                    IsActive = filterDto.IsActive
+                } : default;
 
                 var repResponse = await _employeeRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<EmployeeDto>>(repResponse);

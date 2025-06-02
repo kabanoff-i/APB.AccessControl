@@ -247,7 +247,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnAdd.Caption = "Добавить";
             btnAdd.Id = 1;
-            btnAdd.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnAdd.ImageOptions.SvgImage");
+            btnAdd.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/add");
             btnAdd.Name = "btnAdd";
             btnAdd.ItemClick += btnAdd_Click;
             // 
@@ -256,7 +256,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnEdit.Caption = "Изменить";
             btnEdit.Enabled = false;
             btnEdit.Id = 2;
-            btnEdit.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnEdit.ImageOptions.SvgImage");
+            btnEdit.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/edit");
             btnEdit.Name = "btnEdit";
             btnEdit.ItemClick += btnEdit_Click;
             // 
@@ -265,7 +265,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnDelete.Caption = "Удалить";
             btnDelete.Enabled = false;
             btnDelete.Id = 3;
-            btnDelete.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnDelete.ImageOptions.SvgImage");
+            btnDelete.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/delete");
             btnDelete.Name = "btnDelete";
             btnDelete.ItemClick += btnDelete_Click;
             // 
@@ -274,7 +274,7 @@ namespace APB.AccessControl.ManageApp.Controls
             btnCopy.Caption = "Копировать";
             btnCopy.Enabled = false;
             btnCopy.Id = 4;
-            btnCopy.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnCopy.ImageOptions.SvgImage");
+            btnCopy.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/copy");
             btnCopy.Name = "btnCopy";
             btnCopy.ItemClick += btnCopy_Click;
             // 
@@ -282,7 +282,7 @@ namespace APB.AccessControl.ManageApp.Controls
             // 
             btnRefresh.Caption = "Обновить";
             btnRefresh.Id = 5;
-            btnRefresh.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("btnRefresh.ImageOptions.SvgImage");
+            btnRefresh.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/refresh");
             btnRefresh.Name = "btnRefresh";
             btnRefresh.ItemClick += btnRefresh_Click;
             // 

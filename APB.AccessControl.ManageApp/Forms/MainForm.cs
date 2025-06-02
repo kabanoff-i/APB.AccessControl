@@ -50,7 +50,8 @@ namespace APB.AccessControl.ManageApp
                 new ModuleInfo("AccessGroupManagement", "APB.AccessControl.ManageApp.Controls.AccessGroupManagementControl", "Управление группами доступа"),
                 new ModuleInfo("AccessPointManagement", "APB.AccessControl.ManageApp.Controls.AccessPointManagementControl", "Управление точками доступа"),
                 new ModuleInfo("AccessRuleManagement", "APB.AccessControl.ManageApp.Controls.AccessRuleManagementControl", "Правила доступа"),
-                new ModuleInfo("AccessLogView", "APB.AccessControl.ManageApp.Controls.AccessLogControl", "Логи доступа"),
+                new ModuleInfo("AccessLogView", "APB.AccessControl.ManageApp.Controls.AccessLogControl", "История доступа"),
+                new ModuleInfo("NotificationsManagement", "APB.AccessControl.ManageApp.Controls.NotificationControl", "Уведомления")
             ];
         }
 

@@ -6,12 +6,12 @@ using System.Linq.Expressions;
 
 namespace APB.AccessControl.Application.Filters
 {
-    public class AccessRuleFilter: BaseFilter<AccessRule>
+    public class AccessRuleFilter: IFilter<AccessRule>
     {
         public int? AccessGroupId { get; set; }
         public int? AccessPointId { get; set; }
 
-        public override Expression<Func<AccessRule, bool>> GetExpression()
+        public Expression<Func<AccessRule, bool>> GetExpression()
         {
             return p =>(
                 (AccessGroupId == null || p.AccessGroupId == AccessGroupId) &&

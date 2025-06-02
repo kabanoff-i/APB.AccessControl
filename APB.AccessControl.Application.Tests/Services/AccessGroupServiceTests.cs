@@ -1,5 +1,6 @@
 using APB.AccessControl.Application.Interfaces;
 using APB.AccessControl.Application.Services;
+using APB.AccessControl.Application.Validators;
 using APB.AccessControl.Domain.Entities;
 using APB.AccessControl.Domain.Exceptions;
 using APB.AccessControl.Shared.Models.DTOs;
@@ -22,6 +23,7 @@ namespace APB.AccessControl.Application.Tests.Services
         private readonly Mock<IAccessGridRepository> _mockAccessGridRepository;
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<ILogger<AccessGroupService>> _mockLogger;
+        private readonly AccessGroupValidator _validator;
         private readonly AccessGroupService _service;
 
         public AccessGroupServiceTests()
@@ -31,13 +33,15 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockAccessGridRepository = new Mock<IAccessGridRepository>();
             _mockMapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<AccessGroupService>>();
+            _validator = new AccessGroupValidator();
             
             _service = new AccessGroupService(
                 _mockAccessGroupRepository.Object,
                 _mockMapper.Object,
                 _mockEmployeeRepository.Object,
                 _mockAccessGridRepository.Object,
-                _mockLogger.Object);
+                _mockLogger.Object,
+                _validator);
         }
 
         [Fact]
@@ -68,8 +72,26 @@ namespace APB.AccessControl.Application.Tests.Services
             var result = await _service.CreateAsync(createRequest);
 
             // Assert
-            Assert.Equal(accessGroupDto, result);
+            Assert.NotNull(result);
+            Assert.Equal(accessGroupDto.Id, result.Id);
+            Assert.Equal(accessGroupDto.Name, result.Name);
+            Assert.Equal(accessGroupDto.IsActive, result.IsActive);
             _mockAccessGroupRepository.Verify(r => r.AddAsync(accessGroup, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ShouldThrowException_WhenRepositoryThrowsException()
+        {
+            // Arrange
+            var createRequest = new CreateGroupReq { Name = "Администраторы" };
+            var accessGroup = new AccessGroup { Name = "Администраторы" };
+
+            _mockMapper.Setup(m => m.Map<AccessGroup>(createRequest)).Returns(accessGroup);
+            _mockAccessGroupRepository.Setup(r => r.AddAsync(accessGroup, It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new System.Exception("Database error"));
+
+            // Act & Assert
+            await Assert.ThrowsAsync<System.Exception>(() => _service.CreateAsync(createRequest));
         }
 
         [Fact]
@@ -97,7 +119,12 @@ namespace APB.AccessControl.Application.Tests.Services
             await _service.UpdateAsync(updateRequest);
 
             // Assert
-            _mockAccessGroupRepository.Verify(r => r.UpdateAsync(accessGroup, It.IsAny<CancellationToken>()), Times.Once);
+            _mockAccessGroupRepository.Verify(r => r.UpdateAsync(It.Is<AccessGroup>(ag => 
+                ag.Id == accessGroup.Id && 
+                ag.Name == accessGroup.Name && 
+                ag.IsActive == accessGroup.IsActive), 
+                It.IsAny<CancellationToken>()), 
+                Times.Once);
         }
 
         [Fact]
@@ -109,7 +136,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(999, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.UpdateAsync(updateRequest));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.UpdateAsync(updateRequest));
+            Assert.Contains("999", exception.Message);
             _mockAccessGroupRepository.Verify(r => r.UpdateAsync(It.IsAny<AccessGroup>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -126,7 +154,7 @@ namespace APB.AccessControl.Application.Tests.Services
             await _service.DeleteAsync(groupId);
 
             // Assert
-            _mockAccessGroupRepository.Verify(r => r.DeleteAsync(group, It.IsAny<CancellationToken>()), Times.Once);
+            _mockAccessGroupRepository.Verify(r => r.DeleteAsync(It.Is<AccessGroup>(g => g.Id == groupId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -138,7 +166,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockAccessGroupRepository.Setup(r => r.GetByIdAsync(groupId, It.IsAny<CancellationToken>())).ReturnsAsync((AccessGroup)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(groupId));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.DeleteAsync(groupId));
+            Assert.Contains("999", exception.Message);
             _mockAccessGroupRepository.Verify(r => r.DeleteAsync(It.IsAny<AccessGroup>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -165,7 +194,10 @@ namespace APB.AccessControl.Application.Tests.Services
             var result = await _service.GetAllAsync();
 
             // Assert
-            Assert.Equal(accessGroupDtos, result);
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(accessGroupDtos.First().Id, result.First().Id);
+            Assert.Equal(accessGroupDtos.Last().Id, result.Last().Id);
             _mockAccessGroupRepository.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -178,6 +210,12 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             
+            var accessGrid = new AccessGrid { 
+                EmployeeId = request.EmployeeId, 
+                AccessGroupId = request.AccessGroupId, 
+                IsActive = true 
+            };
+
             _mockAccessGridRepository
                 .Setup(r => r.AddAsync(
                     It.Is<AccessGrid>(ag => 
@@ -185,11 +223,7 @@ namespace APB.AccessControl.Application.Tests.Services
                         ag.AccessGroupId == request.AccessGroupId && 
                         ag.IsActive == true),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AccessGrid { 
-                    EmployeeId = request.EmployeeId, 
-                    AccessGroupId = request.AccessGroupId, 
-                    IsActive = true 
-                });
+                .ReturnsAsync(accessGrid);
 
             // Act
             await _service.AddEmployeeToGroupAsync(request);
@@ -214,7 +248,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.AddEmployeeToGroupAsync(request));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.AddEmployeeToGroupAsync(request));
+            Assert.Contains("999", exception.Message);
             _mockAccessGridRepository.Verify(r => r.AddAsync(It.IsAny<AccessGrid>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -228,7 +263,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(999, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.AddEmployeeToGroupAsync(request));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.AddEmployeeToGroupAsync(request));
+            Assert.Contains("999", exception.Message);
             _mockAccessGridRepository.Verify(r => r.AddAsync(It.IsAny<AccessGrid>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -248,7 +284,7 @@ namespace APB.AccessControl.Application.Tests.Services
                 new Employee { Id = 1, FirstName = "Иван", LastName = "Иванов" },
                 new Employee { Id = 2, FirstName = "Петр", LastName = "Петров" }
             };
-            
+
             var employeeDtos = new List<EmployeeDto>
             {
                 new EmployeeDto { Id = 1, FirstName = "Иван", LastName = "Иванов" },
@@ -257,18 +293,19 @@ namespace APB.AccessControl.Application.Tests.Services
 
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(groupId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockAccessGridRepository.Setup(r => r.GetByAccessGroupIdAsync(groupId, It.IsAny<CancellationToken>())).ReturnsAsync(accessGrids);
-            
-            _mockEmployeeRepository.Setup(r => r.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(employees[0]);
-            _mockEmployeeRepository.Setup(r => r.GetByIdAsync(2, It.IsAny<CancellationToken>())).ReturnsAsync(employees[1]);
-            
-            _mockMapper.Setup(m => m.Map<EmployeeDto>(employees[0])).Returns(employeeDtos[0]);
-            _mockMapper.Setup(m => m.Map<EmployeeDto>(employees[1])).Returns(employeeDtos[1]);
+            _mockEmployeeRepository.Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((int id, CancellationToken token) => employees.FirstOrDefault(e => e.Id == id));
+            _mockMapper.Setup(m => m.Map<EmployeeDto>(It.IsAny<Employee>()))
+                .Returns((Employee e) => employeeDtos.FirstOrDefault(dto => dto.Id == e.Id));
 
             // Act
             var result = await _service.GetEmployeesInGroupAsync(groupId);
 
             // Assert
-            Assert.Equal(employeeDtos, result);
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(employeeDtos.First().Id, result.First().Id);
+            Assert.Equal(employeeDtos.Last().Id, result.Last().Id);
             _mockAccessGridRepository.Verify(r => r.GetByAccessGroupIdAsync(groupId, It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -281,8 +318,9 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(groupId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetEmployeesInGroupAsync(groupId));
-            _mockAccessGridRepository.Verify(r => r.GetByAccessGroupIdAsync(groupId, It.IsAny<CancellationToken>()), Times.Never);
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.GetEmployeesInGroupAsync(groupId));
+            Assert.Contains("999", exception.Message);
+            _mockAccessGridRepository.Verify(r => r.GetByAccessGroupIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
@@ -290,17 +328,33 @@ namespace APB.AccessControl.Application.Tests.Services
         {
             // Arrange
             var request = new RemoveEmployeeFromGroupReq { EmployeeId = 1, AccessGroupId = 1 };
-            var accessGrid = new AccessGrid { EmployeeId = request.EmployeeId, AccessGroupId = request.AccessGroupId , IsActive = true };
-
+            
             _mockAccessGroupRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _mockAccessGridRepository.Setup(r => r.GetByIdAsync(request.EmployeeId, request.AccessGroupId, It.IsAny<CancellationToken>())).ReturnsAsync(accessGrid);
+            
+            var accessGrid = new AccessGrid { 
+                EmployeeId = request.EmployeeId, 
+                AccessGroupId = request.AccessGroupId, 
+                IsActive = true 
+            };
+
+            _mockAccessGridRepository
+                .Setup(r => r.GetByIdAsync(
+                    request.EmployeeId,
+                    request.AccessGroupId,
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(accessGrid);
 
             // Act
             await _service.RemoveEmployeeFromGroupAsync(request);
 
             // Assert
-            _mockAccessGridRepository.Verify(r => r.DeleteAsync(accessGrid, It.IsAny<CancellationToken>()), Times.Once);
+            _mockAccessGridRepository.Verify(r => r.DeleteAsync(
+                It.Is<AccessGrid>(ag => 
+                    ag.EmployeeId == request.EmployeeId && 
+                    ag.AccessGroupId == request.AccessGroupId),
+                It.IsAny<CancellationToken>()), 
+                Times.Once);
         }
 
         [Fact]
@@ -313,7 +367,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.RemoveEmployeeFromGroupAsync(request));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.RemoveEmployeeFromGroupAsync(request));
+            Assert.Contains("999", exception.Message);
             _mockAccessGridRepository.Verify(r => r.DeleteAsync(It.IsAny<AccessGrid>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -327,7 +382,8 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(999, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.RemoveEmployeeFromGroupAsync(request));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.RemoveEmployeeFromGroupAsync(request));
+            Assert.Contains("999", exception.Message);
             _mockAccessGridRepository.Verify(r => r.DeleteAsync(It.IsAny<AccessGrid>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -336,25 +392,19 @@ namespace APB.AccessControl.Application.Tests.Services
         {
             // Arrange
             int employeeId = 1;
-            
-            // Создаем AccessGrid с включенными навигационными свойствами
             var accessGrids = new List<AccessGrid>
             {
-                new AccessGrid { 
-                    EmployeeId = 1, 
-                    AccessGroupId = 1, 
-                    IsActive = true,
-                    AccessGroup = new AccessGroup { Id = 1, Name = "Администраторы", IsActive = true }
-                },
-                new AccessGrid { 
-                    EmployeeId = 1, 
-                    AccessGroupId = 2, 
-                    IsActive = true,
-                    AccessGroup = new AccessGroup { Id = 2, Name = "Пользователи", IsActive = true }
-                }
+                new AccessGrid { EmployeeId = employeeId, AccessGroupId = 1, IsActive = true },
+                new AccessGrid { EmployeeId = employeeId, AccessGroupId = 2, IsActive = true }
             };
             
-            var groupDtos = new List<AccessGroupDto>
+            var accessGroups = new List<AccessGroup>
+            {
+                new AccessGroup { Id = 1, Name = "Администраторы", IsActive = true },
+                new AccessGroup { Id = 2, Name = "Пользователи", IsActive = true }
+            };
+
+            var accessGroupDtos = new List<AccessGroupDto>
             {
                 new AccessGroupDto { Id = 1, Name = "Администраторы", IsActive = true },
                 new AccessGroupDto { Id = 2, Name = "Пользователи", IsActive = true }
@@ -362,16 +412,19 @@ namespace APB.AccessControl.Application.Tests.Services
 
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _mockAccessGridRepository.Setup(r => r.GetByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(accessGrids);
-            
-            // Настраиваем маппер для преобразования отдельных объектов AccessGroup в AccessGroupDto
-            _mockMapper.Setup(m => m.Map<AccessGroupDto>(accessGrids[0].AccessGroup)).Returns(groupDtos[0]);
-            _mockMapper.Setup(m => m.Map<AccessGroupDto>(accessGrids[1].AccessGroup)).Returns(groupDtos[1]);
+            _mockAccessGroupRepository.Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((int id, CancellationToken token) => accessGroups.FirstOrDefault(g => g.Id == id));
+            _mockMapper.Setup(m => m.Map<AccessGroupDto>(It.IsAny<AccessGroup>()))
+                .Returns((AccessGroup g) => accessGroupDtos.FirstOrDefault(dto => dto.Id == g.Id));
 
             // Act
             var result = await _service.GetByEmployeeIdAsync(employeeId);
 
             // Assert
-            Assert.Equal(groupDtos, result);
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(accessGroupDtos.First().Id, result.First().Id);
+            Assert.Equal(accessGroupDtos.Last().Id, result.Last().Id);
             _mockAccessGridRepository.Verify(r => r.GetByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -384,8 +437,9 @@ namespace APB.AccessControl.Application.Tests.Services
             _mockEmployeeRepository.Setup(r => r.ExistsAsync(employeeId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => _service.GetByEmployeeIdAsync(employeeId));
-            _mockAccessGridRepository.Verify(r => r.GetByEmployeeIdAsync(employeeId, It.IsAny<CancellationToken>()), Times.Never);
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _service.GetByEmployeeIdAsync(employeeId));
+            Assert.Contains("999", exception.Message);
+            _mockAccessGridRepository.Verify(r => r.GetByEmployeeIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 } 

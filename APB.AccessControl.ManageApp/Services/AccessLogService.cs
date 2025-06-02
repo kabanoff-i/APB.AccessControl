@@ -12,7 +12,7 @@ namespace APB.AccessControl.ManageApp.Services
     /// <summary>
     /// Сервис для работы с логами доступа
     /// </summary>
-    public class AccessLogService : IAccessLogService
+    public class AccessLogService
     {
         private readonly ApiService _apiService;
         
@@ -38,16 +38,16 @@ namespace APB.AccessControl.ManageApp.Services
             try
             {
                 // Создаем объект фильтра
-                var filter = new AccessLogFilter
+                var filter = new AccessLogFilterDto
                 {
-                    StartDate = startDate,
-                    EndDate = endDate,
+                    AccessTimeStart = startDate,
+                    AccessTimeEnd = endDate,
                     EmployeeId = employeeId > 0 ? employeeId : null,
                     AccessPointId = accessPointId > 0 ? accessPointId : null
                 };
                 
                 // Используем готовый метод из ApiService для получения логов
-                var response = await _apiService.GetAccessLogsAsync(startDate, endDate, employeeId, accessPointId);
+                var response = await _apiService.GetAccessLogsAsync(filter);
                 
                 // Проверяем успешность выполнения запроса
                 if (response.IsSuccess && response.Data != null)

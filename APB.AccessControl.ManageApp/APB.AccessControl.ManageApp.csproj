@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\UserManagementControl.cs" />
+    <Compile Remove="Controls\UserManagementControl.Designer.cs" />
+    <Compile Remove="Forms\PasswordChangeForm.cs" />
+    <Compile Remove="Forms\PasswordChangeForm.Designer.cs" />
+    <Compile Remove="Forms\UserEditForm.cs" />
+    <Compile Remove="Forms\UserEditForm.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\UserManagementControl.resx" />
+    <EmbeddedResource Remove="Forms\UserEditForm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DevExpress.Win.BonusSkins" Version="24.2.6" />
     <PackageReference Include="DevExpress.Win.Design" Version="24.2.6" />
   </ItemGroup>
@@ -30,6 +44,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Update="Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -47,6 +66,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

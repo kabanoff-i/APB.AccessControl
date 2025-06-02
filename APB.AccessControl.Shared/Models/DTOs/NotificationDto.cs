@@ -23,5 +23,7 @@ namespace APB.AccessControl.Shared.Models.DTOs
         public DateTime? ExpirationDate { get; set; }
         [DisplayName("Прочитано")]
         public bool IsRead { get; set; }
+        [DisplayName("Дата последнего обновления")]
+        public DateTime UpdatedAt { get; set; }
     }
 }

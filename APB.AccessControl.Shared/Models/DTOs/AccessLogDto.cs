@@ -23,5 +23,7 @@ namespace APB.AccessControl.Shared.Models.DTOs
         public DateTime DateAccess { get; set; }
         [DisplayName("Результат попытки прохода")]
         public int AccessResult { get; set; }
+        [DisplayName("Информация")]
+        public string Message { get; set; }
     }
 }

@@ -6,14 +6,14 @@ using System.Linq.Expressions;
 
 namespace APB.AccessControl.Application.Filters
 {
-    public class NotificationFilter: BaseFilter<Notification>
+    public class NotificationFilter: IFilter<Notification>
     {
         public int? EmployeeId { get; set; }
         public int? AccessPointId { get; set; }
         public bool? IsRead { get; set; }
         public bool? Expired { get; set; }
 
-        public override Expression<Func<Notification, bool>> GetExpression()
+        public Expression<Func<Notification, bool>> GetExpression()
         {
             return p =>
                 (EmployeeId == null || p.EmployeeId == EmployeeId) &&

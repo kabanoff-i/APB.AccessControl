@@ -22,11 +22,11 @@ namespace APB.AccessControl.DataAccess
         public DbSet<AccessGrid> AccessGrids { get; set; }
         public DbSet<AccessPointType> AccessPointTypes { get; set; }
 
-        //public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options)
-        //    : base(options)
-        //{
-        //    Database.EnsureCreated();
-        //}
+        public AccessControlDbContext(DbContextOptions<AccessControlDbContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

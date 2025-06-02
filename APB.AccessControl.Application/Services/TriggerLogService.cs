@@ -39,7 +39,17 @@ namespace APB.AccessControl.Application.Services
         {
             return await _logger.HandleOperationAsync(async () =>
             {
-                var filter = filterDto != null ? _mapper.Map<AccessTriggerLogFilter>(filterDto) : default;
+                var filter = filterDto != null ? new AccessTriggerLogFilter() 
+                {
+                    AccessLogId = filterDto.AccessLogId,
+                    TriggerId = filterDto.TriggerId,
+                    ExecuteAtStart = filterDto.ExecuteAtStart,
+                    ExecuteAtEnd = filterDto.ExecuteAtEnd,
+                    ExecutionResult = filterDto.ExecutionResult.HasValue
+                    ? (bool?)filterDto.ExecutionResult.Value
+                    : null
+                }
+                : default;
 
                 var repResponse = await _triggerLogRepository.GetByFilterAsync(filter, cancellationToken);
                 return _mapper.Map<IEnumerable<AccessTriggerLogDto>>(repResponse);
