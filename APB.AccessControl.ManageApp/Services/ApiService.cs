@@ -11,6 +11,7 @@ using APB.AccessControl.Shared.Models.Responses;
 using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.Filters;
 using System.Linq;
+using APB.AccessControl.Shared.Models.Identity;
 
 namespace APB.AccessControl.ManageApp.Services
 {
@@ -266,12 +267,42 @@ namespace APB.AccessControl.ManageApp.Services
 
         public async Task<ApiResponse<IEnumerable<UserDto>>> GetAllUsersAsync()
         {
-            return await GetAsync<IEnumerable<UserDto>>($"{ApiSettings.BaseUrl}/api/users");
+            return await GetAsync<IEnumerable<UserDto>>($"{ApiSettings.BaseUrl}/identity/account/users");
         }
 
         public async Task<ApiResponse<UserDto>> GetUserByIdAsync(int userId)
         {
-            return await GetAsync<UserDto>($"{ApiSettings.BaseUrl}/api/users/{userId}");
+            return await GetAsync<UserDto>($"{ApiSettings.BaseUrl}/identity/account/users/{userId}");
+        }
+
+        public async Task<ApiResponse<IEnumerable<RoleDto>>> GetAllRolesAsync()
+        {
+            return await GetAsync<IEnumerable<RoleDto>>($"{ApiSettings.BaseUrl}/identity/role");
+        }
+
+        public async Task<ApiResponse<UserDto>> CreateUserAsync(RegisterRequest request)
+        {
+            return await PostAsync<UserDto, RegisterRequest>($"{ApiSettings.BaseUrl}/identity/account/register", request);
+        }
+
+        public async Task<ApiResponse<UserDto>> UpdateUserAsync(UpdateUserReq request)
+        {
+            return await PutAsync<UserDto, UpdateUserReq>($"{ApiSettings.BaseUrl}/identity/account/users/{request.Id}", request);
+        }
+
+        public async Task<ApiResponse<bool>> DeleteUserAsync(string userId)
+        {
+            return await DeleteAsync<bool>($"{ApiSettings.BaseUrl}/identity/account/users/{userId}");
+        }
+
+        public async Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordReq request)
+        {
+            return await PostAsync<bool, ChangePasswordReq>($"{ApiSettings.BaseUrl}/identity/account/users/change-password", request);
+        }
+
+        public async Task<ApiResponse<bool>> AssignRoleAsync(UserRole userRole)
+        {
+            return await PostAsync<bool, UserRole>($"{ApiSettings.BaseUrl}/identity/role/assign", userRole);
         }
 
         #endregion

@@ -30,7 +30,7 @@ namespace APB.AccessControl.WebApi.Controllers
             var roles = await _roleManager.Roles.ToListAsync();
             var roleDtos = roles.Select(r => new RoleDto
             {
-                Id = int.Parse(r.Id),
+                Id = r.Id,
                 Name = r.Name
             }).ToList();
 

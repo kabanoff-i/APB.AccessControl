@@ -12,7 +12,7 @@ namespace APB.AccessControl.ManageApp.Forms
     public partial class UserEditForm : XtraForm
     {
         // Результат формы - запрос на создание или обновление пользователя
-        public CreateUserReq CreateRequest { get; private set; }
+        public CreateUserWithRolesReq CreateRequest { get; private set; }
         public UpdateUserReq UpdateRequest { get; private set; }
         
         // Режим формы (создание или редактирование)
@@ -35,8 +35,10 @@ namespace APB.AccessControl.ManageApp.Forms
             _roles = roles;
             
             // Создаем новый запрос
-            CreateRequest = new CreateUserReq
+            CreateRequest = new CreateUserWithRolesReq
             {
+                Username = string.Empty,
+                Password = string.Empty,
                 Roles = new List<string>()
             };
             
@@ -58,9 +60,7 @@ namespace APB.AccessControl.ManageApp.Forms
             UpdateRequest = new UpdateUserReq
             {
                 Id = user.Id,
-                FullName = user.FullName,
-                Roles = user.Roles,
-                IsActive = user.IsActive
+                Roles = user.Roles
             };
             
             Text = $"Редактирование пользователя {user.Username}";
@@ -90,26 +90,43 @@ namespace APB.AccessControl.ManageApp.Forms
         /// </summary>
         private void InitializeControls()
         {
-            // Настройка комбобокса ролей
-            checkedComboBoxRoles.Properties.DataSource = _roles;
-            checkedComboBoxRoles.Properties.DisplayMember = "Name";
-            checkedComboBoxRoles.Properties.ValueMember = "Name";
-            
-            // Настройка полей в зависимости от режима
-            if (_isEditMode)
+            try
             {
-                // В режиме редактирования скрываем поля логина и пароля
-                textEditUsername.Enabled = false;
-                textEditPassword.Enabled = false;
-                textEditPasswordConfirm.Enabled = false;
-                
-                // Показываем чекбокс активности
-                checkEditActive.Visible = true;
+                // Проверяем, что роли пришли
+                if (_roles == null)
+                {
+                    XtraMessageBox.Show("Список ролей не инициализирован", 
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var rolesList = _roles.ToList();
+                if (!rolesList.Any())
+                {
+                    XtraMessageBox.Show("Список ролей пуст", 
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Настройка комбобокса ролей
+                checkedComboBoxRoles.Properties.DataSource = rolesList;
+                checkedComboBoxRoles.Properties.DisplayMember = "Name";
+                checkedComboBoxRoles.Properties.ValueMember = "Name";
+                checkedComboBoxRoles.Properties.SeparatorChar = ';';
+
+                // Настройка полей в зависимости от режима
+                if (_isEditMode)
+                {
+                    // В режиме редактирования скрываем поля логина и пароля
+                    textEditUsername.Enabled = false;
+                    textEditPassword.Enabled = false;
+                    textEditPasswordConfirm.Enabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // В режиме создания скрываем чекбокс активности
-                checkEditActive.Visible = false;
+                XtraMessageBox.Show($"Ошибка при инициализации контролов: {ex.Message}", 
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -122,9 +139,13 @@ namespace APB.AccessControl.ManageApp.Forms
             {
                 // Заполняем элементы управления данными существующего пользователя
                 textEditUsername.Text = _originalUser.Username;
-                textEditFullName.Text = UpdateRequest.FullName;
-                checkedComboBoxRoles.EditValue = UpdateRequest.Roles;
-                checkEditActive.Checked = UpdateRequest.IsActive;
+                
+                // Устанавливаем выбранные роли
+                if (_originalUser.Roles != null && _originalUser.Roles.Any())
+                {
+                    var selectedRoles = string.Join(";", _originalUser.Roles);
+                    checkedComboBoxRoles.EditValue = selectedRoles;
+                }
             }
         }
         
@@ -159,17 +180,9 @@ namespace APB.AccessControl.ManageApp.Forms
                 }
             }
             
-            // Проверка ФИО
-            if (string.IsNullOrWhiteSpace(textEditFullName.Text))
-            {
-                XtraMessageBox.Show("Необходимо указать ФИО", 
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            
             // Проверка выбора хотя бы одной роли
-            var selectedRoles = checkedComboBoxRoles.EditValue as List<string>;
-            if (selectedRoles == null || selectedRoles.Count == 0)
+            var selectedRoles = checkedComboBoxRoles.EditValue as string;
+            if (string.IsNullOrEmpty(selectedRoles))
             {
                 XtraMessageBox.Show("Необходимо выбрать хотя бы одну роль", 
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -184,22 +197,20 @@ namespace APB.AccessControl.ManageApp.Forms
         /// </summary>
         private void SaveDataToRequest()
         {
-            var selectedRoles = checkedComboBoxRoles.EditValue as List<string>;
+            var selectedRoles = checkedComboBoxRoles.EditValue as string;
+            var roleNames = selectedRoles?.Split(';').Where(r => !string.IsNullOrEmpty(r)).ToList() ?? new List<string>();
             
             if (_isEditMode)
             {
                 // Обновляем запрос редактирования
-                UpdateRequest.FullName = textEditFullName.Text;
-                UpdateRequest.Roles = selectedRoles;
-                UpdateRequest.IsActive = checkEditActive.Checked;
+                UpdateRequest.Roles = roleNames;
             }
             else
             {
                 // Обновляем запрос создания
                 CreateRequest.Username = textEditUsername.Text;
                 CreateRequest.Password = textEditPassword.Text;
-                CreateRequest.FullName = textEditFullName.Text;
-                CreateRequest.Roles = selectedRoles;
+                CreateRequest.Roles = roleNames;
             }
         }
         

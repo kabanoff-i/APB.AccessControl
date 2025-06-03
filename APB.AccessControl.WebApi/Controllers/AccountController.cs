@@ -1,5 +1,6 @@
 ﻿using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Identity;
+using APB.AccessControl.Shared.Models.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,10 +39,17 @@ namespace APB.AccessControl.WebApi.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "User registered successfully" });
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                    Roles = new List<string>()
+                };
+                
+                return Ok(Result.Success(userDto));
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(Result.Failure(result.Errors.Select(e => new Error(e.Description)).ToList()));
         }
 
         [HttpPost("login")]
@@ -91,9 +99,8 @@ namespace APB.AccessControl.WebApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
                 userDtos.Add(new UserDto
                 {
-                    Id = int.Parse(user.Id),
+                    Id = user.Id,
                     Username = user.UserName,
-                    IsActive = user.EmailConfirmed,
                     Roles = roles.ToList()
                 });
             }

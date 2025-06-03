@@ -26,9 +26,9 @@ namespace APB.AccessControl.ManageApp.Controls
         private IEnumerable<RoleDto> _roles;
 
         public event EventHandler RefreshData;
-        public event EventHandler<CreateUserReq> CreateUser;
+        public event EventHandler<CreateUserWithRolesReq> CreateUser;
         public event EventHandler<UpdateUserReq> UpdateUser;
-        public event EventHandler<int> DeleteUser;
+        public event EventHandler<string> DeleteUser;
         public event EventHandler<ChangePasswordReq> ChangePassword;
 
         public UserManagementControl()
@@ -84,44 +84,17 @@ namespace APB.AccessControl.ManageApp.Controls
             // Настройка обработчиков форматирования данных
             gridViewUsers.CustomColumnDisplayText += GridViewUsers_CustomColumnDisplayText;
             gridControlUsers.DataSourceChanged += GridControlUsers_DataSourceChanged;
-            gridViewUsers.RowStyle += GridViewUsers_RowStyle;
         }
 
         private void GridControlUsers_DataSourceChanged(object sender, EventArgs e)
         {
             // Скрываем ненужные колонки
-            var columnsToHide = new[] { "Id", "Roles" };
+            var columnsToHide = new[] { "Id" };
             foreach (var columnName in columnsToHide)
             {
                 if (gridViewUsers.Columns[columnName] != null)
                 {
                     gridViewUsers.Columns[columnName].Visible = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Обработчик стиля строки
-        /// </summary>
-        private void GridViewUsers_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
-        {
-            if (e.RowHandle >= 0)
-            {
-                GridView view = sender as GridView;
-
-                try
-                {
-                    bool isActive = Convert.ToBoolean(view.GetRowCellValue(e.RowHandle, "IsActive"));
-
-                    if (!isActive)
-                    {
-                        // Для неактивных пользователей окрашиваем строку в серый
-                        e.Appearance.BackColor = Color.LightGray;
-                    }
-                }
-                catch
-                {
-                    // Игнорируем ошибки при получении значения
                 }
             }
         }
@@ -134,16 +107,6 @@ namespace APB.AccessControl.ManageApp.Controls
             if (e.Value == null)
             {
                 return;
-            }
-
-            // Форматирование статуса активности
-            if (e.Column.FieldName == "IsActive")
-            {
-                if (e.Value is bool isActive)
-                {
-                    e.DisplayText = isActive ? "Активен" : "Неактивен";
-                    return;
-                }
             }
 
             // Форматирование списка ролей
@@ -234,12 +197,26 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void ShowCreateUserDialog()
         {
-            using (var editForm = new UserEditForm(_roles))
+            try
             {
-                if (editForm.ShowDialog() == DialogResult.OK)
+                if (_roles == null || !_roles.Any())
                 {
-                    OnCreateUser(editForm.CreateRequest);
+                    XtraMessageBox.Show("Список ролей не загружен", 
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                using (var editForm = new UserEditForm(_roles))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        OnCreateUser(editForm.CreateRequest);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка при создании пользователя: {ex.Message}");
             }
         }
 
@@ -248,12 +225,26 @@ namespace APB.AccessControl.ManageApp.Controls
         /// </summary>
         private void ShowEditUserDialog(UserDto user)
         {
-            using (var editForm = new UserEditForm(user, _roles))
+            try
             {
-                if (editForm.ShowDialog() == DialogResult.OK)
+                if (_roles == null || !_roles.Any())
                 {
-                    OnUpdateUser(editForm.UpdateRequest);
+                    XtraMessageBox.Show("Список ролей не загружен", 
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                using (var editForm = new UserEditForm(user, _roles))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        OnUpdateUser(editForm.UpdateRequest);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка при редактировании пользователя: {ex.Message}");
             }
         }
 
@@ -280,14 +271,14 @@ namespace APB.AccessControl.ManageApp.Controls
         /// Вызов события обновления данных
         /// </summary>
         private void OnRefreshData()
-        {
+         {
             RefreshData?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Вызов события создания пользователя
         /// </summary>
-        private void OnCreateUser(CreateUserReq request)
+        private void OnCreateUser(CreateUserWithRolesReq request)
         {
             CreateUser?.Invoke(this, request);
         }
@@ -303,7 +294,7 @@ namespace APB.AccessControl.ManageApp.Controls
         /// <summary>
         /// Вызов события удаления пользователя
         /// </summary>
-        private void OnDeleteUser(int userId)
+        private void OnDeleteUser(string userId)
         {
             DeleteUser?.Invoke(this, userId);
         }

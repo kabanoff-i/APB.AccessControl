@@ -9,9 +9,7 @@ namespace APB.AccessControl.Shared.Models.Identity
     /// </summary>
     public class UpdateUserReq
     {
-        public int Id { get; set; }
-        public string FullName { get; set; }
+        public string Id { get; set; }
         public List<string> Roles { get; set; }
-        public bool IsActive { get; set; }
     }
 }

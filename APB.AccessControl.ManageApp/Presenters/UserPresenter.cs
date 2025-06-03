@@ -4,6 +4,8 @@ using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Identity;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
+using APB.AccessControl.ManageApp.Forms;
 
 namespace APB.AccessControl.ManageApp.Presenters
 {
@@ -79,11 +81,26 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// <summary>
         /// Обработчик события создания пользователя
         /// </summary>
-        private async void HandleCreateUser(object sender, CreateUserReq e)
+        private async void HandleCreateUser(object sender, CreateUserWithRolesReq e)
         {
             try
             {
-                await _userService.CreateUserAsync(e);
+                // Создаем пользователя
+                var registerRequest = new RegisterRequest
+                {
+                    Username = e.Username,
+                    Password = e.Password
+                };
+                
+                var user = await _userService.CreateUserAsync(registerRequest)
+                    ?? throw new Exception("Не удалось создать пользователя");
+
+                // Назначаем роли
+                if (e.Roles != null && e.Roles.Any())
+                {
+                    await _userService.AssignRolesAsync(user.Username, e.Roles);
+                }
+                
                 _view.ShowMessage("Пользователь успешно создан");
                 await LoadDataAsync();
             }
@@ -113,7 +130,7 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// <summary>
         /// Обработчик события удаления пользователя
         /// </summary>
-        private async void HandleDeleteUser(object sender, int userId)
+        private async void HandleDeleteUser(object sender, string userId)
         {
             try
             {

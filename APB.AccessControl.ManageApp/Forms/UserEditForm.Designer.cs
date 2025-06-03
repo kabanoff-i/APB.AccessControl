@@ -31,9 +31,7 @@ namespace APB.AccessControl.ManageApp.Forms
             layoutControl = new DevExpress.XtraLayout.LayoutControl();
             btnCancel = new DevExpress.XtraEditors.SimpleButton();
             btnSave = new DevExpress.XtraEditors.SimpleButton();
-            checkEditActive = new DevExpress.XtraEditors.CheckEdit();
             checkedComboBoxRoles = new DevExpress.XtraEditors.CheckedComboBoxEdit();
-            textEditFullName = new DevExpress.XtraEditors.TextEdit();
             textEditPasswordConfirm = new DevExpress.XtraEditors.TextEdit();
             textEditPassword = new DevExpress.XtraEditors.TextEdit();
             textEditUsername = new DevExpress.XtraEditors.TextEdit();
@@ -41,17 +39,13 @@ namespace APB.AccessControl.ManageApp.Forms
             layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-            layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
-            layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)layoutControl).BeginInit();
             layoutControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)checkEditActive.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)checkedComboBoxRoles.Properties).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)textEditFullName.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)textEditPasswordConfirm.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)textEditPassword.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)textEditUsername.Properties).BeginInit();
@@ -59,9 +53,7 @@ namespace APB.AccessControl.ManageApp.Forms
             ((System.ComponentModel.ISupportInitialize)layoutControlItem1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlItem5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlItem7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem1).BeginInit();
@@ -71,9 +63,7 @@ namespace APB.AccessControl.ManageApp.Forms
             // 
             layoutControl.Controls.Add(btnCancel);
             layoutControl.Controls.Add(btnSave);
-            layoutControl.Controls.Add(checkEditActive);
             layoutControl.Controls.Add(checkedComboBoxRoles);
-            layoutControl.Controls.Add(textEditFullName);
             layoutControl.Controls.Add(textEditPasswordConfirm);
             layoutControl.Controls.Add(textEditPassword);
             layoutControl.Controls.Add(textEditUsername);
@@ -82,14 +72,14 @@ namespace APB.AccessControl.ManageApp.Forms
             layoutControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             layoutControl.Name = "layoutControl";
             layoutControl.Root = layoutControlGroup;
-            layoutControl.Size = new System.Drawing.Size(726, 390);
+            layoutControl.Size = new System.Drawing.Size(726, 300);
             layoutControl.TabIndex = 0;
             layoutControl.Text = "layoutControl1";
             // 
             // btnCancel
             // 
             btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            btnCancel.Location = new System.Drawing.Point(365, 346);
+            btnCancel.Location = new System.Drawing.Point(365, 256);
             btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new System.Drawing.Size(349, 32);
@@ -100,7 +90,7 @@ namespace APB.AccessControl.ManageApp.Forms
             // 
             // btnSave
             // 
-            btnSave.Location = new System.Drawing.Point(12, 346);
+            btnSave.Location = new System.Drawing.Point(12, 256);
             btnSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             btnSave.Name = "btnSave";
             btnSave.Size = new System.Drawing.Size(349, 32);
@@ -109,19 +99,9 @@ namespace APB.AccessControl.ManageApp.Forms
             btnSave.Text = "Сохранить";
             btnSave.Click += btnSave_Click;
             // 
-            // checkEditActive
-            // 
-            checkEditActive.Location = new System.Drawing.Point(12, 292);
-            checkEditActive.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            checkEditActive.Name = "checkEditActive";
-            checkEditActive.Properties.Caption = "Активен";
-            checkEditActive.Size = new System.Drawing.Size(702, 27);
-            checkEditActive.StyleController = layoutControl;
-            checkEditActive.TabIndex = 6;
-            // 
             // checkedComboBoxRoles
             // 
-            checkedComboBoxRoles.Location = new System.Drawing.Point(12, 260);
+            checkedComboBoxRoles.Location = new System.Drawing.Point(12, 148);
             checkedComboBoxRoles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             checkedComboBoxRoles.Name = "checkedComboBoxRoles";
             checkedComboBoxRoles.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
@@ -129,18 +109,9 @@ namespace APB.AccessControl.ManageApp.Forms
             checkedComboBoxRoles.StyleController = layoutControl;
             checkedComboBoxRoles.TabIndex = 5;
             // 
-            // textEditFullName
-            // 
-            textEditFullName.Location = new System.Drawing.Point(12, 204);
-            textEditFullName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            textEditFullName.Name = "textEditFullName";
-            textEditFullName.Size = new System.Drawing.Size(702, 28);
-            textEditFullName.StyleController = layoutControl;
-            textEditFullName.TabIndex = 4;
-            // 
             // textEditPasswordConfirm
             // 
-            textEditPasswordConfirm.Location = new System.Drawing.Point(12, 148);
+            textEditPasswordConfirm.Location = new System.Drawing.Point(12, 92);
             textEditPasswordConfirm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             textEditPasswordConfirm.Name = "textEditPasswordConfirm";
             textEditPasswordConfirm.Properties.PasswordChar = '*';
@@ -150,7 +121,7 @@ namespace APB.AccessControl.ManageApp.Forms
             // 
             // textEditPassword
             // 
-            textEditPassword.Location = new System.Drawing.Point(12, 92);
+            textEditPassword.Location = new System.Drawing.Point(12, 36);
             textEditPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             textEditPassword.Name = "textEditPassword";
             textEditPassword.Properties.PasswordChar = '*';
@@ -171,9 +142,9 @@ namespace APB.AccessControl.ManageApp.Forms
             // 
             layoutControlGroup.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             layoutControlGroup.GroupBordersVisible = false;
-            layoutControlGroup.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlItem1, layoutControlItem2, layoutControlItem3, layoutControlItem5, layoutControlItem6, layoutControlItem7, layoutControlItem8, layoutControlItem9, emptySpaceItem1 });
+            layoutControlGroup.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlItem1, layoutControlItem2, layoutControlItem3, layoutControlItem6, layoutControlItem8, layoutControlItem9, emptySpaceItem1 });
             layoutControlGroup.Name = "layoutControlGroup";
-            layoutControlGroup.Size = new System.Drawing.Size(726, 390);
+            layoutControlGroup.Size = new System.Drawing.Size(726, 300);
             layoutControlGroup.TextVisible = false;
             // 
             // layoutControlItem1
@@ -206,38 +177,20 @@ namespace APB.AccessControl.ManageApp.Forms
             layoutControlItem3.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlItem3.TextSize = new System.Drawing.Size(171, 21);
             // 
-            // layoutControlItem5
-            // 
-            layoutControlItem5.Control = textEditFullName;
-            layoutControlItem5.Location = new System.Drawing.Point(0, 168);
-            layoutControlItem5.Name = "layoutControlItem5";
-            layoutControlItem5.Size = new System.Drawing.Size(706, 56);
-            layoutControlItem5.Text = "ФИО";
-            layoutControlItem5.TextLocation = DevExpress.Utils.Locations.Top;
-            layoutControlItem5.TextSize = new System.Drawing.Size(171, 21);
-            // 
             // layoutControlItem6
             // 
             layoutControlItem6.Control = checkedComboBoxRoles;
-            layoutControlItem6.Location = new System.Drawing.Point(0, 224);
+            layoutControlItem6.Location = new System.Drawing.Point(0, 168);
             layoutControlItem6.Name = "layoutControlItem6";
             layoutControlItem6.Size = new System.Drawing.Size(706, 56);
             layoutControlItem6.Text = "Роли";
             layoutControlItem6.TextLocation = DevExpress.Utils.Locations.Top;
             layoutControlItem6.TextSize = new System.Drawing.Size(171, 21);
             // 
-            // layoutControlItem7
-            // 
-            layoutControlItem7.Control = checkEditActive;
-            layoutControlItem7.Location = new System.Drawing.Point(0, 280);
-            layoutControlItem7.Name = "layoutControlItem7";
-            layoutControlItem7.Size = new System.Drawing.Size(706, 31);
-            layoutControlItem7.TextVisible = false;
-            // 
             // layoutControlItem8
             // 
             layoutControlItem8.Control = btnSave;
-            layoutControlItem8.Location = new System.Drawing.Point(0, 334);
+            layoutControlItem8.Location = new System.Drawing.Point(0, 244);
             layoutControlItem8.Name = "layoutControlItem8";
             layoutControlItem8.Size = new System.Drawing.Size(353, 36);
             layoutControlItem8.TextVisible = false;
@@ -245,16 +198,16 @@ namespace APB.AccessControl.ManageApp.Forms
             // layoutControlItem9
             // 
             layoutControlItem9.Control = btnCancel;
-            layoutControlItem9.Location = new System.Drawing.Point(353, 334);
+            layoutControlItem9.Location = new System.Drawing.Point(353, 244);
             layoutControlItem9.Name = "layoutControlItem9";
             layoutControlItem9.Size = new System.Drawing.Size(353, 36);
             layoutControlItem9.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
-            emptySpaceItem1.Location = new System.Drawing.Point(0, 311);
+            emptySpaceItem1.Location = new System.Drawing.Point(0, 224);
             emptySpaceItem1.Name = "emptySpaceItem1";
-            emptySpaceItem1.Size = new System.Drawing.Size(706, 23);
+            emptySpaceItem1.Size = new System.Drawing.Size(706, 20);
             // 
             // UserEditForm
             // 
@@ -262,7 +215,7 @@ namespace APB.AccessControl.ManageApp.Forms
             AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new System.Drawing.Size(726, 390);
+            ClientSize = new System.Drawing.Size(726, 300);
             Controls.Add(layoutControl);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -274,9 +227,7 @@ namespace APB.AccessControl.ManageApp.Forms
             Load += UserEditForm_Load;
             ((System.ComponentModel.ISupportInitialize)layoutControl).EndInit();
             layoutControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)checkEditActive.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)checkedComboBoxRoles.Properties).EndInit();
-            ((System.ComponentModel.ISupportInitialize)textEditFullName.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)textEditPasswordConfirm.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)textEditPassword.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)textEditUsername.Properties).EndInit();
@@ -284,9 +235,7 @@ namespace APB.AccessControl.ManageApp.Forms
             ((System.ComponentModel.ISupportInitialize)layoutControlItem1).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem2).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlItem5).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)layoutControlItem7).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem8).EndInit();
             ((System.ComponentModel.ISupportInitialize)layoutControlItem9).EndInit();
             ((System.ComponentModel.ISupportInitialize)emptySpaceItem1).EndInit();
@@ -298,9 +247,7 @@ namespace APB.AccessControl.ManageApp.Forms
         private DevExpress.XtraLayout.LayoutControl layoutControl;
         private DevExpress.XtraEditors.SimpleButton btnCancel;
         private DevExpress.XtraEditors.SimpleButton btnSave;
-        private DevExpress.XtraEditors.CheckEdit checkEditActive;
         private DevExpress.XtraEditors.CheckedComboBoxEdit checkedComboBoxRoles;
-        private DevExpress.XtraEditors.TextEdit textEditFullName;
         private DevExpress.XtraEditors.TextEdit textEditPasswordConfirm;
         private DevExpress.XtraEditors.TextEdit textEditPassword;
         private DevExpress.XtraEditors.TextEdit textEditUsername;
@@ -308,9 +255,7 @@ namespace APB.AccessControl.ManageApp.Forms
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;

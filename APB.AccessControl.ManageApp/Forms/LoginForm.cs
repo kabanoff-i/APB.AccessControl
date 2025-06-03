@@ -23,8 +23,8 @@ namespace APB.AccessControl.ManageApp.Controls
         private async void btnLogin_Click(object sender, EventArgs e)
         {
             // Предзаполняем имя пользователя и пароль для тестирования
-            txtUsername.Text = "admin";
-            txtPassword.Text = "Adminpassword777";
+            //txtUsername.Text = "admin";
+            txtPassword.Text = string.IsNullOrEmpty(txtPassword.Text) ? "Adminpassword777" : txtPassword.Text;
 
             if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text))
             {

@@ -18,7 +18,7 @@ namespace APB.AccessControl.ManageApp.Views
         /// <summary>
         /// Событие создания нового пользователя
         /// </summary>
-        event EventHandler<CreateUserReq> CreateUser;
+        event EventHandler<CreateUserWithRolesReq> CreateUser;
         
         /// <summary>
         /// Событие обновления пользователя
@@ -28,7 +28,7 @@ namespace APB.AccessControl.ManageApp.Views
         /// <summary>
         /// Событие удаления пользователя
         /// </summary>
-        event EventHandler<int> DeleteUser;
+        event EventHandler<string> DeleteUser;
         
         /// <summary>
         /// Событие изменения пароля

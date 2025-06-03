@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             MainFormContainer = new DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormContainer();
             accordionControl = new DevExpress.XtraBars.Navigation.AccordionControl();
             group = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -39,6 +38,7 @@
             AccessRuleManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             AccessLogView = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             NotificationsManagement = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            UserManagementControl = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             logout = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             MainFormControl = new DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl();
             itemNav = new DevExpress.XtraBars.BarStaticItem();
@@ -79,7 +79,7 @@
             // 
             // group
             // 
-            group.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { EmployeeManagement, AccessGroupManagement, AccessPointManagement, AccessRuleManagement, AccessLogView, NotificationsManagement });
+            group.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { EmployeeManagement, AccessGroupManagement, AccessPointManagement, AccessRuleManagement, AccessLogView, NotificationsManagement, UserManagementControl });
             group.Expanded = true;
             group.HeaderVisible = false;
             group.Height = -1;
@@ -90,50 +90,56 @@
             // EmployeeManagement
             // 
             EmployeeManagement.Height = -1;
-            EmployeeManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/employee");
+            EmployeeManagement.ImageOptions.SvgImage = Properties.Resources.Contact;
             EmployeeManagement.Name = "EmployeeManagement";
             EmployeeManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             EmployeeManagement.Text = "Сотрудники и карты";
             // 
             // AccessGroupManagement
             // 
-            AccessGroupManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/group");
+            AccessGroupManagement.ImageOptions.SvgImage = Properties.Resources.People;
             AccessGroupManagement.Name = "AccessGroupManagement";
             AccessGroupManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessGroupManagement.Text = "Группы доступа";
             // 
             // AccessPointManagement
             // 
-            AccessPointManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/access point");
+            AccessPointManagement.ImageOptions.SvgImage = Properties.Resources.DirectAccess;
             AccessPointManagement.Name = "AccessPointManagement";
             AccessPointManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessPointManagement.Text = "Точки доступа";
             // 
             // AccessRuleManagement
             // 
-            AccessRuleManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/access rule");
+            AccessRuleManagement.ImageOptions.SvgImage = Properties.Resources.font_icon59812;
             AccessRuleManagement.Name = "AccessRuleManagement";
             AccessRuleManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessRuleManagement.Text = "Правила доступа";
             // 
             // AccessLogView
             // 
-            AccessLogView.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/log");
+            AccessLogView.ImageOptions.SvgImage = Properties.Resources.SetHistoryStatus;
             AccessLogView.Name = "AccessLogView";
             AccessLogView.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             AccessLogView.Text = "История проходов";
             // 
             // NotificationsManagement
             // 
-            NotificationsManagement.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("business objects/notification");
+            NotificationsManagement.ImageOptions.SvgImage = Properties.Resources.Ringer;
             NotificationsManagement.Name = "NotificationsManagement";
             NotificationsManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             NotificationsManagement.Text = "Уведомления";
             // 
+            // UserManagementControl
+            // 
+            UserManagementControl.Name = "UserManagementControl";
+            UserManagementControl.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            UserManagementControl.Text = "Пользователи";
+            // 
             // logout
             // 
             logout.ControlFooterAlignment = DevExpress.XtraBars.Navigation.AccordionItemFooterAlignment.Far;
-            logout.ImageOptions.SvgImage = global::DevExpress.Images.ImageResourceCache.Default.GetSvgImage("actions/logout");
+            logout.ImageOptions.SvgImage = Properties.Resources.SignOut;
             logout.Name = "logout";
             logout.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             logout.Click += logout_Click;
@@ -172,6 +178,7 @@
             Controls.Add(accordionControl);
             Controls.Add(MainFormControl);
             FluentDesignFormControl = MainFormControl;
+            Font = new System.Drawing.Font("Segoe UI", 8F);
             Name = "MainForm";
             NavigationControl = accordionControl;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -195,5 +202,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement AccessRuleManagement;
         private DevExpress.XtraBars.Navigation.AccordionControlElement AccessLogView;
         private DevExpress.XtraBars.Navigation.AccordionControlElement NotificationsManagement;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement UserManagementControl;
     }
 }
