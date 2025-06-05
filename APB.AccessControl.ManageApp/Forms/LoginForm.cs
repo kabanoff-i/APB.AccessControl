@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using APB.AccessControl.ManageApp.Services;
 using DevExpress.XtraEditors;
+using System.Linq;
 
 namespace APB.AccessControl.ManageApp.Controls
 {
@@ -17,7 +18,7 @@ namespace APB.AccessControl.ManageApp.Controls
             
             // Предзаполняем имя пользователя по умолчанию и подсказку о пароле
             txtUsername.Text = "admin";
-            lblStatus.Text = "Подсказка: По умолчанию пароль для admin указан в конфигурации сервера";
+            //lblStatus.Text = "Подсказка: По умолчанию пароль для admin указан в конфигурации сервера";
         }
         
         private async void btnLogin_Click(object sender, EventArgs e)
@@ -43,6 +44,15 @@ namespace APB.AccessControl.ManageApp.Controls
                 
                 if (result.IsSuccess)
                 {
+                    // Проверяем роль пользователя
+                    if (result.User?.Roles == null || !result.User.Roles.Contains("Admin"))
+                    {
+                        lblStatus.Text = "Доступ запрещен. Требуются права администратора.";
+                        XtraMessageBox.Show("Доступ запрещен. Требуются права администратора.", "Ошибка доступа", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     // Показываем информацию о токене
                     lblStatus.Text = $"Вход выполнен. Токен получен (действует до {result.ExpiresAt:dd.MM.yyyy HH:mm:ss})";
                     

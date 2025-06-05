@@ -422,6 +422,9 @@ namespace APB.AccessControl.ManageApp.Forms
         /// </summary>
         private void ShowStatus(string message, StatusType type)
         {
+            if (!IsHandleCreated)
+                return;
+
             BeginInvoke(new Action(() =>
             {
                 lblStatus.Text = message;

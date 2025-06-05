@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             MainFormContainer = new DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormContainer();
             accordionControl = new DevExpress.XtraBars.Navigation.AccordionControl();
             group = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -50,22 +51,18 @@
             // 
             // MainFormContainer
             // 
-            MainFormContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            MainFormContainer.Location = new System.Drawing.Point(377, 46);
+            resources.ApplyResources(MainFormContainer, "MainFormContainer");
             MainFormContainer.Name = "MainFormContainer";
-            MainFormContainer.Size = new System.Drawing.Size(1269, 817);
-            MainFormContainer.TabIndex = 0;
             // 
             // accordionControl
             // 
+            resources.ApplyResources(accordionControl, "accordionControl");
             accordionControl.AllowItemSelection = true;
-            accordionControl.Appearance.Item.Default.Font = new System.Drawing.Font("Segoe UI", 11F);
+            accordionControl.Appearance.Item.Default.Font = (System.Drawing.Font)resources.GetObject("accordionControl.Appearance.Item.Default.Font");
             accordionControl.Appearance.Item.Default.Options.UseFont = true;
-            accordionControl.Dock = System.Windows.Forms.DockStyle.Left;
             accordionControl.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { group, logout });
             accordionControl.ExpandGroupOnHeaderClick = false;
             accordionControl.ExpandItemOnHeaderClick = false;
-            accordionControl.Location = new System.Drawing.Point(0, 46);
             accordionControl.Name = "accordionControl";
             accordionControl.OptionsFooter.ActiveGroupDisplayMode = DevExpress.XtraBars.Navigation.ActiveGroupDisplayMode.GroupHeaderAndContent;
             accordionControl.OptionsMinimizing.AllowMinimizeMode = DevExpress.Utils.DefaultBoolean.True;
@@ -73,12 +70,11 @@
             accordionControl.ShowGroupExpandButtons = false;
             accordionControl.ShowItemExpandButtons = false;
             accordionControl.ShowToolTips = false;
-            accordionControl.Size = new System.Drawing.Size(377, 817);
-            accordionControl.TabIndex = 1;
             accordionControl.ViewType = DevExpress.XtraBars.Navigation.AccordionControlViewType.HamburgerMenu;
             // 
             // group
             // 
+            resources.ApplyResources(group, "group");
             group.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] { EmployeeManagement, AccessGroupManagement, AccessPointManagement, AccessRuleManagement, AccessLogView, NotificationsManagement, UserManagementControl });
             group.Expanded = true;
             group.HeaderVisible = false;
@@ -89,56 +85,66 @@
             // 
             // EmployeeManagement
             // 
+            resources.ApplyResources(EmployeeManagement, "EmployeeManagement");
             EmployeeManagement.Height = -1;
+            EmployeeManagement.ImageOptions.ImageKey = resources.GetString("EmployeeManagement.ImageOptions.ImageKey");
             EmployeeManagement.ImageOptions.SvgImage = Properties.Resources.Contact;
             EmployeeManagement.Name = "EmployeeManagement";
             EmployeeManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            EmployeeManagement.Text = "Сотрудники и карты";
             // 
             // AccessGroupManagement
             // 
+            resources.ApplyResources(AccessGroupManagement, "AccessGroupManagement");
+            AccessGroupManagement.ImageOptions.ImageKey = resources.GetString("AccessGroupManagement.ImageOptions.ImageKey");
             AccessGroupManagement.ImageOptions.SvgImage = Properties.Resources.People;
             AccessGroupManagement.Name = "AccessGroupManagement";
             AccessGroupManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            AccessGroupManagement.Text = "Группы доступа";
             // 
             // AccessPointManagement
             // 
+            resources.ApplyResources(AccessPointManagement, "AccessPointManagement");
+            AccessPointManagement.ImageOptions.ImageKey = resources.GetString("AccessPointManagement.ImageOptions.ImageKey");
             AccessPointManagement.ImageOptions.SvgImage = Properties.Resources.DirectAccess;
             AccessPointManagement.Name = "AccessPointManagement";
             AccessPointManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            AccessPointManagement.Text = "Точки доступа";
             // 
             // AccessRuleManagement
             // 
+            resources.ApplyResources(AccessRuleManagement, "AccessRuleManagement");
+            AccessRuleManagement.ImageOptions.ImageKey = resources.GetString("AccessRuleManagement.ImageOptions.ImageKey");
             AccessRuleManagement.ImageOptions.SvgImage = Properties.Resources.font_icon59812;
             AccessRuleManagement.Name = "AccessRuleManagement";
             AccessRuleManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            AccessRuleManagement.Text = "Правила доступа";
             // 
             // AccessLogView
             // 
+            resources.ApplyResources(AccessLogView, "AccessLogView");
+            AccessLogView.ImageOptions.ImageKey = resources.GetString("AccessLogView.ImageOptions.ImageKey");
             AccessLogView.ImageOptions.SvgImage = Properties.Resources.SetHistoryStatus;
             AccessLogView.Name = "AccessLogView";
             AccessLogView.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            AccessLogView.Text = "История проходов";
             // 
             // NotificationsManagement
             // 
+            resources.ApplyResources(NotificationsManagement, "NotificationsManagement");
+            NotificationsManagement.ImageOptions.ImageKey = resources.GetString("NotificationsManagement.ImageOptions.ImageKey");
             NotificationsManagement.ImageOptions.SvgImage = Properties.Resources.Ringer;
             NotificationsManagement.Name = "NotificationsManagement";
             NotificationsManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            NotificationsManagement.Text = "Уведомления";
             // 
             // UserManagementControl
             // 
+            resources.ApplyResources(UserManagementControl, "UserManagementControl");
+            UserManagementControl.ImageOptions.ImageKey = resources.GetString("UserManagementControl.ImageOptions.ImageKey");
+            UserManagementControl.ImageOptions.SvgImage = Properties.Resources.Permissions3;
             UserManagementControl.Name = "UserManagementControl";
             UserManagementControl.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            UserManagementControl.Text = "Пользователи";
             // 
             // logout
             // 
+            resources.ApplyResources(logout, "logout");
             logout.ControlFooterAlignment = DevExpress.XtraBars.Navigation.AccordionItemFooterAlignment.Far;
+            logout.ImageOptions.ImageKey = resources.GetString("logout.ImageOptions.ImageKey");
             logout.ImageOptions.SvgImage = Properties.Resources.SignOut;
             logout.Name = "logout";
             logout.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
@@ -146,19 +152,23 @@
             // 
             // MainFormControl
             // 
+            resources.ApplyResources(MainFormControl, "MainFormControl");
             MainFormControl.FluentDesignForm = this;
             MainFormControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] { itemNav });
-            MainFormControl.Location = new System.Drawing.Point(0, 0);
             MainFormControl.Manager = MainFormDefaultManager;
             MainFormControl.Name = "MainFormControl";
-            MainFormControl.Size = new System.Drawing.Size(1646, 46);
-            MainFormControl.TabIndex = 2;
             MainFormControl.TabStop = false;
             MainFormControl.TitleItemLinks.Add(itemNav);
             // 
             // itemNav
             // 
+            resources.ApplyResources(itemNav, "itemNav");
             itemNav.Id = 0;
+            itemNav.ImageOptions.ImageIndex = (int)resources.GetObject("itemNav.ImageOptions.ImageIndex");
+            itemNav.ImageOptions.ImageKey = resources.GetString("itemNav.ImageOptions.ImageKey");
+            itemNav.ImageOptions.LargeImageIndex = (int)resources.GetObject("itemNav.ImageOptions.LargeImageIndex");
+            itemNav.ImageOptions.LargeImageKey = resources.GetString("itemNav.ImageOptions.LargeImageKey");
+            itemNav.ImageOptions.SvgImage = (DevExpress.Utils.Svg.SvgImage)resources.GetObject("itemNav.ImageOptions.SvgImage");
             itemNav.Name = "itemNav";
             // 
             // MainFormDefaultManager
@@ -169,19 +179,17 @@
             // 
             // MainForm
             // 
+            resources.ApplyResources(this, "$this");
             Appearance.Options.UseFont = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1646, 863);
             ControlContainer = MainFormContainer;
             Controls.Add(MainFormContainer);
             Controls.Add(accordionControl);
             Controls.Add(MainFormControl);
             FluentDesignFormControl = MainFormControl;
-            Font = new System.Drawing.Font("Segoe UI", 8F);
+            IconOptions.ShowIcon = false;
             Name = "MainForm";
             NavigationControl = accordionControl;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)accordionControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)MainFormControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)MainFormDefaultManager).EndInit();

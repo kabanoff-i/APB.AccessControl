@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using APB.SV.CardData;
+using Timer = System.Threading.Timer;
 
 namespace APB.AccessControl.ClientApp.Services
 {
@@ -16,11 +17,14 @@ namespace APB.AccessControl.ClientApp.Services
         private bool _cardWasRead = false;
         private string _lastReadCardHash = null;
         private readonly int _cardCooldownMs = 2000; // время задержки между считыванием одной и той же карты
+        private bool _isRunning;
 
-        public event EventHandler<CardReadEventArgs> CardRead;
-        public event EventHandler<ReaderStatusEventArgs> ReaderStatusChanged;
+        public event EventHandler<CardReadEventArgs> OnCardRead;
+        public event EventHandler<ReaderStatusEventArgs> OnReaderStatusChanged;
 
-        public string[] GetAvailableReaders()
+        public bool IsRunning => _isRunning;
+
+        public IEnumerable<string> GetAvailableReaders()
         {
             try
             {
@@ -28,7 +32,7 @@ namespace APB.AccessControl.ClientApp.Services
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged(false, $"Ошибка получения списка считывателей: {ex.Message}");
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка получения списка считывателей: {ex.Message}", IsRunning = false });
                 return Array.Empty<string>();
             }
         }
@@ -41,7 +45,7 @@ namespace APB.AccessControl.ClientApp.Services
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged(false, $"Ошибка проверки подключения считывателя: {ex.Message}");
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка проверки подключения считывателя: {ex.Message}", IsRunning = false });
                 return false;
             }
         }
@@ -56,7 +60,7 @@ namespace APB.AccessControl.ClientApp.Services
             _selectedReader = readerName;
             _isPolling = true;
             _pollingTimer = new Timer(PollReader, null, 0, pollingInterval);
-            OnReaderStatusChanged(true, $"Начато опрашивание считывателя: {readerName}");
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Начато опрашивание считывателя: {readerName}", IsRunning = true });
         }
 
         public void StopPolling()
@@ -64,7 +68,7 @@ namespace APB.AccessControl.ClientApp.Services
             _isPolling = false;
             _pollingTimer?.Dispose();
             _pollingTimer = null;
-            OnReaderStatusChanged(false, "Опрашивание остановлено");
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Опрашивание остановлено", IsRunning = false });
         }
 
         private void PollReader(object state)
@@ -84,7 +88,7 @@ namespace APB.AccessControl.ClientApp.Services
                     {
                         _cardWasRead = false;
                         _lastReadCardHash = null;
-                        OnReaderStatusChanged(true, "Считыватель готов. Ожидание карты...");
+                        OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Считыватель готов. Ожидание карты...", IsRunning = true });
                     }
                     return;
                 }
@@ -113,11 +117,10 @@ namespace APB.AccessControl.ClientApp.Services
                     _lastReadCardHash = cardHash;
 
                     // Вызываем событие с прочитанными данными
-                    OnCardRead(new CardReadEventArgs 
+                    OnCardRead(this, new CardReadEventArgs 
                     { 
-                        CardHash = cardHash,
-                        HasEmvData = hasEmvData,
-                        CardData = cardData
+                        MaskPan = $"**** **** **** {cardHash.Substring(cardHash.Length - 4)}",
+                        CardHash = cardHash
                     });
                     
                     // Через некоторое время сбросим статус карты, если её не убрали
@@ -129,36 +132,51 @@ namespace APB.AccessControl.ClientApp.Services
                 else if (isCardPresent)
                 {
                     // Если карта есть, но не удалось получить данные - сообщаем об ошибке
-                    OnReaderStatusChanged(false, "Не удалось получить DataHash карты. Попробуйте приложить карту снова.");
+                    OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Не удалось получить DataHash карты. Попробуйте приложить карту снова.", IsRunning = false });
                 }
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged(false, $"Ошибка при опросе считывателя: {ex.Message}");
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка при опросе считывателя: {ex.Message}", IsRunning = false });
             }
         }
 
-        protected virtual void OnCardRead(CardReadEventArgs e)
+        public void StartReader(string readerName)
         {
-            CardRead?.Invoke(this, e);
+            if (_isRunning)
+            {
+                StopReader();
+            }
+
+            _selectedReader = readerName;
+            _isRunning = true;
+            StartPolling(readerName);
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Работает", IsRunning = true });
         }
 
-        protected virtual void OnReaderStatusChanged(bool isConnected, string message)
+        public void StopReader()
         {
-            ReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { IsConnected = isConnected, Message = message });
+            if (!_isRunning)
+            {
+                return;
+            }
+
+            StopPolling();
+            _isRunning = false;
+            _selectedReader = null;
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Остановлен", IsRunning = false });
         }
     }
 
     public class CardReadEventArgs : EventArgs
     {
+        public string MaskPan { get; set; }
         public string CardHash { get; set; }
-        public bool HasEmvData { get; set; }
-        public CardData CardData { get; set; }
     }
 
     public class ReaderStatusEventArgs : EventArgs
     {
-        public bool IsConnected { get; set; }
-        public string Message { get; set; }
+        public string Status { get; set; }
+        public bool IsRunning { get; set; }
     }
 } 

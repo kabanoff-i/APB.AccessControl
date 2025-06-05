@@ -73,6 +73,7 @@ namespace APB.AccessControl.ManageApp.Forms
             lookUpAccessPoint.Properties.ShowHeader = true;
             lookUpAccessPoint.Properties.Columns.Clear();
             lookUpAccessPoint.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Название", 200));
+            lookUpAccessPoint.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Location", "Локация", 200));
 
             // Изначально скрываем выбор сотрудника
             lookUpEmployee.Visible = false;
@@ -113,6 +114,12 @@ namespace APB.AccessControl.ManageApp.Forms
             {
                 // Для нового уведомления устанавливаем дату истечения на конец текущего дня
                 dateExpiration.DateTime = DateTime.Today.AddDays(1).AddSeconds(-1);
+
+                // Если есть предварительно выбранная точка доступа, устанавливаем её
+                if (_notification.AccessPointId != 0)
+                {
+                    lookUpAccessPoint.EditValue = _notification.AccessPointId;
+                }
             }
         }
 

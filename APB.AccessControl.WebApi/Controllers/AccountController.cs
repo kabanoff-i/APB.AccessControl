@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using APB.AccessControl.Shared.Models.Responses;
 
 namespace APB.AccessControl.WebApi.Controllers
 {
@@ -32,6 +33,7 @@ namespace APB.AccessControl.WebApi.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest model)
         {
             var user = new IdentityUser { UserName = model.Username};
@@ -78,9 +80,16 @@ namespace APB.AccessControl.WebApi.Controllers
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
                     SecurityAlgorithms.HmacSha256));
 
-                return Ok(new { 
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiresAt = expiresAt
+                return Ok(new LoginResponse() { 
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    ExpiresAt = expiresAt, 
+                    IsSuccess = true,
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        Username = user.UserName,
+                        Roles = userRoles.ToList()
+                    }
                 });
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using APB.AccessControl.Shared.Models.DTOs;
@@ -11,5 +12,6 @@ namespace APB.AccessControl.Shared.Models.Responses
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
         public EmployeeDto Employee { get; set; }
+        public List<NotificationDto> Notifications { get; set; }
     }
 }

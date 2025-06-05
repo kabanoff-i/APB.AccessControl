@@ -28,6 +28,7 @@ namespace APB.AccessControl.Application.Services
         private readonly IAccessGridRepository _accessGridRepository;
         private readonly IAccessLogService _accessLogService;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<AccessCheckService> _logger;
 
@@ -242,11 +243,18 @@ namespace APB.AccessControl.Application.Services
                     Message = message
                 }, cancellationToken);
 
+                var notifications = await _notificationRepository.GetByFilter(new NotificationFilter
+                {
+                    EmployeeId = card.EmployeeId,
+                    AccessPointId = request.AcсessPointId
+                }, cancellationToken);
+
                 return new AccessCheckResponse 
                 { 
                     IsSuccess = hasAccess,
                     Message = message,
-                    Employee = _mapper.Map<EmployeeDto>(employee)
+                    Employee = _mapper.Map<EmployeeDto>(employee),
+                    Notifications = _mapper.Map<IEnumerable<NotificationDto>>(notifications).ToList(),
                 };
             }, nameof(CheckAccessAsync));
         }

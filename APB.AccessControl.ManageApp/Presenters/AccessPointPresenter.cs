@@ -19,6 +19,7 @@ namespace APB.AccessControl.ManageApp.Presenters
     {
         private readonly IAccessPointView _view;
         private readonly AccessPointService _accessPointService;
+        private readonly NotificationService _notificationService;
         private readonly System.Windows.Forms.Timer _refreshTimer;
         private IEnumerable<AccessPointDto> _accessPoints;
         private int? _selectedAccessPointId;
@@ -27,6 +28,7 @@ namespace APB.AccessControl.ManageApp.Presenters
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _accessPointService = new AccessPointService();
+            _notificationService = new NotificationService();
 
             // Настройка таймера обновления данных каждую минуту
             _refreshTimer = new System.Windows.Forms.Timer
@@ -218,8 +220,35 @@ namespace APB.AccessControl.ManageApp.Presenters
         /// </summary>
         private void OnSendNotification(object sender, int accessPointId)
         {
-            // TODO: Реализовать отправку уведомления на точку доступа
-            _view.ShowMessage("Отправка уведомлений будет добавлена позже");
+            try
+            {
+                // Получаем данные точки доступа
+                var accessPoint = _accessPoints.FirstOrDefault(ap => ap.Id == accessPointId);
+                if (accessPoint == null)
+                {
+                    _view.ShowError("Точка доступа не найдена");
+                    return;
+                }
+
+                // Создаем новое уведомление с предварительно выбранной точкой доступа
+                var notification = new NotificationDto
+                {
+                    AccessPointId = accessPointId
+                };
+
+                // Открываем форму редактирования уведомления
+                using (var form = new NotificationEditForm(_notificationService, notification))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _view.ShowMessage("Уведомление успешно отправлено");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.ShowError($"Ошибка при отправке уведомления: {ex.Message}");
+            }
         }
 
         /// <summary>

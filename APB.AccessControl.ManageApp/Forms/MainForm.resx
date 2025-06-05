@@ -117,7 +117,229 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessGroupManagement.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;MainFormControl.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;EmployeeManagement.Name" xml:space="preserve">
+    <value>EmployeeManagement</value>
+  </data>
+  <data name="&gt;&gt;MainFormContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.FluentDesignSystem.FluentDesignForm, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="accordionControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 46</value>
+  </data>
+  <data name="MainFormControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1646, 46</value>
+  </data>
+  <data name="NotificationsManagement.Text" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="AccessLogView.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MainFormContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>377, 46</value>
+  </data>
+  <data name="&gt;&gt;itemNav.Name" xml:space="preserve">
+    <value>itemNav</value>
+  </data>
+  <data name="&gt;&gt;logout.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="itemNav.ImageOptions.LargeImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="itemNav.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserManagementControl.Text" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="AccessRuleManagement.Text" xml:space="preserve">
+    <value>Правила доступа</value>
+  </data>
+  <data name="&gt;&gt;NotificationsManagement.Name" xml:space="preserve">
+    <value>NotificationsManagement</value>
+  </data>
+  <data name="NotificationsManagement.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;logout.Name" xml:space="preserve">
+    <value>logout</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MainFormControl.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="itemNav.ImageOptions.LargeImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="&gt;&gt;MainFormDefaultManager.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.FluentDesignSystem.FluentFormDefaultManager, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;accordionControl.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;AccessLogView.Name" xml:space="preserve">
+    <value>AccessLogView</value>
+  </data>
+  <data name="&gt;&gt;itemNav.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarStaticItem, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;group.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;UserManagementControl.Name" xml:space="preserve">
+    <value>UserManagementControl</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1646, 863</value>
+  </data>
+  <data name="&gt;&gt;AccessPointManagement.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;MainFormContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="UserManagementControl.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;MainFormControl.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;accordionControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;EmployeeManagement.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;MainFormContainer.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormContainer, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="MainFormControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>9, 21</value>
+  </data>
+  <data name="&gt;&gt;AccessGroupManagement.Name" xml:space="preserve">
+    <value>AccessGroupManagement</value>
+  </data>
+  <data name="accordionControl.Appearance.Item.Default.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11pt</value>
+  </data>
+  <data name="&gt;&gt;group.Name" xml:space="preserve">
+    <value>group</value>
+  </data>
+  <data name="logout.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;AccessRuleManagement.Name" xml:space="preserve">
+    <value>AccessRuleManagement</value>
+  </data>
+  <data name="MainFormContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1269, 817</value>
+  </data>
+  <data name="&gt;&gt;accordionControl.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControl, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;AccessPointManagement.Name" xml:space="preserve">
+    <value>AccessPointManagement</value>
+  </data>
+  <data name="accordionControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="AccessRuleManagement.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MainForm</value>
+  </data>
+  <data name="&gt;&gt;MainFormControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="AccessLogView.Text" xml:space="preserve">
+    <value>История проходов</value>
+  </data>
+  <data name="EmployeeManagement.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;NotificationsManagement.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="AccessPointManagement.ImageOptions.ImageKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;UserManagementControl.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="accordionControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 817</value>
+  </data>
+  <data name="&gt;&gt;MainFormDefaultManager.Name" xml:space="preserve">
+    <value>MainFormDefaultManager</value>
+  </data>
+  <data name="&gt;&gt;AccessRuleManagement.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;AccessLogView.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="MainFormContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;MainFormControl.Name" xml:space="preserve">
+    <value>MainFormControl</value>
+  </data>
+  <data name="MainFormContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="AccessGroupManagement.Text" xml:space="preserve">
+    <value>Группы доступа</value>
+  </data>
+  <data name="&gt;&gt;accordionControl.Name" xml:space="preserve">
+    <value>accordionControl</value>
+  </data>
+  <data name="itemNav.ImageOptions.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="&gt;&gt;AccessGroupManagement.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.Navigation.AccordionControlElement, DevExpress.XtraBars.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="itemNav.ImageOptions.SvgImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="AccessPointManagement.Text" xml:space="preserve">
+    <value>Точки доступа</value>
+  </data>
+  <data name="&gt;&gt;MainFormContainer.Name" xml:space="preserve">
+    <value>MainFormContainer</value>
+  </data>
+  <data name="EmployeeManagement.Text" xml:space="preserve">
+    <value>Сотрудники и карты</value>
+  </data>
+  <data name="accordionControl.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
   <metadata name="MainFormDefaultManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>ru</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
 </root>

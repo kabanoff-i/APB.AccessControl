@@ -4,8 +4,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using APB.AccessControl.ManageApp.Models.Auth;
 using APB.AccessControl.Shared.Models.Identity;
+using APB.AccessControl.Shared.Models.Responses;
 
 namespace APB.AccessControl.ManageApp.Services
 {
@@ -29,7 +29,7 @@ namespace APB.AccessControl.ManageApp.Services
         /// <summary>
         /// Авторизация пользователя
         /// </summary>
-        public async Task<LoginResult> LoginAsync(string username, string password)
+        public async Task<LoginResponse> LoginAsync(string username, string password)
         {
             try
             {
@@ -48,35 +48,19 @@ namespace APB.AccessControl.ManageApp.Services
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    using JsonDocument document = JsonDocument.Parse(responseContent);
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringResponse, _jsonOptions);
+
                     
-                    if (document.RootElement.TryGetProperty("token", out JsonElement tokenElement))
-                    {
-                        string token = tokenElement.GetString();
-                        DateTime expiresAt = DateTime.Now.AddMinutes(_defaultTokenLifetime);
-                        
-                        // Пытаемся получить время истечения токена с сервера
-                        if (document.RootElement.TryGetProperty("expiresAt", out JsonElement expiresElement) && 
-                            DateTime.TryParse(expiresElement.GetString(), out DateTime serverExpiresAt))
-                        {
-                            expiresAt = serverExpiresAt;
-                        }
-                        
-                        // Сохраняем токен и время его истечения в ApiSettings
-                        ApiSettings.AuthToken = token;
-                        ApiSettings.TokenExpiry = expiresAt;
-                        
-                        return new LoginResult
-                        {
-                            Token = token,
-                            ExpiresAt = expiresAt,
-                            IsSuccess = true
-                        };
-                    }
+                    // Сохраняем токен и время его истечения в ApiSettings
+                    ApiSettings.AuthToken = loginResponse.Token;
+                    ApiSettings.TokenExpiry = loginResponse.ExpiresAt;
+
+                    return loginResponse;
+
                 }
                 
-                return new LoginResult
+                return new LoginResponse
                 {
                     IsSuccess = false,
                     ErrorMessage = "Неверное имя пользователя или пароль"
@@ -84,7 +68,7 @@ namespace APB.AccessControl.ManageApp.Services
             }
             catch (Exception ex)
             {
-                return new LoginResult
+                return new LoginResponse
                 {
                     IsSuccess = false,
                     ErrorMessage = $"Ошибка авторизации: {ex.Message}"

@@ -443,6 +443,16 @@ namespace APB.AccessControl.ManageApp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage Permissions3 {
+            get {
+                object obj = ResourceManager.GetObject("Permissions3", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage removegroupfooter {
             get {
                 object obj = ResourceManager.GetObject("removegroupfooter", resourceCulture);
