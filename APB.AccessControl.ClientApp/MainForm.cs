@@ -19,6 +19,9 @@ using APB.AccessControl.Shared.Models.Common;
 using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
 using DevExpress.XtraLayout.Utils;
+using DevExpress.LookAndFeel;
+using DevExpress.Utils;
+using APB.AccessControl.Shared.Models.Filters;
 
 namespace APB.AccessControl.ClientApp
 {
@@ -377,6 +380,53 @@ namespace APB.AccessControl.ClientApp
         {
             _cardReaderService.StopReader();
             base.OnFormClosing(e);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // Инициализация дат
+            dateEditFrom.EditValue = DateTime.Today.AddDays(-6);
+            dateEditTo.EditValue = DateTime.Today.AddDays(1);
+            
+            LoadAccessLogs();
+        }
+
+        private async void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            await LoadAccessLogs();
+        }
+
+        private async Task LoadAccessLogs()
+        {
+            try
+            {
+                var filter = new AccessLogFilterDto
+                {
+                    AccessTimeStart = dateEditFrom.DateTime.ToUniversalTime(),
+                    AccessTimeEnd = dateEditTo.DateTime.ToUniversalTime(),
+                    AccessPointId = AppConfig.Load().AccessPointId
+                };
+
+                var result = await _apiService.GetAccessLogsAsync(filter);
+                if (result.IsSuccess)
+                {
+                    gridControlHistory.DataSource = result.Data;
+                    gridViewHistory.BestFitColumns();
+
+                    if (!result.Data?.Any() ?? true)
+                    {
+                        XtraMessageBox.Show("Нет доступных логов за выбранный период", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show(result.Error?.Message ?? "Неизвестная ошибка", "Ошибка при загрузке логов", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Ошибка при загрузке логов", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -250,5 +250,186 @@ namespace APB.AccessControl.ClientApp.Services
                 return ApiResponse<bool>.Failure(new ApiError { Message = ex.Message });
             }
         }
+
+        public async Task<ApiResponse<IEnumerable<AccessLogDto>>> GetAccessLogsAsync(AccessLogFilterDto filter)
+        {
+            return await PostAsync<IEnumerable<AccessLogDto>, AccessLogFilterDto>($"{_baseUrl}/api/accesslogs/filter", filter);
+        }
+
+        private async Task<ApiResponse<T>> GetAsync<T>(string url)
+        {
+            try
+            {
+                // Применяем актуальный токен авторизации
+                ApplyAuthToken();
+                
+                var response = await _httpClient.GetAsync(url);
+                return await ProcessResponseAsync<T>(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<T>.Failure(new ApiError { Message = ex.Message });
+            }
+        }
+        
+        private async Task<ApiResponse<TResponse>> PostAsync<TResponse, TRequest>(string url, TRequest request)
+        {
+            try
+            {
+                // Применяем актуальный токен авторизации
+                ApplyAuthToken();
+                
+                var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(url, content);
+                return await ProcessResponseAsync<TResponse>(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<TResponse>.Failure(new ApiError { Message = ex.Message });
+            }
+        }
+        
+        private async Task<ApiResponse<TResponse>> PutAsync<TResponse, TRequest>(string url, TRequest request)
+        {
+            try
+            {
+                // Применяем актуальный токен авторизации
+                ApplyAuthToken();
+                
+                var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync(url, content);
+                return await ProcessResponseAsync<TResponse>(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<TResponse>.Failure(new ApiError { Message = ex.Message });
+            }
+        }
+        
+        private async Task<ApiResponse<T>> DeleteAsync<T>(string url)
+        {
+            try
+            {
+                // Применяем актуальный токен авторизации
+                ApplyAuthToken();
+                
+                var response = await _httpClient.DeleteAsync(url);
+                return await ProcessResponseAsync<T>(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<T>.Failure(new ApiError { Message = ex.Message });
+            }
+        }
+
+        private async Task<ApiResponse<T>> ProcessResponseAsync<T>(HttpResponseMessage response)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            
+            try
+            {
+                // Проверка на пустой ответ
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    var error = new ApiError { 
+                        Message = $"Сервер вернул пустой ответ. Код состояния: {(int)response.StatusCode} {response.StatusCode}",
+                        Details = $"URL: {response.RequestMessage?.RequestUri}"
+                    };
+                    return ApiResponse<T>.Failure(error);
+                }
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var _jsonOptions = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        };
+
+                        // Сначала пробуем десериализовать в формате Result<T>
+                        var resultWrapper = JsonSerializer.Deserialize<Result<T>>(content, _jsonOptions);
+                        if (resultWrapper != null)
+                        {
+                            // Возвращаем данные из обертки Result
+                            return ApiResponse<T>.Success(resultWrapper.Data);
+                        }
+                    }
+                    catch (JsonException ex)
+                    {
+
+                    }
+                    
+                    try
+                    {
+                        var _jsonOptions = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        };
+                        // Если не удалось десериализовать как Result<T>, пробуем напрямую в T
+                        var data = JsonSerializer.Deserialize<T>(content, _jsonOptions);
+                        return ApiResponse<T>.Success(data);
+                    }
+                    catch (JsonException ex)
+                    {
+                        // Не удалось десериализовать данные
+                        return ApiResponse<T>.Failure(new ApiError { 
+                            Message = $"Ошибка десериализации ответа: {ex.Message}",
+                            Details = $"Контент: {content.Substring(0, Math.Min(content.Length, 500))}"
+                        });
+                    }
+                }
+                else
+                {
+                    // Проверяем, связана ли ошибка с авторизацией (401 Unauthorized)
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        return ApiResponse<T>.Failure(new ApiError { 
+                            Message = "Отказано в доступе. Возможно, срок действия токена истек. Требуется повторная авторизация." 
+                        });
+                    }
+                    
+                    // Пробуем десериализовать ошибку из JSON-ответа сервера
+                    try
+                    {
+                        var _jsonOptions = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        };
+                        var resultWrapper = JsonSerializer.Deserialize<Result>(content, _jsonOptions);
+                        if (resultWrapper != null && resultWrapper.Errors != null)
+                        {
+                            var errorString = string.Join("\r\n", resultWrapper.Errors.Select(x => x.Message));
+                            return ApiResponse<T>.Failure(new ApiError { 
+                                Message = errorString
+                            });
+                        }
+                    }
+                    catch (JsonException)
+                    {
+                        // Игнорируем ошибку десериализации и используем стандартное сообщение
+                    }
+                    
+                    // Если не удалось извлечь детали ошибки, возвращаем общее сообщение
+                    var error = new ApiError { 
+                        Message = $"Ошибка {(int)response.StatusCode} {response.StatusCode} при обращении к API",
+                        Details = $"URL: {response.RequestMessage?.RequestUri}"
+                    };
+                    return ApiResponse<T>.Failure(error);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Непредвиденная ошибка при обработке ответа
+                return ApiResponse<T>.Failure(new ApiError { 
+                    Message = $"Ошибка при обработке ответа: {ex.Message}"
+                });
+            }
+            
+            // Если мы дошли до этого места, значит, не удалось обработать ответ
+            return ApiResponse<T>.Failure(new ApiError { 
+                Message = "Не удалось обработать ответ сервера"
+            });
+        }
     }
 } 

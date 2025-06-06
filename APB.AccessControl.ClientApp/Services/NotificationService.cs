@@ -87,5 +87,20 @@ namespace APB.AccessControl.ClientApp.Services
                 ? _notifications.FindAll(n => !n.IsRead)
                 : _notifications;
         }
+
+        public void ShowError(string title, string message)
+        {
+            if (_owner.InvokeRequired)
+            {
+                _owner.Invoke(new Action(() => ShowError(title, message)));
+                return;
+            }
+
+            var alertInfo = new AlertInfo(title, message)
+            {
+                Image = SystemIcons.Error.ToBitmap()
+            };
+            _alertControl.Show(_owner, alertInfo);
+        }
     }
 } 
