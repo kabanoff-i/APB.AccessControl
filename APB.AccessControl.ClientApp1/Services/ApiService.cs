@@ -29,8 +29,6 @@ namespace APB.AccessControl.ClientApp.Services
         public ApiService()
         {
             var config = AppConfig.Load();
-            _authToken = config.AuthToken;
-            _tokenExpiry = config.TokenExpiry;
             _baseUrl = config.ApiUrl;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -123,10 +121,10 @@ namespace APB.AccessControl.ClientApp.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<ApiResponse<AccessCheckResponse>>();
-                    return result ?? ApiResponse<AccessCheckResponse>.Failure(new ApiError { Message = $"Ошибка обращения к серверу: не удалось распознать ответ" });
+                    return result ?? ApiResponse<AccessCheckResponse>.Failure(new ApiError { Message = "Ошибка обращения к серверу" });
                 }
                 
-                return ApiResponse<AccessCheckResponse>.Failure(new ApiError { Message = $"Ошибка обращения к серверу. Статус запроса {response.StatusCode}" });
+                return ApiResponse<AccessCheckResponse>.Failure(new ApiError { Message = "Ошибка обращения к серверу" });
             }
             catch (Exception ex)
             {
@@ -194,7 +192,7 @@ namespace APB.AccessControl.ClientApp.Services
         {
             try
             {
-                //ApplyAuthToken();
+                ApplyAuthToken();
                 var response = await _httpClient.GetAsync($"{_baseUrl}/api/accesspoints");
                 
                 if (response.IsSuccessStatusCode)
@@ -215,7 +213,7 @@ namespace APB.AccessControl.ClientApp.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/api/accesslogs", accessLog);
+                var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/api/access/log", accessLog);
                 
                 if (response.IsSuccessStatusCode)
                 {

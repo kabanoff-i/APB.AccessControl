@@ -1,57 +1,59 @@
-﻿using DevExpress.XtraEditors;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
+using DevExpress.XtraEditors;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraTab;
 using DevExpress.XtraBars;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.IO;
 using APB.AccessControl.ClientApp.Services;
-using APB.AccessControl.ClientApp.Resources;
 using APB.AccessControl.ClientApp.Config;
 using APB.AccessControl.Shared.Models.DTOs;
 using APB.AccessControl.Shared.Models.Common;
-using System.IO;
 using APB.AccessControl.Shared.Models.Requests;
 using APB.AccessControl.Shared.Models.Responses;
+using DevExpress.XtraLayout.Utils;
 
 namespace APB.AccessControl.ClientApp
 {
-    public partial class MainForm : DevExpress.XtraEditors.XtraForm
+    public partial class MainForm : DevExpress.XtraBars.TabForm
     {
-        private readonly CardReaderService _cardReaderService;
-        private readonly ApiService _apiService;
-        private readonly NotificationService _notificationService;
-        private readonly HistoryService _historyService;
-        private readonly HeartbeatService _heartbeatService;
-        private readonly QueueService _queueService;
-        private bool _isServerAvailable = true;
+        private CardReaderService _cardReaderService;
+        private ApiService _apiService;
+        private NotificationService _notificationService;
+        private HistoryService _historyService;
 
         public MainForm()
         {
             InitializeComponent();
-            
+            InitializeServices();
+            InitializeReaderSettings();
+            SubscribeToEvents();
+        }
+
+        private void InitializeServices()
+        {
             // Инициализация сервисов
             var config = AppConfig.Load();
             _apiService = new ApiService();
             _cardReaderService = new CardReaderService();
             _notificationService = new NotificationService(alertControl, this);
             _historyService = new HistoryService(_apiService);
-            _heartbeatService = new HeartbeatService(_apiService, _notificationService);
-            _queueService = new QueueService(config.RedisConnectionString);
+        }
 
+        private void SubscribeToEvents()
+        {
             // Подписка на события
             _cardReaderService.OnCardRead += CardReaderService_OnCardRead;
             _cardReaderService.OnReaderStatusChanged += CardReaderService_OnReaderStatusChanged;
             _notificationService.OnNotificationsChanged += NotificationService_OnNotificationsChanged;
             _historyService.OnHistoryChanged += HistoryService_OnHistoryChanged;
-            _heartbeatService.OnNotificationReceived += HeartbeatService_OnNotificationReceived;
 
             // Настройка обработчиков событий
             buttonStartReader.Click += ButtonStartReader_Click;
@@ -60,56 +62,14 @@ namespace APB.AccessControl.ClientApp
             comboBoxReaders.SelectedIndexChanged += ComboBoxReaders_SelectedIndexChanged;
 
             SetupTimers();
-            _heartbeatService.Start();
-            StartQueueProcessing();
+
+            // Инициализация отображения элементов управления
+            TabFormControl1_SelectedPageChanged(this, EventArgs.Empty);
         }
 
         private void SetupTimers()
         {
             notificationTimer.Start();
-        }
-
-        private void StartQueueProcessing()
-        {
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    if (_isServerAvailable)
-                    {
-                        var queuedLog = await _queueService.DequeueAccessCheckAsync();
-                        if (queuedLog != null)
-                        {
-                            try
-                            {
-                                // Отправляем лог на сервер
-                                var result = await _apiService.LogAccessAsync(queuedLog);
-                                if (!result.IsSuccess)
-                                {
-                                    // Если не удалось отправить лог, возвращаем его в очередь
-                                    await _queueService.EnqueueAccessCheckAsync(queuedLog);
-                                    _isServerAvailable = false;
-                                }
-                            }
-                            catch
-                            {
-                                // Если сервер снова недоступен, возвращаем лог в очередь
-                                await _queueService.EnqueueAccessCheckAsync(queuedLog);
-                                _isServerAvailable = false;
-                            }
-                        }
-                    }
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                }
-            });
-        }
-
-        private void NotificationTimer_Tick(object sender, EventArgs e)
-        {
-            if (xtraTabControl.SelectedTabPageIndex != 0)
-            {
-                xtraTabControl.SelectedTabPageIndex = 0;
-            }
         }
 
         private async void CardReaderService_OnCardRead(object sender, CardReadEventArgs e)
@@ -126,59 +86,6 @@ namespace APB.AccessControl.ClientApp
             {
                 var config = AppConfig.Load();
                 
-                if (!_isServerAvailable)
-                {
-                    // Показываем сообщение о ручном режиме
-                    labelEmployeeName.Text = "Ручной режим";
-                    labelDepartment.Text = string.Empty;
-                    labelAccessStatus.Text = "Требуется решение";
-                    labelAccessStatus.Appearance.ForeColor = Color.Orange;
-                    pictureEditEmployee.Image = null;
-
-                    XtraMessageBox.Show(
-                        "Сервер недоступен. Требуется ручное решение.",
-                        "Ручной режим",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-
-                    // Показываем диалог для ручного решения
-                    var result = XtraMessageBox.Show(
-                        "Сервер недоступен. Разрешить доступ?",
-                        "Ручной режим",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question
-                    );
-
-                    var isAccessGranted = result == DialogResult.Yes;
-                    
-                    // Создаем лог прохода
-                    var accessLog = new CreateAccessLogReq
-                    {
-                        CardHash = e.CardHash,
-                        AccessPointId = config.AccessPointId,
-                        DateAccess = DateTime.Now,
-                        AccessResult = isAccessGranted ? 1 : 0,
-                        Message = "Ручной режим"
-                    };
-
-                    // Сохраняем лог в очередь
-                    await _queueService.EnqueueAccessCheckAsync(accessLog);
-
-                    if (isAccessGranted)
-                    {
-                        labelAccessStatus.Text = "Доступ разрешен (ручной режим)";
-                        labelAccessStatus.Appearance.ForeColor = Color.Green;
-                    }
-                    else
-                    {
-                        labelAccessStatus.Text = "Доступ запрещен (ручной режим)";
-                        labelAccessStatus.Appearance.ForeColor = Color.Red;
-                    }
-
-                    return;
-                }
-
                 var apiResult = await _apiService.CheckAccessAsync(e.CardHash, config.AccessPointId);
                 
                 if (apiResult.IsSuccess)
@@ -212,20 +119,29 @@ namespace APB.AccessControl.ClientApp
                             pictureEditEmployee.Image = null;
                         }
 
-                        // Создаем лог прохода
-                        var accessLog = new CreateAccessLogReq
+                        foreach (var notification in response.Notifications)
                         {
-                            CardHash = e.CardHash,
-                            AccessPointId = config.AccessPointId,
-                            DateAccess = DateTime.Now,
-                            AccessResult = response.IsSuccess ? 1 : 0,
-                            Message = response.Message
-                        };
+                            _notificationService.ShowNotification(
+                                "Уведомление для " + string.Join(' ', response.Employee.LastName, response.Employee.FirstName),
+                                notification.Message
+                            );
+                        }
 
-                        // Сохраняем лог в очередь
-                        await _queueService.EnqueueAccessCheckAsync(accessLog);
+                        //var accessLog = new CreateAccessLogReq
+                        //{
+                        //    CardHash = e.CardHash,
+                        //    AccessPointId = config.AccessPointId,
+                        //    DateAccess = DateTime.Now,
+                        //    AccessResult = response.IsSuccess ? 1 : 0,
+                        //    Message = response.Message
+                        //};
 
-                        // Показываем сообщение о результате проверки доступа
+                        //var logResult = await _apiService.LogAccessAsync(accessLog);
+                        //if (!logResult.IsSuccess)
+                        //{
+                        //    _notificationService.ShowNotification("Ошибка при записи лога", logResult.Error?.Message ?? "Неизвестная ошибка");
+                        //}
+
                         XtraMessageBox.Show(
                             response.Message,
                             response.IsSuccess ? "Доступ разрешен" : "Доступ запрещен",
@@ -241,86 +157,42 @@ namespace APB.AccessControl.ClientApp
                         labelAccessStatus.Appearance.ForeColor = Color.Red;
                         pictureEditEmployee.Image = null;
 
-                        // Создаем лог прохода
-                        var accessLog = new CreateAccessLogReq
-                        {
-                            CardHash = e.CardHash,
-                            AccessPointId = config.AccessPointId,
-                            DateAccess = DateTime.Now,
-                            AccessResult = 0,
-                            Message = "Сотрудник не найден"
-                        };
+                        //var accessLog = new CreateAccessLogReq
+                        //{
+                        //    CardHash = e.CardHash,
+                        //    AccessPointId = config.AccessPointId,
+                        //    DateAccess = DateTime.Now,
+                        //    AccessResult = 0,
+                        //    Message = "Сотрудник не найден"
+                        //};
 
-                        // Сохраняем лог в очередь
-                        await _queueService.EnqueueAccessCheckAsync(accessLog);
-
-                        XtraMessageBox.Show(
-                            "Сотрудник не найден",
-                            "Ошибка",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
+                        //var logResult = await _apiService.LogAccessAsync(accessLog);
+                        //if (!logResult.IsSuccess)
+                        //{
+                        //    _notificationService.ShowNotification("Ошибка при записи лога", logResult.Error?.Message ?? "Неизвестная ошибка");
+                        //}
                     }
                 }
                 else
                 {
-                    labelEmployeeName.Text = "Ошибка проверки";
+                    labelEmployeeName.Text = "Ошибка проверки доступа";
                     labelDepartment.Text = string.Empty;
                     labelAccessStatus.Text = "Ошибка";
                     labelAccessStatus.Appearance.ForeColor = Color.Red;
                     pictureEditEmployee.Image = null;
-
-                    // Создаем лог прохода
-                    var accessLog = new CreateAccessLogReq
-                    {
-                        CardHash = e.CardHash,
-                        AccessPointId = config.AccessPointId,
-                        DateAccess = DateTime.Now,
-                        AccessResult = 0,
-                        Message = apiResult.Error?.Message ?? "Неизвестная ошибка"
-                    };
-
-                    // Сохраняем лог в очередь
-                    await _queueService.EnqueueAccessCheckAsync(accessLog);
-
-                    XtraMessageBox.Show(
-                        apiResult.Error?.Message ?? "Неизвестная ошибка",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    
+                    XtraMessageBox.Show(apiResult.Error?.Message ?? "Неизвестная ошибка", "Ошибка при проверке доступа", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                _isServerAvailable = false;
                 labelEmployeeName.Text = "Ошибка";
                 labelDepartment.Text = string.Empty;
                 labelAccessStatus.Text = "Ошибка";
                 labelAccessStatus.Appearance.ForeColor = Color.Red;
                 pictureEditEmployee.Image = null;
-
-                var config = AppConfig.Load();
-
-                // Создаем лог прохода
-                var accessLog = new CreateAccessLogReq
-                {
-                    CardHash = e.CardHash,
-                    AccessPointId = config.AccessPointId,
-                    DateAccess = DateTime.Now,
-                    AccessResult = 0,
-                    Message = $"Ошибка при проверке доступа: {ex.Message}"
-                };
-
-                // Сохраняем лог в очередь
-                await _queueService.EnqueueAccessCheckAsync(accessLog);
-
-                XtraMessageBox.Show(
-                    $"Ошибка при проверке доступа: {ex.Message}",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                
+                XtraMessageBox.Show(ex.Message, "Ошибка при проверке доступа", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -332,36 +204,50 @@ namespace APB.AccessControl.ClientApp
                 return;
             }
 
-            labelReaderStatus.Text = $"Статус: {e.Status}";
+            labelReaderStatus.Text = $"Статус считывателя: {e.Status}";
             buttonStartReader.Enabled = !e.IsRunning;
             buttonStopReader.Enabled = e.IsRunning;
         }
 
         private void ButtonStartReader_Click(object sender, EventArgs e)
         {
-            if (comboBoxReaders.SelectedItem != null)
+            try
             {
-                _cardReaderService.StartReader(comboBoxReaders.SelectedItem.ToString());
+                var selectedReader = comboBoxReaders.Text;
+                if (string.IsNullOrEmpty(selectedReader))
+                {
+                    XtraMessageBox.Show(
+                        "Выберите считыватель из списка",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return;
+                }
+
+                _cardReaderService.StartReader(selectedReader);
             }
-            else
+            catch (Exception ex)
             {
-                XtraMessageBox.Show(
-                    "Выберите считыватель",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                XtraMessageBox.Show(ex.Message, "Ошибка при запуске считывателя", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ButtonStopReader_Click(object sender, EventArgs e)
         {
-            _cardReaderService.StopReader();
+            try
+            {
+                _cardReaderService.StopReader();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Ошибка при остановке считывателя", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ComboBoxReaders_SelectedIndexChanged(object sender, EventArgs e)
         {
-            buttonStartReader.Enabled = comboBoxReaders.SelectedItem != null;
+            buttonStartReader.Enabled = !string.IsNullOrEmpty(comboBoxReaders.Text);
         }
 
         private void NotificationService_OnNotificationsChanged(object sender, EventArgs e)
@@ -372,8 +258,9 @@ namespace APB.AccessControl.ClientApp
                 return;
             }
 
-            // Обновляем грид уведомлений
-            gridNotifications.DataSource = _notificationService.GetNotifications();
+            var notifications = _notificationService.GetNotifications();
+            gridControlNotifications.DataSource = notifications;
+            gridViewNotifications.BestFitColumns();
         }
 
         private void HistoryService_OnHistoryChanged(object sender, EventArgs e)
@@ -384,56 +271,111 @@ namespace APB.AccessControl.ClientApp
                 return;
             }
 
-            // Обновляем грид истории
-            gridHistory.DataSource = _historyService.GetHistory();
+            var history = _historyService.GetHistory();
+            gridControlHistory.DataSource = history;
+            gridViewHistory.BestFitColumns();
         }
 
-        private void HeartbeatService_OnNotificationReceived(object sender, NotificationEventArgs e)
+        private void TabFormControl1_SelectedPageChanged(object sender, EventArgs e)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(() => HeartbeatService_OnNotificationReceived(sender, e)));
-                return;
-            }
+            // Скрываем все контейнеры
+            tabFormContentContainer1.Visible = false;
+            tabFormContentContainer2.Visible = false;
+            tabFormContentContainer3.Visible = false;
+            tabFormContentContainer4.Visible = false;
+            tabFormContentContainer5.Visible = false;
 
-            // Показываем уведомление
-            _notificationService.ShowNotification(
-                e.Notification.AccessPointName,
-                e.Notification.Message,
-                async (notification) =>
+            // Показываем нужный контейнер
+            if (tabFormControl1.SelectedPage == tabFormPagePass)
+            {
+                tabFormContentContainer1.Visible = true;
+            }
+            else if (tabFormControl1.SelectedPage == tabFormPageReaderSettings)
+            {
+                tabFormContentContainer2.Visible = true;
+            }
+            else if (tabFormControl1.SelectedPage == tabFormPageHistory)
+            {
+                tabFormContentContainer3.Visible = true;
+            }
+            else if (tabFormControl1.SelectedPage == tabFormPageNotifications)
+            {
+                tabFormContentContainer4.Visible = true;
+            }
+            else if (tabFormControl1.SelectedPage == tabFormPagePendingLogs)
+            {
+                tabFormContentContainer5.Visible = true;
+            }
+        }
+
+        private void ButtonStopReaderSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _cardReaderService.StopPolling();
+                buttonStartReaderSettings.Enabled = true;
+                buttonStopReaderSettings.Enabled = false;
+                labelReaderStatusSettings.Text = "Статус считывателя: Остановлен";
+                _notificationService.ShowNotification("Считыватель остановлен", "Считывание карт остановлено");
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"Не удалось остановить считыватель: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ButtonStartReaderSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxReadersSettings.SelectedItem == null)
                 {
-                    // При клике на уведомление помечаем его как прочитанное
-                    try
-                    {
-                        var result = await _apiService.ProcessNotificationAsync(notification.Id);
-                        if (!result.IsSuccess)
-                        {
-                            XtraMessageBox.Show(
-                                result.Error?.Message ?? "Неизвестная ошибка",
-                                "Ошибка",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error
-                            );
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        XtraMessageBox.Show(
-                            $"Ошибка при обработке уведомления: {ex.Message}",
-                            "Ошибка",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                    }
+                    _notificationService.ShowNotification("Ошибка", "Выберите считыватель");
+                    return;
                 }
-            );
+
+                _cardReaderService.StartPolling(comboBoxReadersSettings.SelectedItem.ToString());
+                buttonStartReaderSettings.Enabled = false;
+                buttonStopReaderSettings.Enabled = true;
+                labelReaderStatusSettings.Text = "Статус считывателя: Работает";
+                _notificationService.ShowNotification("Считыватель запущен", "Считывание карт начато");
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"Не удалось запустить считыватель: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ComboBoxReadersSettings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonStartReaderSettings.Enabled = comboBoxReadersSettings.SelectedItem != null;
+        }
+
+        private void InitializeReaderSettings()
+        {
+            try
+            {
+                var readers = _cardReaderService.GetAvailableReaders();
+                comboBoxReadersSettings.Properties.Items.Clear();
+                comboBoxReadersSettings.Properties.Items.AddRange(readers.ToArray());
+                
+                if (readers.Any())
+                {
+                    comboBoxReadersSettings.SelectedIndex = 0;
+                }
+
+                buttonStartReaderSettings.Enabled = comboBoxReadersSettings.SelectedItem != null;
+                buttonStopReaderSettings.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"Не удалось инициализировать настройки считывателя: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            notificationTimer.Stop();
             _cardReaderService.StopReader();
-            _heartbeatService.Stop();
             base.OnFormClosing(e);
         }
     }

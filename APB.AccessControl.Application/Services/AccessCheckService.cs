@@ -40,7 +40,8 @@ namespace APB.AccessControl.Application.Services
             IAccessLogService accessLogService,
             IEmployeeRepository employeeRepository,
             IMapper mapper,
-            ILogger<AccessCheckService> logger
+            ILogger<AccessCheckService> logger,
+            INotificationRepository notificationRepository
             )
         {
             _accessRuleRepository = accessRuleRepository
@@ -59,6 +60,8 @@ namespace APB.AccessControl.Application.Services
                 ?? throw new ArgumentNullException(nameof(logger));
             _mapper = mapper
                 ?? throw new ArgumentNullException(nameof(mapper));
+            _notificationRepository = notificationRepository
+                ?? throw new ArgumentNullException(nameof(notificationRepository));
         }
 
         private bool IsAccessRuleMatch(CheckAccessReq request, AccessRule rule)
@@ -245,7 +248,6 @@ namespace APB.AccessControl.Application.Services
 
                 var notifications = await _notificationRepository.GetByFilter(new NotificationFilter
                 {
-                    EmployeeId = card.EmployeeId,
                     AccessPointId = request.AcсessPointId
                 }, cancellationToken);
 

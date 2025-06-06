@@ -12,6 +12,8 @@ namespace APB.AccessControl.ClientApp
     {
         private readonly ApiService _apiService;
         private readonly AppConfig _config;
+        private string _authToken;
+        private DateTime _tokenExpiry;
 
         public LoginForm()
         {
@@ -22,47 +24,30 @@ namespace APB.AccessControl.ClientApp
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            if (_config.IsConfigured)
+            if (!_config.IsConfigured)
             {
-                DialogResult = DialogResult.OK;
-                Close();
-                return;
+                // Если конфигурации нет, показываем панель выбора точки доступа
+                panelLogin.Visible = false;
+                panelAccessPoint.Visible = true;
+                labelTitle.Text = "Выберите точку доступа";
+                buttonSave.Text = "Сохранить";
+                LoadAccessPoints();
             }
-
-            LoadAccessPoints();
-        }
-
-        private async void LoadAccessPoints()
-        {
-            try
+            else
             {
-                var accessPoints = await _apiService.GetAccessPoints();
-                comboBoxAccessPoints.Properties.Items.AddRange(accessPoints);
-                comboBoxAccessPoints.Enabled = true;
-                buttonSave.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(
-                    $"Ошибка загрузки списка точек доступа: {ex.Message}",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                // Если конфигурация есть, показываем форму входа
+                panelLogin.Visible = true;
+                panelAccessPoint.Visible = false;
+                labelTitle.Text = "Вход в систему";
+                buttonSave.Text = "Войти";
             }
         }
 
         private async void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxAccessPoints.SelectedItem == null)
+            if (panelAccessPoint.Visible)
             {
-                XtraMessageBox.Show(
-                    "Выберите точку доступа",
-                    "Предупреждение",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
+                return; // Если видна панель выбора точки доступа, обработка будет в SaveAccessPoint_Click
             }
 
             if (string.IsNullOrEmpty(textEditUsername.Text) || string.IsNullOrEmpty(textEditPassword.Text))
@@ -93,13 +78,94 @@ namespace APB.AccessControl.ClientApp
                     return;
                 }
 
+                _authToken = loginResult.Token;
+                _tokenExpiry = loginResult.ExpiresAt;
+
+                if (!_config.IsConfigured)
+                {
+                    // Показываем панель выбора точки доступа
+                    panelLogin.Visible = false;
+                    panelAccessPoint.Visible = true;
+                    labelTitle.Text = "Выберите точку доступа";
+                    buttonSave.Text = "Сохранить";
+                    LoadAccessPoints();
+                }
+                else
+                {
+                    // Сохраняем токен и закрываем форму
+                    _config.Username = textEditUsername.Text;
+                    _config.AuthToken = _authToken;
+                    _config.TokenExpiry = _tokenExpiry;
+                    _config.Save();
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(
+                    $"Ошибка авторизации: {ex.Message}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                buttonSave.Enabled = true;
+            }
+        }
+
+        private void SaveAccessPoint_Click(object sender, EventArgs e)
+        {
+            if (!panelAccessPoint.Visible)
+            {
+                return; // Если не видна панель выбора точки доступа, обработка будет в ButtonSave_Click
+            }
+
+            SaveAccessPoint();
+        }
+
+        private async void LoadAccessPoints()
+        {
+            try
+            {
+                var accessPoints = await _apiService.GetAccessPoints();
+                comboBoxAccessPoints.Properties.Items.Clear();
+                comboBoxAccessPoints.Properties.Items.AddRange(accessPoints);
+                comboBoxAccessPoints.Enabled = true;
+                buttonSave.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(
+                    $"Ошибка загрузки списка точек доступа: {ex.Message}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void SaveAccessPoint()
+        {
+            if (comboBoxAccessPoints.SelectedItem == null)
+            {
+                XtraMessageBox.Show(
+                    "Выберите точку доступа",
+                    "Предупреждение",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            try
+            {
                 var selectedPoint = (AccessPointDto)comboBoxAccessPoints.SelectedItem;
                 _config.AccessPointId = selectedPoint.Id;
                 _config.AccessPointName = selectedPoint.Name;
                 _config.IsConfigured = true;
                 _config.Username = textEditUsername.Text;
-                _config.AuthToken = loginResult.Token;
-                _config.TokenExpiry = loginResult.ExpiresAt;
+                _config.AuthToken = _authToken;
+                _config.TokenExpiry = _tokenExpiry;
 
                 _config.Save();
                 DialogResult = DialogResult.OK;
@@ -113,19 +179,7 @@ namespace APB.AccessControl.ClientApp
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-                buttonSave.Enabled = true;
             }
-        }
-    }
-
-    public class AccessPoint
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 } 

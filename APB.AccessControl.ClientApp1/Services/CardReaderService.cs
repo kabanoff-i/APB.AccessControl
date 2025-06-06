@@ -32,7 +32,7 @@ namespace APB.AccessControl.ClientApp.Services
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = $"Ошибка получения списка считывателей: {ex.Message}", IsRunning = false });
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка получения списка считывателей: {ex.Message}", IsRunning = false });
                 return Array.Empty<string>();
             }
         }
@@ -45,7 +45,7 @@ namespace APB.AccessControl.ClientApp.Services
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = $"Ошибка проверки подключения считывателя: {ex.Message}", IsRunning = false });
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка проверки подключения считывателя: {ex.Message}", IsRunning = false });
                 return false;
             }
         }
@@ -60,7 +60,7 @@ namespace APB.AccessControl.ClientApp.Services
             _selectedReader = readerName;
             _isPolling = true;
             _pollingTimer = new Timer(PollReader, null, 0, pollingInterval);
-            OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = $"Начато опрашивание считывателя: {readerName}", IsRunning = true });
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Начато опрашивание считывателя: {readerName}", IsRunning = true });
         }
 
         public void StopPolling()
@@ -68,7 +68,7 @@ namespace APB.AccessControl.ClientApp.Services
             _isPolling = false;
             _pollingTimer?.Dispose();
             _pollingTimer = null;
-            OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = "Опрашивание остановлено", IsRunning = false });
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Опрашивание остановлено", IsRunning = false });
         }
 
         private void PollReader(object state)
@@ -88,7 +88,7 @@ namespace APB.AccessControl.ClientApp.Services
                     {
                         _cardWasRead = false;
                         _lastReadCardHash = null;
-                        OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = "Считыватель готов. Ожидание карты...", IsRunning = true });
+                        OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Считыватель готов. Ожидание карты...", IsRunning = true });
                     }
                     return;
                 }
@@ -117,7 +117,7 @@ namespace APB.AccessControl.ClientApp.Services
                     _lastReadCardHash = cardHash;
 
                     // Вызываем событие с прочитанными данными
-                    OnCardRead?.Invoke(this, new CardReadEventArgs 
+                    OnCardRead(this, new CardReadEventArgs 
                     { 
                         MaskPan = $"**** **** **** {cardHash.Substring(cardHash.Length - 4)}",
                         CardHash = cardHash
@@ -132,12 +132,12 @@ namespace APB.AccessControl.ClientApp.Services
                 else if (isCardPresent)
                 {
                     // Если карта есть, но не удалось получить данные - сообщаем об ошибке
-                    OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = "Не удалось получить DataHash карты. Попробуйте приложить карту снова.", IsRunning = false });
+                    OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Не удалось получить DataHash карты. Попробуйте приложить карту снова.", IsRunning = false });
                 }
             }
             catch (Exception ex)
             {
-                OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = $"Ошибка при опросе считывателя: {ex.Message}", IsRunning = false });
+                OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = $"Ошибка при опросе считывателя: {ex.Message}", IsRunning = false });
             }
         }
 
@@ -151,7 +151,7 @@ namespace APB.AccessControl.ClientApp.Services
             _selectedReader = readerName;
             _isRunning = true;
             StartPolling(readerName);
-            OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = "Работает", IsRunning = true });
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Работает", IsRunning = true });
         }
 
         public void StopReader()
@@ -164,7 +164,7 @@ namespace APB.AccessControl.ClientApp.Services
             StopPolling();
             _isRunning = false;
             _selectedReader = null;
-            OnReaderStatusChanged?.Invoke(this, new ReaderStatusEventArgs { Status = "Остановлен", IsRunning = false });
+            OnReaderStatusChanged(this, new ReaderStatusEventArgs { Status = "Остановлен", IsRunning = false });
         }
     }
 

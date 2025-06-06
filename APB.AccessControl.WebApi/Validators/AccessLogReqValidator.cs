@@ -13,7 +13,7 @@ namespace APB.AccessControl.WebApi.Validators
             RuleFor(e => e.CardId)
                 .GreaterThan(0).When(x => x.CardId.HasValue)
                 .WithMessage(x => InvalidProperty(nameof(x.CardId)));
-                
+
             RuleFor(e => e.CardHash)
                 .NotNull().WithMessage(x => NotNull(nameof(x.CardHash)))
                 .NotEmpty().WithMessage(x => NotEmpty(nameof(x.CardHash)))

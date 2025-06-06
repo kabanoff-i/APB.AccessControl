@@ -1,13 +1,9 @@
-﻿using DevExpress.Skins;
-using DevExpress.UserSkins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Windows.Forms;
 
 namespace APB.AccessControl.ClientApp
 {
-    internal static class Program
+    static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -15,9 +11,36 @@ namespace APB.AccessControl.ClientApp
         [STAThread]
         static void Main()
         {
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-            System.Windows.Forms.Application.Run(new LoginForm());
+            try
+            { 
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+                //System.Windows.Forms.Application.Run(new LoginForm());
+
+                // Показываем форму логина перед запуском основной формы
+                using (var loginForm = new LoginForm())
+                {
+                    var result = loginForm.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        // Если авторизация успешна, запускаем основное приложение
+                        System.Windows.Forms.Application.Run(new MainForm());
+                    }
+                    else
+                    {
+                        // Выход, если пользователь отменил вход или не смог авторизоваться
+                        MessageBox.Show("Приложение закрыто, так как не выполнен вход в систему.",
+                            "Выход из приложения", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла критическая ошибка при запуске приложения: {ex.Message}",
+                    "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

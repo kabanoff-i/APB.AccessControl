@@ -46,12 +46,12 @@ namespace APB.AccessControl.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Result<AccessLogDto>>> Create([FromBody] CreateAccessLogReq request, CancellationToken cancellationToken = default)
         {
-            ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
-                return BadRequest(Result.Failure(errors));
-            }
+            //ValidationResult validationResult = await _createValidator.ValidateAsync(request, cancellationToken);
+            //if (!validationResult.IsValid)
+            //{
+            //    var errors = validationResult.Errors.ConvertAll(error => new Error(error.ErrorMessage));
+            //    return BadRequest(Result.Failure(errors));
+            //}
 
             var log = await _accessLogService.LogAccessAttemptAsync(request, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = log.Id }, Result.Success(log));

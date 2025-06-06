@@ -36,6 +36,7 @@ namespace APB.AccessControl.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<Result<IEnumerable<AccessPointDto>>>> GetAll(CancellationToken cancellationToken = default)
         {
             var accessPoints = await _accessPointService.GetAllAsync(cancellationToken);

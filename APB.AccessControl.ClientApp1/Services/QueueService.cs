@@ -17,14 +17,14 @@ namespace APB.AccessControl.ClientApp.Services
             _redis = ConnectionMultiplexer.Connect(connectionString);
         }
 
-        public async Task EnqueueAccessLogAsync(CreateAccessLogReq check)
+        public async Task EnqueueAccessCheckAsync(CreateAccessLogReq check)
         {
             var db = _redis.GetDatabase();
             var json = JsonSerializer.Serialize(check);
             await db.ListRightPushAsync(QueueKey, json);
         }
 
-        public async Task<CreateAccessLogReq> DequeueAccessLogAsync()
+        public async Task<CreateAccessLogReq> DequeueAccessCheckAsync()
         {
             var db = _redis.GetDatabase();
             var json = await db.ListLeftPopAsync(QueueKey);

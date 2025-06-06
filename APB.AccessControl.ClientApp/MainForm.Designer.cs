@@ -29,529 +29,372 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            xtraTabControl = new DevExpress.XtraTab.XtraTabControl();
-            tabPass = new DevExpress.XtraTab.XtraTabPage();
-            panelPass = new DevExpress.XtraEditors.PanelControl();
-            panelEmployeeInfo = new DevExpress.XtraEditors.PanelControl();
-            pictureEditEmployee = new DevExpress.XtraEditors.PictureEdit();
-            labelEmployeeName = new DevExpress.XtraEditors.LabelControl();
-            labelDepartment = new DevExpress.XtraEditors.LabelControl();
-            labelAccessStatus = new DevExpress.XtraEditors.LabelControl();
-            buttonManualInput = new DevExpress.XtraEditors.SimpleButton();
-            panelRecentPasses = new DevExpress.XtraEditors.PanelControl();
-            gridRecentPasses = new DevExpress.XtraGrid.GridControl();
-            gridViewRecentPasses = new DevExpress.XtraGrid.Views.Grid.GridView();
-            tabReaderSettings = new DevExpress.XtraTab.XtraTabPage();
-            panelReaderSettings = new DevExpress.XtraEditors.PanelControl();
-            comboBoxReaders = new DevExpress.XtraEditors.ComboBoxEdit();
-            buttonStartReader = new DevExpress.XtraEditors.SimpleButton();
             buttonStopReader = new DevExpress.XtraEditors.SimpleButton();
+            buttonStartReader = new DevExpress.XtraEditors.SimpleButton();
+            comboBoxReaders = new DevExpress.XtraEditors.ComboBoxEdit();
+            pictureEditEmployee = new DevExpress.XtraEditors.PictureEdit();
             labelReaderStatus = new DevExpress.XtraEditors.LabelControl();
-            tabHistory = new DevExpress.XtraTab.XtraTabPage();
-            panelHistory = new DevExpress.XtraEditors.PanelControl();
-            panelHistoryFilter = new DevExpress.XtraEditors.PanelControl();
-            buttonRefresh = new DevExpress.XtraEditors.SimpleButton();
-            gridHistory = new DevExpress.XtraGrid.GridControl();
+            labelAccessStatus = new DevExpress.XtraEditors.LabelControl();
+            labelDepartment = new DevExpress.XtraEditors.LabelControl();
+            labelEmployeeName = new DevExpress.XtraEditors.LabelControl();
+            labelCurrentCard = new DevExpress.XtraEditors.LabelControl();
+            gridControlHistory = new DevExpress.XtraGrid.GridControl();
             gridViewHistory = new DevExpress.XtraGrid.Views.Grid.GridView();
-            tabNotifications = new DevExpress.XtraTab.XtraTabPage();
-            panelNotifications = new DevExpress.XtraEditors.PanelControl();
-            panelNotificationsFilter = new DevExpress.XtraEditors.PanelControl();
-            buttonMarkAsRead = new DevExpress.XtraEditors.SimpleButton();
-            gridNotifications = new DevExpress.XtraGrid.GridControl();
+            gridControlNotifications = new DevExpress.XtraGrid.GridControl();
             gridViewNotifications = new DevExpress.XtraGrid.Views.Grid.GridView();
-            tabPendingLogs = new DevExpress.XtraTab.XtraTabPage();
-            panelPendingLogs = new DevExpress.XtraEditors.PanelControl();
-            gridPendingLogs = new DevExpress.XtraGrid.GridControl();
-            gridViewPendingLogs = new DevExpress.XtraGrid.Views.Grid.GridView();
             notificationTimer = new System.Windows.Forms.Timer(components);
             alertControl = new DevExpress.XtraBars.Alerter.AlertControl(components);
-            labelCurrentCard = new DevExpress.XtraEditors.LabelControl();
-            ((System.ComponentModel.ISupportInitialize)xtraTabControl).BeginInit();
-            xtraTabControl.SuspendLayout();
-            tabPass.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelPass).BeginInit();
-            panelPass.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelEmployeeInfo).BeginInit();
-            panelEmployeeInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureEditEmployee.Properties).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)panelRecentPasses).BeginInit();
-            panelRecentPasses.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gridRecentPasses).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)gridViewRecentPasses).BeginInit();
-            tabReaderSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelReaderSettings).BeginInit();
-            panelReaderSettings.SuspendLayout();
+            tabFormControl1 = new DevExpress.XtraBars.TabFormControl();
+            tabFormPagePass = new DevExpress.XtraBars.TabFormPage();
+            tabFormContentContainer1 = new DevExpress.XtraBars.TabFormContentContainer();
+            tabFormPageReaderSettings = new DevExpress.XtraBars.TabFormPage();
+            tabFormContentContainer2 = new DevExpress.XtraBars.TabFormContentContainer();
+            buttonStopReaderSettings = new DevExpress.XtraEditors.SimpleButton();
+            buttonStartReaderSettings = new DevExpress.XtraEditors.SimpleButton();
+            comboBoxReadersSettings = new DevExpress.XtraEditors.ComboBoxEdit();
+            labelReaderStatusSettings = new DevExpress.XtraEditors.LabelControl();
+            tabFormPageHistory = new DevExpress.XtraBars.TabFormPage();
+            tabFormContentContainer3 = new DevExpress.XtraBars.TabFormContentContainer();
+            tabFormPageNotifications = new DevExpress.XtraBars.TabFormPage();
+            tabFormContentContainer4 = new DevExpress.XtraBars.TabFormContentContainer();
+            tabFormPagePendingLogs = new DevExpress.XtraBars.TabFormPage();
+            tabFormContentContainer5 = new DevExpress.XtraBars.TabFormContentContainer();
             ((System.ComponentModel.ISupportInitialize)comboBoxReaders.Properties).BeginInit();
-            tabHistory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelHistory).BeginInit();
-            panelHistory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelHistoryFilter).BeginInit();
-            panelHistoryFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gridHistory).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureEditEmployee.Properties).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridControlHistory).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridViewHistory).BeginInit();
-            tabNotifications.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelNotifications).BeginInit();
-            panelNotifications.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelNotificationsFilter).BeginInit();
-            panelNotificationsFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gridNotifications).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridControlNotifications).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridViewNotifications).BeginInit();
-            tabPendingLogs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panelPendingLogs).BeginInit();
-            panelPendingLogs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gridPendingLogs).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)gridViewPendingLogs).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)tabFormControl1).BeginInit();
+            tabFormContentContainer1.SuspendLayout();
+            tabFormContentContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)comboBoxReadersSettings.Properties).BeginInit();
+            tabFormContentContainer4.SuspendLayout();
             SuspendLayout();
-            // 
-            // xtraTabControl
-            // 
-            xtraTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            xtraTabControl.Location = new System.Drawing.Point(0, 0);
-            xtraTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            xtraTabControl.Name = "xtraTabControl";
-            xtraTabControl.SelectedTabPage = tabPass;
-            xtraTabControl.Size = new System.Drawing.Size(1559, 727);
-            xtraTabControl.TabIndex = 0;
-            xtraTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] { tabReaderSettings, tabPass, tabHistory, tabNotifications, tabPendingLogs });
-            // 
-            // tabPass
-            // 
-            tabPass.Controls.Add(panelPass);
-            tabPass.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPass.Name = "tabPass";
-            tabPass.Size = new System.Drawing.Size(1557, 690);
-            tabPass.Text = "Проход";
-            // 
-            // panelPass
-            // 
-            panelPass.Controls.Add(panelEmployeeInfo);
-            panelPass.Controls.Add(panelRecentPasses);
-            panelPass.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelPass.Location = new System.Drawing.Point(0, 0);
-            panelPass.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelPass.Name = "panelPass";
-            panelPass.Size = new System.Drawing.Size(1557, 690);
-            panelPass.TabIndex = 0;
-            // 
-            // panelEmployeeInfo
-            // 
-            panelEmployeeInfo.Controls.Add(pictureEditEmployee);
-            panelEmployeeInfo.Controls.Add(labelEmployeeName);
-            panelEmployeeInfo.Controls.Add(labelDepartment);
-            panelEmployeeInfo.Controls.Add(labelAccessStatus);
-            panelEmployeeInfo.Controls.Add(buttonManualInput);
-            panelEmployeeInfo.Dock = System.Windows.Forms.DockStyle.Left;
-            panelEmployeeInfo.Location = new System.Drawing.Point(2, 2);
-            panelEmployeeInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelEmployeeInfo.Name = "panelEmployeeInfo";
-            panelEmployeeInfo.Size = new System.Drawing.Size(450, 686);
-            panelEmployeeInfo.TabIndex = 0;
-            // 
-            // pictureEditEmployee
-            // 
-            pictureEditEmployee.Location = new System.Drawing.Point(75, 32);
-            pictureEditEmployee.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            pictureEditEmployee.Name = "pictureEditEmployee";
-            pictureEditEmployee.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            pictureEditEmployee.Size = new System.Drawing.Size(300, 323);
-            pictureEditEmployee.TabIndex = 0;
-            // 
-            // labelEmployeeName
-            // 
-            labelEmployeeName.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
-            labelEmployeeName.Appearance.Options.UseFont = true;
-            labelEmployeeName.Appearance.Options.UseTextOptions = true;
-            labelEmployeeName.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            labelEmployeeName.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            labelEmployeeName.Location = new System.Drawing.Point(30, 388);
-            labelEmployeeName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            labelEmployeeName.Name = "labelEmployeeName";
-            labelEmployeeName.Size = new System.Drawing.Size(390, 48);
-            labelEmployeeName.TabIndex = 1;
-            labelEmployeeName.Text = "ФИО сотрудника";
-            // 
-            // labelDepartment
-            // 
-            labelDepartment.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            labelDepartment.Appearance.Options.UseFont = true;
-            labelDepartment.Appearance.Options.UseTextOptions = true;
-            labelDepartment.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            labelDepartment.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            labelDepartment.Location = new System.Drawing.Point(30, 452);
-            labelDepartment.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            labelDepartment.Name = "labelDepartment";
-            labelDepartment.Size = new System.Drawing.Size(390, 40);
-            labelDepartment.TabIndex = 2;
-            labelDepartment.Text = "Отдел";
-            // 
-            // labelAccessStatus
-            // 
-            labelAccessStatus.Appearance.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
-            labelAccessStatus.Appearance.Options.UseFont = true;
-            labelAccessStatus.Appearance.Options.UseTextOptions = true;
-            labelAccessStatus.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            labelAccessStatus.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            labelAccessStatus.Location = new System.Drawing.Point(30, 517);
-            labelAccessStatus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            labelAccessStatus.Name = "labelAccessStatus";
-            labelAccessStatus.Size = new System.Drawing.Size(390, 48);
-            labelAccessStatus.TabIndex = 3;
-            labelAccessStatus.Text = "Статус доступа";
-            // 
-            // buttonManualInput
-            // 
-            buttonManualInput.Location = new System.Drawing.Point(30, 598);
-            buttonManualInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            buttonManualInput.Name = "buttonManualInput";
-            buttonManualInput.Size = new System.Drawing.Size(390, 65);
-            buttonManualInput.TabIndex = 4;
-            buttonManualInput.Text = "Ручной ввод";
-            // 
-            // panelRecentPasses
-            // 
-            panelRecentPasses.Controls.Add(gridRecentPasses);
-            panelRecentPasses.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelRecentPasses.Location = new System.Drawing.Point(2, 2);
-            panelRecentPasses.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelRecentPasses.Name = "panelRecentPasses";
-            panelRecentPasses.Size = new System.Drawing.Size(1553, 686);
-            panelRecentPasses.TabIndex = 1;
-            // 
-            // gridRecentPasses
-            // 
-            gridRecentPasses.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridRecentPasses.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridRecentPasses.Location = new System.Drawing.Point(2, 2);
-            gridRecentPasses.MainView = gridViewRecentPasses;
-            gridRecentPasses.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridRecentPasses.Name = "gridRecentPasses";
-            gridRecentPasses.Size = new System.Drawing.Size(1549, 682);
-            gridRecentPasses.TabIndex = 0;
-            gridRecentPasses.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewRecentPasses });
-            // 
-            // gridViewRecentPasses
-            // 
-            gridViewRecentPasses.DetailHeight = 565;
-            gridViewRecentPasses.GridControl = gridRecentPasses;
-            gridViewRecentPasses.Name = "gridViewRecentPasses";
-            gridViewRecentPasses.OptionsEditForm.PopupEditFormWidth = 1200;
-            // 
-            // tabReaderSettings
-            // 
-            tabReaderSettings.Controls.Add(panelReaderSettings);
-            tabReaderSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabReaderSettings.Name = "tabReaderSettings";
-            tabReaderSettings.Size = new System.Drawing.Size(1557, 690);
-            tabReaderSettings.Text = "Настройки считывателя";
-            // 
-            // panelReaderSettings
-            // 
-            panelReaderSettings.Controls.Add(comboBoxReaders);
-            panelReaderSettings.Controls.Add(buttonStartReader);
-            panelReaderSettings.Controls.Add(buttonStopReader);
-            panelReaderSettings.Controls.Add(labelCurrentCard);
-            panelReaderSettings.Controls.Add(labelReaderStatus);
-            panelReaderSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelReaderSettings.Location = new System.Drawing.Point(0, 0);
-            panelReaderSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelReaderSettings.Name = "panelReaderSettings";
-            panelReaderSettings.Size = new System.Drawing.Size(1557, 690);
-            panelReaderSettings.TabIndex = 0;
-            // 
-            // comboBoxReaders
-            // 
-            comboBoxReaders.Location = new System.Drawing.Point(30, 32);
-            comboBoxReaders.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            comboBoxReaders.Name = "comboBoxReaders";
-            comboBoxReaders.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            comboBoxReaders.Size = new System.Drawing.Size(450, 28);
-            comboBoxReaders.TabIndex = 0;
-            // 
-            // buttonStartReader
-            // 
-            buttonStartReader.Location = new System.Drawing.Point(30, 97);
-            buttonStartReader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            buttonStartReader.Name = "buttonStartReader";
-            buttonStartReader.Size = new System.Drawing.Size(210, 48);
-            buttonStartReader.TabIndex = 1;
-            buttonStartReader.Text = "Запустить";
             // 
             // buttonStopReader
             // 
-            buttonStopReader.Location = new System.Drawing.Point(270, 97);
-            buttonStopReader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonStopReader.Enabled = false;
+            buttonStopReader.Location = new Point(18, 576);
+            buttonStopReader.Margin = new Padding(4);
             buttonStopReader.Name = "buttonStopReader";
-            buttonStopReader.Size = new System.Drawing.Size(210, 48);
-            buttonStopReader.TabIndex = 2;
+            buttonStopReader.Size = new Size(142, 34);
+            buttonStopReader.TabIndex = 8;
             buttonStopReader.Text = "Остановить";
+            // 
+            // buttonStartReader
+            // 
+            buttonStartReader.Location = new Point(176, 576);
+            buttonStartReader.Margin = new Padding(4);
+            buttonStartReader.Name = "buttonStartReader";
+            buttonStartReader.Size = new Size(142, 34);
+            buttonStartReader.TabIndex = 7;
+            buttonStartReader.Text = "Запустить";
+            // 
+            // comboBoxReaders
+            // 
+            comboBoxReaders.Location = new Point(18, 538);
+            comboBoxReaders.Margin = new Padding(4);
+            comboBoxReaders.Name = "comboBoxReaders";
+            comboBoxReaders.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
+            comboBoxReaders.Size = new Size(300, 34);
+            comboBoxReaders.TabIndex = 6;
+            // 
+            // pictureEditEmployee
+            // 
+            pictureEditEmployee.Location = new Point(18, 222);
+            pictureEditEmployee.Margin = new Padding(4);
+            pictureEditEmployee.Name = "pictureEditEmployee";
+            pictureEditEmployee.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+            pictureEditEmployee.Size = new Size(300, 292);
+            pictureEditEmployee.TabIndex = 5;
             // 
             // labelReaderStatus
             // 
-            labelReaderStatus.Location = new System.Drawing.Point(29, 160);
-            labelReaderStatus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            labelReaderStatus.Location = new Point(18, 181);
+            labelReaderStatus.Margin = new Padding(4);
             labelReaderStatus.Name = "labelReaderStatus";
-            labelReaderStatus.Size = new System.Drawing.Size(159, 21);
+            labelReaderStatus.Size = new Size(144, 21);
             labelReaderStatus.TabIndex = 4;
-            labelReaderStatus.Text = "Статус: Не подключен";
+            labelReaderStatus.Text = "Статус считывателя:";
             // 
-            // tabHistory
+            // labelAccessStatus
             // 
-            tabHistory.Controls.Add(panelHistory);
-            tabHistory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabHistory.Name = "tabHistory";
-            tabHistory.Size = new System.Drawing.Size(1557, 690);
-            tabHistory.Text = "История проходов";
+            labelAccessStatus.Location = new Point(18, 140);
+            labelAccessStatus.Margin = new Padding(4);
+            labelAccessStatus.Name = "labelAccessStatus";
+            labelAccessStatus.Size = new Size(111, 21);
+            labelAccessStatus.TabIndex = 3;
+            labelAccessStatus.Text = "Статус доступа:";
             // 
-            // panelHistory
+            // labelDepartment
             // 
-            panelHistory.Controls.Add(panelHistoryFilter);
-            panelHistory.Controls.Add(gridHistory);
-            panelHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelHistory.Location = new System.Drawing.Point(0, 0);
-            panelHistory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelHistory.Name = "panelHistory";
-            panelHistory.Size = new System.Drawing.Size(1557, 690);
-            panelHistory.TabIndex = 0;
+            labelDepartment.Location = new Point(18, 99);
+            labelDepartment.Margin = new Padding(4);
+            labelDepartment.Name = "labelDepartment";
+            labelDepartment.Size = new Size(47, 21);
+            labelDepartment.TabIndex = 2;
+            labelDepartment.Text = "Отдел:";
             // 
-            // panelHistoryFilter
+            // labelEmployeeName
             // 
-            panelHistoryFilter.Controls.Add(buttonRefresh);
-            panelHistoryFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            panelHistoryFilter.Location = new System.Drawing.Point(2, 2);
-            panelHistoryFilter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelHistoryFilter.Name = "panelHistoryFilter";
-            panelHistoryFilter.Size = new System.Drawing.Size(1553, 81);
-            panelHistoryFilter.TabIndex = 0;
-            // 
-            // buttonRefresh
-            // 
-            buttonRefresh.Location = new System.Drawing.Point(15, 16);
-            buttonRefresh.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            buttonRefresh.Name = "buttonRefresh";
-            buttonRefresh.Size = new System.Drawing.Size(180, 48);
-            buttonRefresh.TabIndex = 0;
-            buttonRefresh.Text = "Обновить";
-            // 
-            // gridHistory
-            // 
-            gridHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridHistory.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridHistory.Location = new System.Drawing.Point(2, 2);
-            gridHistory.MainView = gridViewHistory;
-            gridHistory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridHistory.Name = "gridHistory";
-            gridHistory.Size = new System.Drawing.Size(1553, 686);
-            gridHistory.TabIndex = 1;
-            gridHistory.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewHistory });
-            // 
-            // gridViewHistory
-            // 
-            gridViewHistory.DetailHeight = 565;
-            gridViewHistory.GridControl = gridHistory;
-            gridViewHistory.Name = "gridViewHistory";
-            gridViewHistory.OptionsEditForm.PopupEditFormWidth = 1200;
-            // 
-            // tabNotifications
-            // 
-            tabNotifications.Controls.Add(panelNotifications);
-            tabNotifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabNotifications.Name = "tabNotifications";
-            tabNotifications.Size = new System.Drawing.Size(1557, 690);
-            tabNotifications.Text = "Уведомления";
-            // 
-            // panelNotifications
-            // 
-            panelNotifications.Controls.Add(panelNotificationsFilter);
-            panelNotifications.Controls.Add(gridNotifications);
-            panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelNotifications.Location = new System.Drawing.Point(0, 0);
-            panelNotifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelNotifications.Name = "panelNotifications";
-            panelNotifications.Size = new System.Drawing.Size(1557, 690);
-            panelNotifications.TabIndex = 0;
-            // 
-            // panelNotificationsFilter
-            // 
-            panelNotificationsFilter.Controls.Add(buttonMarkAsRead);
-            panelNotificationsFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            panelNotificationsFilter.Location = new System.Drawing.Point(2, 2);
-            panelNotificationsFilter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelNotificationsFilter.Name = "panelNotificationsFilter";
-            panelNotificationsFilter.Size = new System.Drawing.Size(1553, 81);
-            panelNotificationsFilter.TabIndex = 0;
-            // 
-            // buttonMarkAsRead
-            // 
-            buttonMarkAsRead.Location = new System.Drawing.Point(15, 16);
-            buttonMarkAsRead.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            buttonMarkAsRead.Name = "buttonMarkAsRead";
-            buttonMarkAsRead.Size = new System.Drawing.Size(225, 48);
-            buttonMarkAsRead.TabIndex = 0;
-            buttonMarkAsRead.Text = "Пометить как прочитано";
-            // 
-            // gridNotifications
-            // 
-            gridNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridNotifications.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridNotifications.Location = new System.Drawing.Point(2, 2);
-            gridNotifications.MainView = gridViewNotifications;
-            gridNotifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridNotifications.Name = "gridNotifications";
-            gridNotifications.Size = new System.Drawing.Size(1553, 686);
-            gridNotifications.TabIndex = 1;
-            gridNotifications.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewNotifications });
-            // 
-            // gridViewNotifications
-            // 
-            gridViewNotifications.DetailHeight = 565;
-            gridViewNotifications.GridControl = gridNotifications;
-            gridViewNotifications.Name = "gridViewNotifications";
-            gridViewNotifications.OptionsEditForm.PopupEditFormWidth = 1200;
-            // 
-            // tabPendingLogs
-            // 
-            tabPendingLogs.Controls.Add(panelPendingLogs);
-            tabPendingLogs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPendingLogs.Name = "tabPendingLogs";
-            tabPendingLogs.Size = new System.Drawing.Size(1557, 690);
-            tabPendingLogs.Text = "Отложенные записи";
-            // 
-            // panelPendingLogs
-            // 
-            panelPendingLogs.Controls.Add(gridPendingLogs);
-            panelPendingLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelPendingLogs.Location = new System.Drawing.Point(0, 0);
-            panelPendingLogs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            panelPendingLogs.Name = "panelPendingLogs";
-            panelPendingLogs.Size = new System.Drawing.Size(1557, 690);
-            panelPendingLogs.TabIndex = 0;
-            // 
-            // gridPendingLogs
-            // 
-            gridPendingLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridPendingLogs.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridPendingLogs.Location = new System.Drawing.Point(2, 2);
-            gridPendingLogs.MainView = gridViewPendingLogs;
-            gridPendingLogs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            gridPendingLogs.Name = "gridPendingLogs";
-            gridPendingLogs.Size = new System.Drawing.Size(1553, 686);
-            gridPendingLogs.TabIndex = 0;
-            gridPendingLogs.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewPendingLogs });
-            // 
-            // gridViewPendingLogs
-            // 
-            gridViewPendingLogs.DetailHeight = 565;
-            gridViewPendingLogs.GridControl = gridPendingLogs;
-            gridViewPendingLogs.Name = "gridViewPendingLogs";
-            gridViewPendingLogs.OptionsEditForm.PopupEditFormWidth = 1200;
-            // 
-            // notificationTimer
-            // 
-            notificationTimer.Interval = 5000;
-            notificationTimer.Tick += NotificationTimer_Tick;
-            // 
-            // alertControl
-            // 
-            alertControl.AutoFormDelay = 5000;
-            alertControl.ShowPinButton = false;
+            labelEmployeeName.Location = new Point(18, 58);
+            labelEmployeeName.Margin = new Padding(4);
+            labelEmployeeName.Name = "labelEmployeeName";
+            labelEmployeeName.Size = new Size(81, 21);
+            labelEmployeeName.TabIndex = 1;
+            labelEmployeeName.Text = "Сотрудник:";
             // 
             // labelCurrentCard
             // 
-            labelCurrentCard.Location = new System.Drawing.Point(29, 209);
-            labelCurrentCard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            labelCurrentCard.Location = new Point(18, 18);
+            labelCurrentCard.Margin = new Padding(4);
             labelCurrentCard.Name = "labelCurrentCard";
-            labelCurrentCard.Size = new System.Drawing.Size(118, 21);
-            labelCurrentCard.TabIndex = 3;
-            labelCurrentCard.Text = "Текущая карта: -";
+            labelCurrentCard.Size = new Size(108, 21);
+            labelCurrentCard.TabIndex = 0;
+            labelCurrentCard.Text = "Текущая карта:";
+            // 
+            // gridControlHistory
+            // 
+            gridControlHistory.Dock = DockStyle.Fill;
+            gridControlHistory.EmbeddedNavigator.Margin = new Padding(4);
+            gridControlHistory.Location = new Point(0, 0);
+            gridControlHistory.MainView = gridViewHistory;
+            gridControlHistory.Margin = new Padding(4);
+            gridControlHistory.Name = "gridControlHistory";
+            gridControlHistory.Size = new Size(1557, 605);
+            gridControlHistory.TabIndex = 0;
+            gridControlHistory.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewHistory });
+            // 
+            // gridViewHistory
+            // 
+            gridViewHistory.GridControl = gridControlHistory;
+            gridViewHistory.Name = "gridViewHistory";
+            // 
+            // gridControlNotifications
+            // 
+            gridControlNotifications.Dock = DockStyle.Fill;
+            gridControlNotifications.EmbeddedNavigator.Margin = new Padding(4);
+            gridControlNotifications.Location = new Point(0, 0);
+            gridControlNotifications.MainView = gridViewNotifications;
+            gridControlNotifications.Margin = new Padding(4);
+            gridControlNotifications.Name = "gridControlNotifications";
+            gridControlNotifications.Size = new Size(1557, 605);
+            gridControlNotifications.TabIndex = 0;
+            gridControlNotifications.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewNotifications });
+            // 
+            // gridViewNotifications
+            // 
+            gridViewNotifications.GridControl = gridControlNotifications;
+            gridViewNotifications.Name = "gridViewNotifications";
+            // 
+            // tabFormControl1
+            // 
+            tabFormControl1.AllowMoveTabs = false;
+            tabFormControl1.AllowMoveTabsToOuterForm = false;
+            tabFormControl1.Location = new Point(0, 0);
+            tabFormControl1.Name = "tabFormControl1";
+            tabFormControl1.Pages.Add(tabFormPagePass);
+            tabFormControl1.Pages.Add(tabFormPageReaderSettings);
+            tabFormControl1.Pages.Add(tabFormPageHistory);
+            tabFormControl1.Pages.Add(tabFormPageNotifications);
+            tabFormControl1.Pages.Add(tabFormPagePendingLogs);
+            tabFormControl1.SelectedPage = tabFormPagePass;
+            tabFormControl1.ShowAddPageButton = false;
+            tabFormControl1.ShowTabCloseButtons = false;
+            tabFormControl1.Size = new Size(1557, 86);
+            tabFormControl1.TabForm = this;
+            tabFormControl1.TabIndex = 1;
+            tabFormControl1.TabStop = false;
+            tabFormControl1.SelectedPageChanged += TabFormControl1_SelectedPageChanged;
+            // 
+            // tabFormPagePass
+            // 
+            tabFormPagePass.ContentContainer = tabFormContentContainer1;
+            tabFormPagePass.Name = "tabFormPagePass";
+            tabFormPagePass.Text = "Пропуск";
+            // 
+            // tabFormContentContainer1
+            // 
+            tabFormContentContainer1.Controls.Add(buttonStopReader);
+            tabFormContentContainer1.Controls.Add(buttonStartReader);
+            tabFormContentContainer1.Controls.Add(comboBoxReaders);
+            tabFormContentContainer1.Controls.Add(pictureEditEmployee);
+            tabFormContentContainer1.Controls.Add(labelReaderStatus);
+            tabFormContentContainer1.Controls.Add(labelAccessStatus);
+            tabFormContentContainer1.Controls.Add(labelDepartment);
+            tabFormContentContainer1.Controls.Add(labelEmployeeName);
+            tabFormContentContainer1.Controls.Add(labelCurrentCard);
+            tabFormContentContainer1.Dock = DockStyle.Fill;
+            tabFormContentContainer1.Location = new Point(0, 86);
+            tabFormContentContainer1.Name = "tabFormContentContainer1";
+            tabFormContentContainer1.Size = new Size(1557, 605);
+            tabFormContentContainer1.TabIndex = 0;
+            // 
+            // tabFormPageReaderSettings
+            // 
+            tabFormPageReaderSettings.ContentContainer = tabFormContentContainer2;
+            tabFormPageReaderSettings.Name = "tabFormPageReaderSettings";
+            tabFormPageReaderSettings.Text = "Настройки считывателя";
+            // 
+            // tabFormContentContainer2
+            // 
+            tabFormContentContainer2.Controls.Add(buttonStopReaderSettings);
+            tabFormContentContainer2.Controls.Add(buttonStartReaderSettings);
+            tabFormContentContainer2.Controls.Add(comboBoxReadersSettings);
+            tabFormContentContainer2.Controls.Add(labelReaderStatusSettings);
+            tabFormContentContainer2.Dock = DockStyle.Fill;
+            tabFormContentContainer2.Location = new Point(0, 86);
+            tabFormContentContainer2.Name = "tabFormContentContainer2";
+            tabFormContentContainer2.Size = new Size(1557, 605);
+            tabFormContentContainer2.TabIndex = 0;
+            // 
+            // buttonStopReaderSettings
+            // 
+            buttonStopReaderSettings.Enabled = false;
+            buttonStopReaderSettings.Location = new Point(18, 124);
+            buttonStopReaderSettings.Margin = new Padding(4);
+            buttonStopReaderSettings.Name = "buttonStopReaderSettings";
+            buttonStopReaderSettings.Size = new Size(142, 38);
+            buttonStopReaderSettings.TabIndex = 3;
+            buttonStopReaderSettings.Text = "Остановить";
+            // 
+            // buttonStartReaderSettings
+            // 
+            buttonStartReaderSettings.Location = new Point(176, 124);
+            buttonStartReaderSettings.Margin = new Padding(4);
+            buttonStartReaderSettings.Name = "buttonStartReaderSettings";
+            buttonStartReaderSettings.Size = new Size(142, 38);
+            buttonStartReaderSettings.TabIndex = 2;
+            buttonStartReaderSettings.Text = "Запустить";
+            // 
+            // comboBoxReadersSettings
+            // 
+            comboBoxReadersSettings.Location = new Point(18, 82);
+            comboBoxReadersSettings.Margin = new Padding(4);
+            comboBoxReadersSettings.Name = "comboBoxReadersSettings";
+            comboBoxReadersSettings.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
+            comboBoxReadersSettings.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            comboBoxReadersSettings.Size = new Size(300, 34);
+            comboBoxReadersSettings.TabIndex = 1;
+            // 
+            // labelReaderStatusSettings
+            // 
+            labelReaderStatusSettings.Location = new Point(18, 20);
+            labelReaderStatusSettings.Margin = new Padding(4);
+            labelReaderStatusSettings.Name = "labelReaderStatusSettings";
+            labelReaderStatusSettings.Size = new Size(144, 21);
+            labelReaderStatusSettings.TabIndex = 0;
+            labelReaderStatusSettings.Text = "Статус считывателя:";
+            // 
+            // tabFormPageHistory
+            // 
+            tabFormPageHistory.ContentContainer = tabFormContentContainer3;
+            tabFormPageHistory.Name = "tabFormPageHistory";
+            // 
+            // tabFormContentContainer3
+            // 
+            tabFormContentContainer3.Dock = DockStyle.Fill;
+            tabFormContentContainer3.Location = new Point(0, 86);
+            tabFormContentContainer3.Name = "tabFormContentContainer3";
+            tabFormContentContainer3.Size = new Size(1557, 605);
+            tabFormContentContainer3.TabIndex = 2;
+            // 
+            // tabFormPageNotifications
+            // 
+            tabFormPageNotifications.ContentContainer = tabFormContentContainer4;
+            tabFormPageNotifications.Name = "tabFormPageNotifications";
+            tabFormPageNotifications.Text = "Уведомления";
+            // 
+            // tabFormContentContainer4
+            // 
+            tabFormContentContainer4.Controls.Add(gridControlNotifications);
+            tabFormContentContainer4.Dock = DockStyle.Fill;
+            tabFormContentContainer4.Location = new Point(0, 86);
+            tabFormContentContainer4.Name = "tabFormContentContainer4";
+            tabFormContentContainer4.Size = new Size(1557, 605);
+            tabFormContentContainer4.TabIndex = 0;
+            // 
+            // tabFormPagePendingLogs
+            // 
+            tabFormPagePendingLogs.ContentContainer = tabFormContentContainer5;
+            tabFormPagePendingLogs.Name = "tabFormPagePendingLogs";
+            tabFormPagePendingLogs.Text = "Ожидающие логи";
+            // 
+            // tabFormContentContainer5
+            // 
+            tabFormContentContainer5.Dock = DockStyle.Fill;
+            tabFormContentContainer5.Location = new Point(0, 86);
+            tabFormContentContainer5.Name = "tabFormContentContainer5";
+            tabFormContentContainer5.Size = new Size(1557, 605);
+            tabFormContentContainer5.TabIndex = 0;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1559, 727);
-            Controls.Add(xtraTabControl);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1557, 691);
+            Controls.Add(tabFormContentContainer1);
+            Controls.Add(tabFormControl1);
+            Font = new Font("Segoe UI", 8F);
+            IconOptions.ShowIcon = false;
             Name = "MainForm";
+            TabFormControl = tabFormControl1;
             Text = "Система контроля доступа";
-            WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)xtraTabControl).EndInit();
-            xtraTabControl.ResumeLayout(false);
-            tabPass.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelPass).EndInit();
-            panelPass.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelEmployeeInfo).EndInit();
-            panelEmployeeInfo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureEditEmployee.Properties).EndInit();
-            ((System.ComponentModel.ISupportInitialize)panelRecentPasses).EndInit();
-            panelRecentPasses.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)gridRecentPasses).EndInit();
-            ((System.ComponentModel.ISupportInitialize)gridViewRecentPasses).EndInit();
-            tabReaderSettings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelReaderSettings).EndInit();
-            panelReaderSettings.ResumeLayout(false);
-            panelReaderSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)comboBoxReaders.Properties).EndInit();
-            tabHistory.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelHistory).EndInit();
-            panelHistory.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelHistoryFilter).EndInit();
-            panelHistoryFilter.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)gridHistory).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureEditEmployee.Properties).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridControlHistory).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridViewHistory).EndInit();
-            tabNotifications.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelNotifications).EndInit();
-            panelNotifications.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelNotificationsFilter).EndInit();
-            panelNotificationsFilter.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)gridNotifications).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridControlNotifications).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridViewNotifications).EndInit();
-            tabPendingLogs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)panelPendingLogs).EndInit();
-            panelPendingLogs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)gridPendingLogs).EndInit();
-            ((System.ComponentModel.ISupportInitialize)gridViewPendingLogs).EndInit();
+            ((System.ComponentModel.ISupportInitialize)tabFormControl1).EndInit();
+            tabFormContentContainer1.ResumeLayout(false);
+            tabFormContentContainer1.PerformLayout();
+            tabFormContentContainer2.ResumeLayout(false);
+            tabFormContentContainer2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)comboBoxReadersSettings.Properties).EndInit();
+            tabFormContentContainer4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl;
-        private DevExpress.XtraTab.XtraTabPage tabPass;
-        private DevExpress.XtraTab.XtraTabPage tabHistory;
-        private DevExpress.XtraTab.XtraTabPage tabNotifications;
-        private DevExpress.XtraTab.XtraTabPage tabPendingLogs;
-        private DevExpress.XtraTab.XtraTabPage tabReaderSettings;
-        private System.Windows.Forms.Timer notificationTimer;
-        private DevExpress.XtraBars.Alerter.AlertControl alertControl;
-        private DevExpress.XtraEditors.PanelControl panelPass;
-        private DevExpress.XtraEditors.PanelControl panelEmployeeInfo;
-        private DevExpress.XtraEditors.PictureEdit pictureEditEmployee;
+        private DevExpress.XtraEditors.LabelControl labelCurrentCard;
         private DevExpress.XtraEditors.LabelControl labelEmployeeName;
         private DevExpress.XtraEditors.LabelControl labelDepartment;
         private DevExpress.XtraEditors.LabelControl labelAccessStatus;
-        private DevExpress.XtraEditors.SimpleButton buttonManualInput;
-        private DevExpress.XtraEditors.PanelControl panelRecentPasses;
-        private DevExpress.XtraGrid.GridControl gridRecentPasses;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewRecentPasses;
-        private DevExpress.XtraEditors.PanelControl panelHistory;
-        private DevExpress.XtraEditors.PanelControl panelHistoryFilter;
-        private DevExpress.XtraEditors.SimpleButton buttonRefresh;
-        private DevExpress.XtraGrid.GridControl gridHistory;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewHistory;
-        private DevExpress.XtraEditors.PanelControl panelNotifications;
-        private DevExpress.XtraEditors.PanelControl panelNotificationsFilter;
-        private DevExpress.XtraEditors.SimpleButton buttonMarkAsRead;
-        private DevExpress.XtraGrid.GridControl gridNotifications;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewNotifications;
-        private DevExpress.XtraEditors.PanelControl panelPendingLogs;
-        private DevExpress.XtraGrid.GridControl gridPendingLogs;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewPendingLogs;
-        private DevExpress.XtraEditors.PanelControl panelReaderSettings;
+        private DevExpress.XtraEditors.LabelControl labelReaderStatus;
+        private DevExpress.XtraEditors.PictureEdit pictureEditEmployee;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxReaders;
         private DevExpress.XtraEditors.SimpleButton buttonStartReader;
         private DevExpress.XtraEditors.SimpleButton buttonStopReader;
-        private DevExpress.XtraEditors.LabelControl labelReaderStatus;
-        private DevExpress.XtraEditors.LabelControl labelCurrentCard;
+        private DevExpress.XtraGrid.GridControl gridControlHistory;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewHistory;
+        private DevExpress.XtraGrid.GridControl gridControlNotifications;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewNotifications;
+        private System.Windows.Forms.Timer notificationTimer;
+        private DevExpress.XtraBars.Alerter.AlertControl alertControl;
+        private DevExpress.XtraBars.TabFormControl tabFormControl1;
+        private DevExpress.XtraBars.TabFormPage tabFormPagePass;
+        private DevExpress.XtraBars.TabFormPage tabFormPageReaderSettings;
+        private DevExpress.XtraBars.TabFormPage tabFormPageHistory;
+        private DevExpress.XtraBars.TabFormPage tabFormPageNotifications;
+        private DevExpress.XtraBars.TabFormPage tabFormPagePendingLogs;
+        private DevExpress.XtraBars.TabFormContentContainer tabFormContentContainer1;
+        private DevExpress.XtraBars.TabFormContentContainer tabFormContentContainer2;
+        private DevExpress.XtraBars.TabFormContentContainer tabFormContentContainer3;
+        private DevExpress.XtraBars.TabFormContentContainer tabFormContentContainer4;
+        private DevExpress.XtraBars.TabFormContentContainer tabFormContentContainer5;
+        private DevExpress.XtraLayout.LayoutControl layoutControlReaderSettings;
+        private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup2;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
+        private DevExpress.XtraEditors.SimpleButton buttonStopReaderSettings;
+        private DevExpress.XtraEditors.SimpleButton buttonStartReaderSettings;
+        private DevExpress.XtraEditors.ComboBoxEdit comboBoxReadersSettings;
+        private DevExpress.XtraEditors.LabelControl labelReaderStatusSettings;
     }
 }
+
