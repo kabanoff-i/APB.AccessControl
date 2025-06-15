@@ -119,7 +119,7 @@ namespace APB.AccessControl.ClientApp.Services
                     // Вызываем событие с прочитанными данными
                     OnCardRead?.Invoke(this, new CardReadEventArgs 
                     { 
-                        MaskPan = $"**** **** **** {cardHash.Substring(cardHash.Length - 4)}",
+                        MaskPan = $"**** **** **** {cardData.Pan.Substring(cardData.Pan.Length - 4)}",
                         CardHash = cardHash
                     });
                     

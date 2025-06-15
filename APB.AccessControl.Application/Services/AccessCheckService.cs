@@ -149,6 +149,7 @@ namespace APB.AccessControl.Application.Services
                     await _accessLogService.LogAccessAttemptAsync(new CreateAccessLogReq
                     {
                         CardId = card.Id,
+                        CardHash = request.CardHash,
                         EmployeeId = card.EmployeeId,
                         AccessPointId = request.AcсessPointId,
                         DateAccess = request.DateAccess,
@@ -169,6 +170,7 @@ namespace APB.AccessControl.Application.Services
                     await _accessLogService.LogAccessAttemptAsync(new CreateAccessLogReq
                     {
                         CardId = card.Id,
+                        CardHash = card.Hash,
                         EmployeeId = card.EmployeeId,
                         AccessPointId = request.AcсessPointId,
                         DateAccess = request.DateAccess,
@@ -193,6 +195,7 @@ namespace APB.AccessControl.Application.Services
                     await _accessLogService.LogAccessAttemptAsync(new CreateAccessLogReq
                     {
                         CardId = card.Id,
+                        CardHash = card.Hash,
                         EmployeeId = card.EmployeeId,
                         AccessPointId = request.AcсessPointId,
                         DateAccess = request.DateAccess,

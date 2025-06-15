@@ -96,146 +96,131 @@
             // 
             // buttonStopReader
             // 
-            buttonStopReader.Appearance.BackColor = Color.FromArgb(0, 120, 215);
-            buttonStopReader.Appearance.Font = new Font("Segoe UI", 9F);
+            buttonStopReader.Appearance.BackColor = Color.FromArgb(215, 0, 0);
+            buttonStopReader.Appearance.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonStopReader.Appearance.ForeColor = Color.White;
             buttonStopReader.Appearance.Options.UseBackColor = true;
             buttonStopReader.Appearance.Options.UseFont = true;
             buttonStopReader.Appearance.Options.UseForeColor = true;
             buttonStopReader.Enabled = false;
-            buttonStopReader.Location = new Point(18, 576);
-            buttonStopReader.LookAndFeel.SkinName = "Office 2019 Colorful";
-            buttonStopReader.LookAndFeel.UseDefaultLookAndFeel = false;
+            buttonStopReader.Location = new Point(14, 403);
             buttonStopReader.Margin = new Padding(4);
             buttonStopReader.Name = "buttonStopReader";
-            buttonStopReader.Size = new Size(142, 34);
+            buttonStopReader.Size = new Size(142, 46);
             buttonStopReader.TabIndex = 8;
             buttonStopReader.Text = "Остановить";
             // 
             // buttonStartReader
             // 
             buttonStartReader.Appearance.BackColor = Color.FromArgb(0, 120, 215);
-            buttonStartReader.Appearance.Font = new Font("Segoe UI", 9F);
+            buttonStartReader.Appearance.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonStartReader.Appearance.ForeColor = Color.White;
             buttonStartReader.Appearance.Options.UseBackColor = true;
             buttonStartReader.Appearance.Options.UseFont = true;
             buttonStartReader.Appearance.Options.UseForeColor = true;
-            buttonStartReader.Location = new Point(176, 576);
-            buttonStartReader.LookAndFeel.SkinName = "Office 2019 Colorful";
-            buttonStartReader.LookAndFeel.UseDefaultLookAndFeel = false;
+            buttonStartReader.Location = new Point(172, 403);
             buttonStartReader.Margin = new Padding(4);
             buttonStartReader.Name = "buttonStartReader";
-            buttonStartReader.Size = new Size(142, 34);
+            buttonStartReader.Size = new Size(142, 46);
             buttonStartReader.TabIndex = 7;
             buttonStartReader.Text = "Запустить";
             // 
             // comboBoxReaders
             // 
-            comboBoxReaders.Location = new Point(18, 538);
+            comboBoxReaders.Location = new Point(14, 341);
             comboBoxReaders.Margin = new Padding(4);
             comboBoxReaders.Name = "comboBoxReaders";
             comboBoxReaders.Properties.Appearance.BackColor = Color.White;
             comboBoxReaders.Properties.Appearance.BorderColor = Color.FromArgb(200, 200, 200);
-            comboBoxReaders.Properties.Appearance.Font = new Font("Segoe UI", 9F);
+            comboBoxReaders.Properties.Appearance.Font = new Font("Segoe UI", 10F);
             comboBoxReaders.Properties.Appearance.Options.UseBackColor = true;
             comboBoxReaders.Properties.Appearance.Options.UseBorderColor = true;
             comboBoxReaders.Properties.Appearance.Options.UseFont = true;
             comboBoxReaders.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
-            comboBoxReaders.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
-            comboBoxReaders.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-            comboBoxReaders.Size = new Size(300, 32);
+            comboBoxReaders.Size = new Size(300, 40);
             comboBoxReaders.TabIndex = 6;
             // 
             // pictureEditEmployee
             // 
-            pictureEditEmployee.Location = new Point(18, 222);
+            pictureEditEmployee.Location = new Point(14, 25);
             pictureEditEmployee.Margin = new Padding(4);
             pictureEditEmployee.Name = "pictureEditEmployee";
+            pictureEditEmployee.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             pictureEditEmployee.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             pictureEditEmployee.Size = new Size(300, 292);
             pictureEditEmployee.TabIndex = 5;
             // 
             // labelReaderStatus
             // 
-            labelReaderStatus.Appearance.Font = new Font("Segoe UI", 9F);
-            labelReaderStatus.Appearance.ForeColor = Color.FromArgb(64, 64, 64);
+            labelReaderStatus.Appearance.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelReaderStatus.Appearance.ForeColor = Color.FromArgb(45, 45, 45);
             labelReaderStatus.Appearance.Options.UseFont = true;
             labelReaderStatus.Appearance.Options.UseForeColor = true;
-            labelReaderStatus.Location = new Point(18, 181);
-            labelReaderStatus.LookAndFeel.SkinName = "Office 2019 Colorful";
-            labelReaderStatus.LookAndFeel.UseDefaultLookAndFeel = false;
+            labelReaderStatus.Location = new Point(364, 188);
             labelReaderStatus.Margin = new Padding(4);
             labelReaderStatus.Name = "labelReaderStatus";
-            labelReaderStatus.Size = new Size(161, 25);
+            labelReaderStatus.Size = new Size(240, 32);
             labelReaderStatus.TabIndex = 4;
             labelReaderStatus.Text = "Статус считывателя:";
             // 
             // labelAccessStatus
             // 
-            labelAccessStatus.Appearance.Font = new Font("Segoe UI", 9F);
-            labelAccessStatus.Appearance.ForeColor = Color.FromArgb(64, 64, 64);
+            labelAccessStatus.Appearance.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelAccessStatus.Appearance.ForeColor = Color.FromArgb(45, 45, 45);
             labelAccessStatus.Appearance.Options.UseFont = true;
             labelAccessStatus.Appearance.Options.UseForeColor = true;
-            labelAccessStatus.Location = new Point(18, 140);
-            labelAccessStatus.LookAndFeel.SkinName = "Office 2019 Colorful";
-            labelAccessStatus.LookAndFeel.UseDefaultLookAndFeel = false;
+            labelAccessStatus.Location = new Point(364, 147);
             labelAccessStatus.Margin = new Padding(4);
             labelAccessStatus.Name = "labelAccessStatus";
-            labelAccessStatus.Size = new Size(124, 25);
+            labelAccessStatus.Size = new Size(183, 32);
             labelAccessStatus.TabIndex = 3;
             labelAccessStatus.Text = "Статус доступа:";
             // 
             // labelDepartment
             // 
-            labelDepartment.Appearance.Font = new Font("Segoe UI", 9F);
-            labelDepartment.Appearance.ForeColor = Color.FromArgb(64, 64, 64);
+            labelDepartment.Appearance.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelDepartment.Appearance.ForeColor = Color.FromArgb(45, 45, 45);
             labelDepartment.Appearance.Options.UseFont = true;
             labelDepartment.Appearance.Options.UseForeColor = true;
-            labelDepartment.Location = new Point(18, 99);
-            labelDepartment.LookAndFeel.SkinName = "Office 2019 Colorful";
-            labelDepartment.LookAndFeel.UseDefaultLookAndFeel = false;
+            labelDepartment.Location = new Point(364, 106);
             labelDepartment.Margin = new Padding(4);
             labelDepartment.Name = "labelDepartment";
-            labelDepartment.Size = new Size(53, 25);
+            labelDepartment.Size = new Size(78, 32);
             labelDepartment.TabIndex = 2;
             labelDepartment.Text = "Отдел:";
             // 
             // labelEmployeeName
             // 
-            labelEmployeeName.Appearance.Font = new Font("Segoe UI", 9F);
-            labelEmployeeName.Appearance.ForeColor = Color.FromArgb(64, 64, 64);
+            labelEmployeeName.Appearance.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelEmployeeName.Appearance.ForeColor = Color.FromArgb(45, 45, 45);
             labelEmployeeName.Appearance.Options.UseFont = true;
             labelEmployeeName.Appearance.Options.UseForeColor = true;
-            labelEmployeeName.Location = new Point(18, 58);
-            labelEmployeeName.LookAndFeel.SkinName = "Office 2019 Colorful";
-            labelEmployeeName.LookAndFeel.UseDefaultLookAndFeel = false;
+            labelEmployeeName.Location = new Point(364, 65);
             labelEmployeeName.Margin = new Padding(4);
             labelEmployeeName.Name = "labelEmployeeName";
-            labelEmployeeName.Size = new Size(92, 25);
+            labelEmployeeName.Size = new Size(134, 32);
             labelEmployeeName.TabIndex = 1;
             labelEmployeeName.Text = "Сотрудник:";
             // 
             // labelCurrentCard
             // 
-            labelCurrentCard.Appearance.Font = new Font("Segoe UI", 9F);
-            labelCurrentCard.Appearance.ForeColor = Color.FromArgb(64, 64, 64);
+            labelCurrentCard.Appearance.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelCurrentCard.Appearance.ForeColor = Color.FromArgb(45, 45, 45);
             labelCurrentCard.Appearance.Options.UseFont = true;
             labelCurrentCard.Appearance.Options.UseForeColor = true;
-            labelCurrentCard.Location = new Point(18, 18);
-            labelCurrentCard.LookAndFeel.SkinName = "Office 2019 Colorful";
-            labelCurrentCard.LookAndFeel.UseDefaultLookAndFeel = false;
+            labelCurrentCard.Location = new Point(364, 25);
             labelCurrentCard.Margin = new Padding(4);
             labelCurrentCard.Name = "labelCurrentCard";
-            labelCurrentCard.Size = new Size(123, 25);
+            labelCurrentCard.Size = new Size(181, 32);
             labelCurrentCard.TabIndex = 0;
             labelCurrentCard.Text = "Текущая карта:";
             // 
             // gridControlHistory
             // 
-            gridControlHistory.Location = new Point(11, 50);
+            gridControlHistory.Location = new Point(11, 49);
             gridControlHistory.MainView = gridViewHistory;
             gridControlHistory.Name = "gridControlHistory";
-            gridControlHistory.Size = new Size(1535, 543);
+            gridControlHistory.Size = new Size(1535, 545);
             gridControlHistory.TabIndex = 0;
             gridControlHistory.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridViewHistory });
             // 
@@ -293,10 +278,10 @@
             tabFormControl1.Pages.Add(tabFormPageHistory);
             tabFormControl1.Pages.Add(tabFormPageNotifications);
             tabFormControl1.Pages.Add(tabFormPagePendingLogs);
-            tabFormControl1.SelectedPage = tabFormPageHistory;
+            tabFormControl1.SelectedPage = tabFormPagePass;
             tabFormControl1.ShowAddPageButton = false;
             tabFormControl1.ShowTabCloseButtons = false;
-            tabFormControl1.Size = new Size(1557, 86);
+            tabFormControl1.Size = new Size(1023, 86);
             tabFormControl1.TabForm = this;
             tabFormControl1.TabIndex = 1;
             tabFormControl1.TabStop = false;
@@ -310,6 +295,8 @@
             // 
             // tabFormContentContainer1
             // 
+            tabFormContentContainer1.Appearance.BackColor = Color.FromArgb(240, 240, 240);
+            tabFormContentContainer1.Appearance.Options.UseBackColor = true;
             tabFormContentContainer1.Controls.Add(buttonStopReader);
             tabFormContentContainer1.Controls.Add(buttonStartReader);
             tabFormContentContainer1.Controls.Add(comboBoxReaders);
@@ -322,7 +309,7 @@
             tabFormContentContainer1.Dock = DockStyle.Fill;
             tabFormContentContainer1.Location = new Point(0, 86);
             tabFormContentContainer1.Name = "tabFormContentContainer1";
-            tabFormContentContainer1.Size = new Size(1557, 605);
+            tabFormContentContainer1.Size = new Size(1023, 674);
             tabFormContentContainer1.TabIndex = 0;
             // 
             // tabFormPageReaderSettings
@@ -378,7 +365,7 @@
             labelReaderStatusSettings.Location = new Point(18, 20);
             labelReaderStatusSettings.Margin = new Padding(4);
             labelReaderStatusSettings.Name = "labelReaderStatusSettings";
-            labelReaderStatusSettings.Size = new Size(153, 19);
+            labelReaderStatusSettings.Size = new Size(144, 21);
             labelReaderStatusSettings.TabIndex = 0;
             labelReaderStatusSettings.Text = "Статус считывателя:";
             // 
@@ -414,7 +401,7 @@
             // dateEditFrom
             // 
             dateEditFrom.EditValue = null;
-            dateEditFrom.Location = new Point(75, 12);
+            dateEditFrom.Location = new Point(75, 11);
             dateEditFrom.Name = "dateEditFrom";
             dateEditFrom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             dateEditFrom.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
@@ -425,7 +412,7 @@
             // dateEditTo
             // 
             dateEditTo.EditValue = null;
-            dateEditTo.Location = new Point(553, 12);
+            dateEditTo.Location = new Point(553, 11);
             dateEditTo.Name = "dateEditTo";
             dateEditTo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             dateEditTo.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
@@ -435,7 +422,7 @@
             // 
             // buttonRefresh
             // 
-            buttonRefresh.Location = new Point(965, 12);
+            buttonRefresh.Location = new Point(965, 11);
             buttonRefresh.Name = "buttonRefresh";
             buttonRefresh.Size = new Size(581, 32);
             buttonRefresh.StyleController = layoutControlHistory;
@@ -492,7 +479,7 @@
             layoutControlItemGrid.Control = gridControlHistory;
             layoutControlItemGrid.Location = new Point(0, 38);
             layoutControlItemGrid.Name = "layoutControlItemGrid";
-            layoutControlItemGrid.Size = new Size(1539, 547);
+            layoutControlItemGrid.Size = new Size(1539, 549);
             layoutControlItemGrid.TextVisible = false;
             // 
             // tabFormPageNotifications
@@ -530,12 +517,12 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1557, 691);
-            Controls.Add(tabFormContentContainer3);
+            ClientSize = new Size(1023, 760);
+            Controls.Add(tabFormContentContainer1);
             Controls.Add(tabFormControl1);
-            Font = new Font("Segoe UI", 8F);
             IconOptions.ShowIcon = false;
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             TabFormControl = tabFormControl1;
             Text = "Система контроля доступа";
             Load += MainForm_Load;
